@@ -1,0 +1,34 @@
+{
+  "name": "chat-engine",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/omni-chat-headless.umd.js",
+  "module": "./dist/omni-chat-headless.es.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b && vite build",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "@avaya/infinity-omni-sdk-core": "^1.0.5",
+    "@avaya/infinity-omni-sdk-messaging": "^1.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.1",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "vite-plugin-dts": "^5.1.2"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
