@@ -110,9 +110,15 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
 
         console.log("[ChatProvider] Attaching conversation event listeners...");
         
-        activeConversation.addMessageArrivedListener((message: any) => {
-          console.log("[ChatProvider] Message arrived event triggered.");
-          if (isMounted) setMessages(prev => [...prev, message]);
+        // -- MESSAGE LISTENERS --
+        activeConversation.addMessageArrivedListener((messageEvent: any) => {
+          console.log("[ChatProvider] Message Arrived:", messageEvent);
+          if (isMounted) setMessages(prev => [...prev, messageEvent]);
+        });
+
+        activeConversation.addMessageDeliveredListener((messageEvent: any) => {
+          console.log("[ChatProvider] Message Delivered to Avaya:", messageEvent);
+          // Optional: You can use this to update a "Delivered" checkmark in your UI later
         });
 
         activeConversation.addTypingStartedListener((event: any) => {
@@ -159,14 +165,23 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
   
   const sendMessage = async (text: string) => {
     if (!conversation) return;
-    await conversation.sendMessage(new TextMessage(text));
+    
+    // The Promise resolves with the official Message object from Avaya
+    const finalizedMessage = await conversation.sendMessage(new TextMessage(text));
+    
+    // Append the verified message directly to the UI
+    setMessages(prev => [...prev, finalizedMessage]);
+    
     AvayaInfinityOmniSdk.resetIdleTimeout(); 
   };
 
   // NEW: Send Attachment Action
   const sendAttachment = async (file: File, text: string = "") => {
     if (!conversation) return;
-    await conversation.sendMessage(new AttachmentMessage(file, text));
+    // The Promise resolves with the official Message object from Avaya
+    const finalizedMessage = await conversation.sendMessage(new AttachmentMessage(file, text));
+    // Append the verified message directly to the UI
+    setMessages(prev => [...prev, finalizedMessage]);
     AvayaInfinityOmniSdk.resetIdleTimeout(); 
   };
 

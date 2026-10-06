@@ -5413,7 +5413,9 @@ var Qn = e(null), $n = class {
 				let l = await e.getMessages(15);
 				if (console.log(`[ChatProvider] History fetched. Found ${l.items.length} messages.`), !n) return;
 				ee(l), c(l.items), console.log("[ChatProvider] Attaching conversation event listeners..."), e.addMessageArrivedListener((e) => {
-					console.log("[ChatProvider] Message arrived event triggered."), n && c((t) => [...t, e]);
+					console.log("[ChatProvider] Message Arrived:", e), n && c((t) => [...t, e]);
+				}), e.addMessageDeliveredListener((e) => {
+					console.log("[ChatProvider] Message Delivered to Avaya:", e);
 				}), e.addTypingStartedListener((e) => {
 					n && ne((t) => {
 						let n = e.participant.displayName;
@@ -5435,10 +5437,14 @@ var Qn = e(null), $n = class {
 			connectionError: f,
 			typingParticipants: te,
 			sendMessage: async (e) => {
-				a && (await a.sendMessage(new Yn(e)), j.resetIdleTimeout());
+				if (!a) return;
+				let t = await a.sendMessage(new Yn(e));
+				c((e) => [...e, t]), j.resetIdleTimeout();
 			},
 			sendAttachment: async (e, t = "") => {
-				a && (await a.sendMessage(new Xn(e, t)), j.resetIdleTimeout());
+				if (!a) return;
+				let n = await a.sendMessage(new Xn(e, t));
+				c((e) => [...e, n]), j.resetIdleTimeout();
 			},
 			notifyTyping: () => {
 				a?.notifyUserTyping(), j.resetIdleTimeout();
