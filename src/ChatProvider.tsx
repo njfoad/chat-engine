@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { AvayaInfinityOmniSdk, type JwtProvider, LogLevel } from '@avaya/infinity-omni-sdk-core';
-import { MessagingConversation, AvayaInfinityMessaging , TextMessage, AttachmentMessage } from '@avaya/infinity-omni-sdk-messaging';
+import { MessagingConversation, AvayaInfinityMessaging , TextMessage, AttachmentMessage, ReplyMessage } from '@avaya/infinity-omni-sdk-messaging';
 
 // ==========================================
 // 1. Types & Interfaces
@@ -21,6 +21,7 @@ interface ChatContextState {
   isChatClosed: boolean;
   sendMessage: (text: string) => Promise<void>;
   sendAttachment: (file: File, text?: string) => Promise<void>; // NEW: Handles files
+  sendReply: (payload: string, text: string) => Promise<void>;
   notifyTyping: () => void;
   loadMoreHistory: () => Promise<void>;
 }
@@ -197,6 +198,14 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
     AvayaInfinityOmniSdk.resetIdleTimeout(); 
   };
 
+  const sendReply = async (payload: string, text: string) => {
+    if (!conversation) return;
+    // According to Avaya spec, ReplyMessage takes (payload, actionText)
+    const finalizedMessage = await conversation.sendMessage(new ReplyMessage(payload, text));
+    setMessages(prev => [...prev, finalizedMessage]);
+    AvayaInfinityOmniSdk.resetIdleTimeout(); 
+  };
+
   const loadMoreHistory = async () => {
     if (iterator && iterator.hasPrevious()) {
       const previousPage = await iterator.previous();
@@ -218,6 +227,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
       isChatClosed,
       sendMessage, 
       sendAttachment, 
+      sendReply,
       notifyTyping, 
       loadMoreHistory 
     }}>

@@ -5316,6 +5316,30 @@ var Hn = class {
 }, Xn = class extends Jn {
 	#e;
 	#t;
+	#n;
+	constructor(e, t, n, r, i) {
+		super(t, i), this.#e = e, this.#t = n, this.#n = r;
+	}
+	getActionType() {
+		return this.#t;
+	}
+	getActionText() {
+		return this.#n;
+	}
+	getPayload() {
+		return this.#e;
+	}
+}, Zn = class extends Xn {
+	#e;
+	constructor(e, t, n, r) {
+		super(e, L.REPLY, ft.REPLY, t, r), this.#e = n;
+	}
+	getIconUrl() {
+		return this.#e;
+	}
+}, Qn = class extends Jn {
+	#e;
+	#t;
 	constructor(e, t, n) {
 		super((e.type === void 0 || e.type === "" ? R.DEFAULT_MIME_TYPE : e.type).split("/")[0] === R.MIME_TYPE_IMAGE ? L.IMAGE : L.FILE, n), this.#e = e, this.#t = t;
 	}
@@ -5326,7 +5350,7 @@ var Hn = class {
 		return this.#e;
 	}
 };
-function Zn(e = Be) {
+function $n(e = Be) {
 	return class extends e {
 		#e;
 		constructor(e) {
@@ -5375,7 +5399,7 @@ function Zn(e = Be) {
 }
 //#endregion
 //#region src/ChatProvider.tsx
-var Qn = e(null), $n = class {
+var er = e(null), tr = class {
 	fetchJwt;
 	constructor(e) {
 		this.fetchJwt = e;
@@ -5386,7 +5410,7 @@ var Qn = e(null), $n = class {
 	onExpire() {
 		console.warn("JWT expired. Forcing token refresh..."), this.fetchJwt().then((e) => j.setJwt(e)).catch((e) => console.error("Failed to refresh JWT on expiry:", e));
 	}
-}, er = ({ children: e, config: t }) => {
+}, nr = ({ children: e, config: t }) => {
 	let [a, o] = r(null), [s, c] = r([]), [l, d] = r(!0), [f, p] = r(null), [m, ee] = r(null), [te, ne] = r([]), [re, ie] = r(!1);
 	return n(() => {
 		let e, n = !0;
@@ -5396,7 +5420,7 @@ var Qn = e(null), $n = class {
 				d(!0), p(null), console.log("[ChatProvider] Fetching initial JWT...");
 				let r = await t.fetchJwt();
 				console.log("[ChatProvider] JWT fetched successfully. Token length:", r?.length);
-				let i = new $n(t.fetchJwt), a = Zn();
+				let i = new tr(t.fetchJwt), a = $n();
 				console.log(`[ChatProvider] Calling Avaya SDK init() on host: ${t.host}...`);
 				let s = await j.init({
 					host: t.host,
@@ -5437,7 +5461,7 @@ var Qn = e(null), $n = class {
 		})(), () => {
 			console.log("[ChatProvider] Component unmounting. Shutting down Avaya SDK..."), n = !1, j.shutdown().catch((e) => console.error("[ChatProvider] Shutdown error:", e));
 		};
-	}, [t]), /* @__PURE__ */ i(Qn.Provider, {
+	}, [t]), /* @__PURE__ */ i(er.Provider, {
 		value: {
 			messages: s,
 			isConnecting: l,
@@ -5451,7 +5475,12 @@ var Qn = e(null), $n = class {
 			},
 			sendAttachment: async (e, t = "") => {
 				if (!a) return;
-				let n = await a.sendMessage(new Xn(e, t));
+				let n = await a.sendMessage(new Qn(e, t));
+				c((e) => [...e, n]), j.resetIdleTimeout();
+			},
+			sendReply: async (e, t) => {
+				if (!a) return;
+				let n = await a.sendMessage(new Zn(e, t));
 				c((e) => [...e, n]), j.resetIdleTimeout();
 			},
 			notifyTyping: () => {
@@ -5466,10 +5495,10 @@ var Qn = e(null), $n = class {
 		},
 		children: e
 	});
-}, tr = () => {
-	let e = t(Qn);
+}, rr = () => {
+	let e = t(er);
 	if (!e) throw Error("useChat must be used within a ChatProvider");
 	return e;
 };
 //#endregion
-export { er as ChatProvider, tr as useChat };
+export { nr as ChatProvider, rr as useChat };

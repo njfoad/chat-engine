@@ -15,6 +15,7 @@ interface ChatContextState {
     isChatClosed: boolean;
     sendMessage: (text: string) => Promise<void>;
     sendAttachment: (file: File, text?: string) => Promise<void>;
+    sendReply: (payload: string, text: string) => Promise<void>;
     notifyTyping: () => void;
     loadMoreHistory: () => Promise<void>;
 }
