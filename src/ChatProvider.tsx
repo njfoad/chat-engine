@@ -169,11 +169,21 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
       console.log("[ChatProvider] Component unmounting. Terminating session...");
       isMounted = false;
       
+      // 1. Formally end the conversation to clear it from the agent's workspace
       if (activeConversation && typeof activeConversation.end === 'function') {
         console.log("[ChatProvider] Sending 'End Conversation' signal to Avaya Cloud...");
-        activeConversation.end().catch((e: any) => console.error("Failed to end conversation:", e));
+        
+        activeConversation.end().catch((e: any) => {
+          // If the agent already closed it, the SDK throws this harmless error. Safely ignore it!
+          if (e?.message && e.message.includes("Conversation is closed")) {
+            console.log("[ChatProvider] Conversation was already closed by the agent. Clean exit.");
+          } else {
+            console.error("Failed to end conversation:", e);
+          }
+        });
       }
 
+      // 2. Shut down the local SDK and sever the WebSocket
       AvayaInfinityOmniSdk.shutdown().catch((e: any) => console.error("[ChatProvider] Shutdown error:", e));
     };
   }, [config]); 
