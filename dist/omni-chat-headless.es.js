@@ -5393,8 +5393,7 @@ var Qn = e(null), $n = class {
 		return (async () => {
 			try {
 				d(!0), p(null);
-				let r = await t.fetchJwt(), i = new $n(t.fetchJwt), a = Zn();
-				if (e = (await j.init({
+				let r = await t.fetchJwt(), i = new $n(t.fetchJwt), a = Zn(), s = await j.init({
 					host: t.host,
 					integrationId: t.integrationId,
 					token: r,
@@ -5403,11 +5402,16 @@ var Qn = e(null), $n = class {
 					logLevel: t.logLevel || u.WARN,
 					idleTimeoutDuration: 3e5,
 					idleShutdownGraceTimeoutDuration: 6e4
-				}, a)).conversations[0] || await j.createConversation(a), !n) return;
+				}, a);
+				if (Pn.addEventStreamConnectedListener(() => {
+					n && (d(!1), p(null));
+				}), Pn.addEventStreamFailedListener((e) => {
+					n && p(`Network disconnected: ${e.reason}`);
+				}), e = s.conversations[0] || await j.createConversation(a), !n) return;
 				o(e);
-				let s = await e.getMessages(15);
+				let l = await e.getMessages(15);
 				if (!n) return;
-				ee(s), c(s.items), e.addMessageArrivedListener((e) => {
+				ee(l), c(l.items), e.addMessageArrivedListener((e) => {
 					n && c((t) => [...t, e]);
 				}), e.addTypingStartedListener((e) => {
 					n && ne((t) => {
@@ -5420,11 +5424,7 @@ var Qn = e(null), $n = class {
 			} catch (e) {
 				n && (p(e?.message || "Failed to initialize Avaya SDK."), d(!1));
 			}
-		})(), Pn.addEventStreamConnectedListener(() => {
-			n && (d(!1), p(null));
-		}), Pn.addEventStreamFailedListener((e) => {
-			n && p(`Network disconnected: ${e.reason}`);
-		}), () => {
+		})(), () => {
 			n = !1, j.shutdown().catch(console.error);
 		};
 	}, [t]), /* @__PURE__ */ i(Qn.Provider, {
