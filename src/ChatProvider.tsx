@@ -112,12 +112,12 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
         
         // -- MESSAGE LISTENERS --
         activeConversation.addMessageArrivedListener((messageEvent: any) => {
-          console.log("[ChatProvider] Message Arrived:", messageEvent);
+          console.log("[ChatProvider] Message Arrived:", JSON.stringify( messageEvent, undefined, 4));
           if (isMounted) setMessages(prev => [...prev, messageEvent]);
         });
 
         activeConversation.addMessageDeliveredListener((messageEvent: any) => {
-          console.log("[ChatProvider] Message Delivered to Avaya:", messageEvent);
+          console.log("[ChatProvider] Message Delivered to Avaya:", JSON.stringify( messageEvent, undefined, 4));
           // Optional: You can use this to update a "Delivered" checkmark in your UI later
         });
 

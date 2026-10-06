@@ -5413,9 +5413,9 @@ var Qn = e(null), $n = class {
 				let l = await e.getMessages(15);
 				if (console.log(`[ChatProvider] History fetched. Found ${l.items.length} messages.`), !n) return;
 				ee(l), c(l.items), console.log("[ChatProvider] Attaching conversation event listeners..."), e.addMessageArrivedListener((e) => {
-					console.log("[ChatProvider] Message Arrived:", e), n && c((t) => [...t, e]);
+					console.log("[ChatProvider] Message Arrived:", JSON.stringify(e, void 0, 4)), n && c((t) => [...t, e]);
 				}), e.addMessageDeliveredListener((e) => {
-					console.log("[ChatProvider] Message Delivered to Avaya:", e);
+					console.log("[ChatProvider] Message Delivered to Avaya:", JSON.stringify(e, void 0, 4));
 				}), e.addTypingStartedListener((e) => {
 					n && ne((t) => {
 						let n = e.participant.displayName;
