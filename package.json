@@ -3,14 +3,14 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "main": "./dist/omni-chat-headless.umd.js",
+  "main": "./dist/omni-chat-headless.es.js",
   "module": "./dist/omni-chat-headless.es.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/omni-chat-headless.es.js",
-      "require": "./dist/omni-chat-headless.umd.js"
+      "default": "./dist/omni-chat-headless.es.js"
     }
   },
   "files": [

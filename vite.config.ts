@@ -8,16 +8,11 @@ export default defineConfig({
     lib: {
       entry: resolve(import.meta.dirname, 'src/index.ts'),
       name: 'OmniChatHeadless',
-      fileName: (format) => `omni-chat-headless.${format}.js`
+      fileName: () => 'omni-chat-headless.es.js',
+      formats: ['es'] // <-- This stops Vite from building the legacy UMD file
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
-      output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM'
-        }
-      }
+      external: ['react', 'react-dom']
     }
   }
 });
