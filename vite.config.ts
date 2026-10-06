@@ -12,7 +12,7 @@ export default defineConfig({
       formats: ['es'] // <-- This stops Vite from building the legacy UMD file
     },
     rollupOptions: {
-      external: ['react', 'react-dom']
+      external: ['react', 'react-dom', 'react/jsx-runtime']
     }
   }
 });
