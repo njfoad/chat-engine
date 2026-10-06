@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { AvayaInfinityOmniSdk, type JwtProvider, LogLevel } from '@avaya/infinity-omni-sdk-core';
-import { MessagingConversation, TextMessage, AttachmentMessage } from '@avaya/infinity-omni-sdk-messaging';
+import { MessagingConversation, AvayaInfinityMessaging , TextMessage, AttachmentMessage } from '@avaya/infinity-omni-sdk-messaging';
 
 // ==========================================
 // 1. Types & Interfaces
@@ -148,6 +148,9 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
           setIsConnecting(false);
         }
       }
+      AvayaInfinityMessaging.addEventStreamConnectedListener((eventPayload) => {
+          console.log( JSON.stringify( eventPayload, null, 2 ) );
+      });
     };
 
     initChat();
