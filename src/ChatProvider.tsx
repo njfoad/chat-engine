@@ -18,6 +18,7 @@ interface ChatContextState {
   isConnecting: boolean;
   connectionError: string | null;
   typingParticipants: string[]; // NEW: Tracks who is currently typing
+  isChatClosed: boolean;
   sendMessage: (text: string) => Promise<void>;
   sendAttachment: (file: File, text?: string) => Promise<void>; // NEW: Handles files
   notifyTyping: () => void;
@@ -61,6 +62,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
   const [connectionError, setConnectionError] = useState<string | null>(null);
   const [iterator, setIterator] = useState<any>(null);
   const [typingParticipants, setTypingParticipants] = useState<string[]>([]); // NEW
+  const [isChatClosed, setIsChatClosed] = useState(false);
 
   useEffect(() => {
     let activeConversation: any;
@@ -156,6 +158,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
       });
       AvayaInfinityMessaging.addEventStreamClosedListener((eventPayload) => {
           console.log( "[ChatProvider] Stream Closed: " + JSON.stringify( eventPayload, null, 2 ) );
+          if (isMounted) setIsChatClosed(true);
       });
     };
 
@@ -212,6 +215,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
       isConnecting, 
       connectionError, 
       typingParticipants, 
+      isChatClosed,
       sendMessage, 
       sendAttachment, 
       notifyTyping, 

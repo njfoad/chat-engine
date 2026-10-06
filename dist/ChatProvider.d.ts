@@ -12,6 +12,7 @@ interface ChatContextState {
     isConnecting: boolean;
     connectionError: string | null;
     typingParticipants: string[];
+    isChatClosed: boolean;
     sendMessage: (text: string) => Promise<void>;
     sendAttachment: (file: File, text?: string) => Promise<void>;
     notifyTyping: () => void;

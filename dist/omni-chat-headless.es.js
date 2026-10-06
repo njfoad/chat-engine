@@ -5387,7 +5387,7 @@ var Qn = e(null), $n = class {
 		console.warn("JWT expired. Forcing token refresh..."), this.fetchJwt().then((e) => j.setJwt(e)).catch((e) => console.error("Failed to refresh JWT on expiry:", e));
 	}
 }, er = ({ children: e, config: t }) => {
-	let [a, o] = r(null), [s, c] = r([]), [l, d] = r(!0), [f, p] = r(null), [m, ee] = r(null), [te, ne] = r([]);
+	let [a, o] = r(null), [s, c] = r([]), [l, d] = r(!0), [f, p] = r(null), [m, ee] = r(null), [te, ne] = r([]), [re, ie] = r(!1);
 	return n(() => {
 		let e, n = !0;
 		return (async () => {
@@ -5432,7 +5432,7 @@ var Qn = e(null), $n = class {
 			}), Pn.addEventStreamFailedListener((e) => {
 				console.log("[ChatProvider] Stream Failed: " + JSON.stringify(e, null, 2));
 			}), Pn.addEventStreamClosedListener((e) => {
-				console.log("[ChatProvider] Stream Closed: " + JSON.stringify(e, null, 2));
+				console.log("[ChatProvider] Stream Closed: " + JSON.stringify(e, null, 2)), n && ie(!0);
 			});
 		})(), () => {
 			console.log("[ChatProvider] Component unmounting. Shutting down Avaya SDK..."), n = !1, j.shutdown().catch((e) => console.error("[ChatProvider] Shutdown error:", e));
@@ -5443,6 +5443,7 @@ var Qn = e(null), $n = class {
 			isConnecting: l,
 			connectionError: f,
 			typingParticipants: te,
+			isChatClosed: re,
 			sendMessage: async (e) => {
 				if (!a) return;
 				let t = await a.sendMessage(new Yn(e));
