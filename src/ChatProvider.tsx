@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { AvayaInfinityOmniSdk, type JwtProvider, LogLevel } from '@avaya/infinity-omni-sdk-core';
-import { MessagingConversation, AvayaInfinityMessaging, TextMessage, AttachmentMessage } from '@avaya/infinity-omni-sdk-messaging';
+import { MessagingConversation, TextMessage, AttachmentMessage } from '@avaya/infinity-omni-sdk-messaging';
 
 // ==========================================
 // 1. Types & Interfaces
