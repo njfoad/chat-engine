@@ -166,9 +166,15 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
     initChat();
 
     return () => {
-      console.log("[ChatProvider] Component unmounting. Shutting down Avaya SDK...");
+      console.log("[ChatProvider] Component unmounting. Terminating session...");
       isMounted = false;
-      AvayaInfinityOmniSdk.shutdown().catch(e => console.error("[ChatProvider] Shutdown error:", e));
+      
+      if (activeConversation && typeof activeConversation.end === 'function') {
+        console.log("[ChatProvider] Sending 'End Conversation' signal to Avaya Cloud...");
+        activeConversation.end().catch((e: any) => console.error("Failed to end conversation:", e));
+      }
+
+      AvayaInfinityOmniSdk.shutdown().catch((e: any) => console.error("[ChatProvider] Shutdown error:", e));
     };
   }, [config]); 
 

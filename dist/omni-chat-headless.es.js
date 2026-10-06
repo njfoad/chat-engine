@@ -5459,7 +5459,7 @@ var er = e(null), tr = class {
 				console.log("[ChatProvider] Stream Closed: " + JSON.stringify(e, null, 2)), n && ie(!0);
 			});
 		})(), () => {
-			console.log("[ChatProvider] Component unmounting. Shutting down Avaya SDK..."), n = !1, j.shutdown().catch((e) => console.error("[ChatProvider] Shutdown error:", e));
+			console.log("[ChatProvider] Component unmounting. Terminating session..."), n = !1, e && typeof e.end == "function" && (console.log("[ChatProvider] Sending 'End Conversation' signal to Avaya Cloud..."), e.end().catch((e) => console.error("Failed to end conversation:", e))), j.shutdown().catch((e) => console.error("[ChatProvider] Shutdown error:", e));
 		};
 	}, [t]), /* @__PURE__ */ i(er.Provider, {
 		value: {
