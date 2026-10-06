@@ -5428,7 +5428,11 @@ var Qn = e(null), $n = class {
 				console.error("[ChatProvider] Initialization FAILED at step:", e), n && (p(e?.message || "Failed to initialize Avaya SDK."), d(!1));
 			}
 			Pn.addEventStreamConnectedListener((e) => {
-				console.log(JSON.stringify(e, null, 2));
+				console.log("[ChatProvider] Stream Connected: " + JSON.stringify(e, null, 2));
+			}), Pn.addEventStreamFailedListener((e) => {
+				console.log("[ChatProvider] Stream Failed: " + JSON.stringify(e, null, 2));
+			}), Pn.addEventStreamClosedListener((e) => {
+				console.log("[ChatProvider] Stream Closed: " + JSON.stringify(e, null, 2));
 			});
 		})(), () => {
 			console.log("[ChatProvider] Component unmounting. Shutting down Avaya SDK..."), n = !1, j.shutdown().catch((e) => console.error("[ChatProvider] Shutdown error:", e));

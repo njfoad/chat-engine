@@ -149,7 +149,13 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
         }
       }
       AvayaInfinityMessaging.addEventStreamConnectedListener((eventPayload) => {
-          console.log( JSON.stringify( eventPayload, null, 2 ) );
+          console.log( "[ChatProvider] Stream Connected: " + JSON.stringify( eventPayload, null, 2 ) );
+      });
+      AvayaInfinityMessaging.addEventStreamFailedListener((eventPayload) => {
+          console.log( "[ChatProvider] Stream Failed: " + JSON.stringify( eventPayload, null, 2 ) );
+      });
+      AvayaInfinityMessaging.addEventStreamClosedListener((eventPayload) => {
+          console.log( "[ChatProvider] Stream Closed: " + JSON.stringify( eventPayload, null, 2 ) );
       });
     };
 
