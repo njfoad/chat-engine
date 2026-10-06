@@ -6,11 +6,18 @@
   "main": "./dist/omni-chat-headless.umd.js",
   "module": "./dist/omni-chat-headless.es.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/omni-chat-headless.es.js",
+      "require": "./dist/omni-chat-headless.umd.js"
+    }
+  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc -b && vite build",
+    "build": "vite build && tsc -p tsconfig.app.json",
     "prepare": "npm run build"
   },
   "dependencies": {
@@ -24,11 +31,10 @@
     "@vitejs/plugin-react": "^6.1.1",
     "oxlint": "^1.81.0",
     "typescript": "~6.0.2",
-    "vite": "^8.3.0",
-    "vite-plugin-dts": "^5.1.2"
+    "vite": "^8.3.0"
   },
-"peerDependencies": {
-  "react": "^18.2.0 || ^19.0.0",
-  "react-dom": "^18.2.0 || ^19.0.0"
-}
+  "peerDependencies": {
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0"
+  }
 }
