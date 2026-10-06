@@ -5391,9 +5391,14 @@ var Qn = e(null), $n = class {
 	return n(() => {
 		let e, n = !0;
 		return (async () => {
+			console.log("[ChatProvider] Starting initialization sequence...");
 			try {
-				d(!0), p(null);
-				let r = await t.fetchJwt(), i = new $n(t.fetchJwt), a = Zn(), s = await j.init({
+				d(!0), p(null), console.log("[ChatProvider] Fetching initial JWT...");
+				let r = await t.fetchJwt();
+				console.log("[ChatProvider] JWT fetched successfully. Token length:", r?.length);
+				let i = new $n(t.fetchJwt), a = Zn();
+				console.log(`[ChatProvider] Calling Avaya SDK init() on host: ${t.host}...`);
+				let s = await j.init({
 					host: t.host,
 					integrationId: t.integrationId,
 					token: r,
@@ -5403,16 +5408,12 @@ var Qn = e(null), $n = class {
 					idleTimeoutDuration: 3e5,
 					idleShutdownGraceTimeoutDuration: 6e4
 				}, a);
-				if (Pn.addEventStreamConnectedListener(() => {
-					n && (d(!1), p(null));
-				}), Pn.addEventStreamFailedListener((e) => {
-					n && p(`Network disconnected: ${e.reason}`);
-				}), e = s.conversations[0] || await j.createConversation(a), !n) return;
-				o(e);
+				if (console.log("[ChatProvider] SDK Init successful! User session created."), console.log("[ChatProvider] Resolving active conversation..."), e = s.conversations[0] || await j.createConversation(a), console.log("[ChatProvider] Active conversation ready. ID:", e.id), !n) return;
+				o(e), console.log("[ChatProvider] Fetching message history...");
 				let l = await e.getMessages(15);
-				if (!n) return;
-				ee(l), c(l.items), e.addMessageArrivedListener((e) => {
-					n && c((t) => [...t, e]);
+				if (console.log(`[ChatProvider] History fetched. Found ${l.items.length} messages.`), !n) return;
+				ee(l), c(l.items), console.log("[ChatProvider] Attaching conversation event listeners..."), e.addMessageArrivedListener((e) => {
+					console.log("[ChatProvider] Message arrived event triggered."), n && c((t) => [...t, e]);
 				}), e.addTypingStartedListener((e) => {
 					n && ne((t) => {
 						let n = e.participant.displayName;
@@ -5420,12 +5421,12 @@ var Qn = e(null), $n = class {
 					});
 				}), e.addTypingStoppedListener((e) => {
 					n && ne((t) => t.filter((t) => t !== e.participant.displayName));
-				});
+				}), console.log("[ChatProvider] Initialization complete. Connecting UI..."), n && d(!1);
 			} catch (e) {
-				n && (p(e?.message || "Failed to initialize Avaya SDK."), d(!1));
+				console.error("[ChatProvider] Initialization FAILED at step:", e), n && (p(e?.message || "Failed to initialize Avaya SDK."), d(!1));
 			}
 		})(), () => {
-			n = !1, j.shutdown().catch(console.error);
+			console.log("[ChatProvider] Component unmounting. Shutting down Avaya SDK..."), n = !1, j.shutdown().catch((e) => console.error("[ChatProvider] Shutdown error:", e));
 		};
 	}, [t]), /* @__PURE__ */ i(Qn.Provider, {
 		value: {

@@ -67,14 +67,20 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
     let isMounted = true; 
 
     const initChat = async () => {
+      console.log("[ChatProvider] Starting initialization sequence...");
+      
       try {
         setIsConnecting(true);
         setConnectionError(null);
         
+        console.log("[ChatProvider] Fetching initial JWT...");
         const initialToken = await config.fetchJwt();
+        console.log("[ChatProvider] JWT fetched successfully. Token length:", initialToken?.length);
+        
         const jwtLifecycleManager = new AutoRefreshJwtProvider(config.fetchJwt);
         const EnhancedConversationClass = MessagingConversation();
         
+        console.log(`[ChatProvider] Calling Avaya SDK init() on host: ${config.host}...`);
         const userSession = await AvayaInfinityOmniSdk.init({
           host: config.host,
           integrationId: config.integrationId,
@@ -85,24 +91,30 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
           idleTimeoutDuration: 5 * 60 * 1000, 
           idleShutdownGraceTimeoutDuration: 1 * 60 * 1000,
         }, EnhancedConversationClass);
+        console.log("[ChatProvider] SDK Init successful! User session created.");
 
+        console.log("[ChatProvider] Resolving active conversation...");
         activeConversation = userSession.conversations[0] || await AvayaInfinityOmniSdk.createConversation(EnhancedConversationClass);
+        console.log("[ChatProvider] Active conversation ready. ID:", activeConversation.id);
         
         if (!isMounted) return;
         setConversation(activeConversation);
 
+        console.log("[ChatProvider] Fetching message history...");
         const historyIterator = await activeConversation.getMessages(15);
-        if (!isMounted) return;
+        console.log(`[ChatProvider] History fetched. Found ${historyIterator.items.length} messages.`);
         
+        if (!isMounted) return;
         setIterator(historyIterator);
         setMessages(historyIterator.items);
 
-        // -- MESSAGE LISTENERS --
+        console.log("[ChatProvider] Attaching conversation event listeners...");
+        
         activeConversation.addMessageArrivedListener((message: any) => {
+          console.log("[ChatProvider] Message arrived event triggered.");
           if (isMounted) setMessages(prev => [...prev, message]);
         });
 
-        // -- TYPING LISTENERS (NEW) --
         activeConversation.addTypingStartedListener((event: any) => {
           if (isMounted) {
             setTypingParticipants(prev => {
@@ -118,7 +130,13 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
           }
         });
 
+        console.log("[ChatProvider] Initialization complete. Connecting UI...");
+        if (isMounted) {
+          setIsConnecting(false);
+        }
+
       } catch (error: any) {
+        console.error("[ChatProvider] Initialization FAILED at step:", error);
         if (isMounted) {
           setConnectionError(error?.message || "Failed to initialize Avaya SDK.");
           setIsConnecting(false);
@@ -128,20 +146,10 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
 
     initChat();
 
-    AvayaInfinityMessaging.addEventStreamConnectedListener(() => {
-      if (isMounted) {
-        setIsConnecting(false);
-        setConnectionError(null);
-      }
-    });
-
-    AvayaInfinityMessaging.addEventStreamFailedListener((eventPayload: any) => {
-      if (isMounted) setConnectionError(`Network disconnected: ${eventPayload.reason}`);
-    });
-
     return () => {
+      console.log("[ChatProvider] Component unmounting. Shutting down Avaya SDK...");
       isMounted = false;
-      AvayaInfinityOmniSdk.shutdown().catch(console.error);
+      AvayaInfinityOmniSdk.shutdown().catch(e => console.error("[ChatProvider] Shutdown error:", e));
     };
   }, [config]); 
 
