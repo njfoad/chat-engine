@@ -1,5 +1,4 @@
 // src/components/ChatBubble.tsx
-import React from 'react';
 
 export const ChatBubble = ({ onClick, theme }: { onClick: () => void, theme?: any }) => {
   return (
