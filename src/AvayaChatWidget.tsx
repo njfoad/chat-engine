@@ -62,7 +62,11 @@ export const AvayaChatWidget: React.FC<ChatWidgetProps> = ({
       {isChatOpen ? (
         <div style={{ width: '400px', height: '600px', display: 'flex', flexDirection: 'column', boxShadow: '0 12px 32px rgba(0,0,0,0.18)', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#fff', border: `1px solid ${activeTheme.header.backgroundColor}` }}>
           <ChatProvider config={config}>
-            <ChatWindow closeChat={handleClose} theme={activeTheme} />
+            <ChatWindow 
+              closeChat={handleClose} 
+              theme={activeTheme} 
+              autoStartMessage={config.autoStartMessage} 
+            />
           </ChatProvider>
         </div>
       ) : (

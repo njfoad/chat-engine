@@ -79,7 +79,7 @@ const CustomMessageRenderer: React.FC<CustomMessageProps> = ({ payload, onAction
   );
 };
 
-export function ChatWindow({ closeChat, theme }: { closeChat: () => void, theme?: any }) {
+export function ChatWindow({ closeChat, theme, autoStartMessage }: { closeChat: () => void, theme?: any, autoStartMessage?: string }) {
   const { messages, isConnecting, connectionError, sendMessage, notifyTyping, sendAttachment, isChatClosed, sendReply, typingParticipants } = useChat();
   
   // --- EXTRACT ALL THEME VARIABLES ---
@@ -104,6 +104,25 @@ export function ChatWindow({ closeChat, theme }: { closeChat: () => void, theme?
   const [inputValue, setInputValue] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const hasAutoStarted = useRef(false);
+
+  useEffect(() => {
+    // 1. Wait until the Avaya connection is fully established (!isConnecting)
+    // 2. Ensure we haven't already auto-started
+    // 3. Ensure an autoStartMessage was actually provided in the config
+    if (!isConnecting && !hasAutoStarted.current && autoStartMessage) {
+      
+      // If there are already messages (e.g., loaded from history), don't send the prompt
+      if (messages.length === 0) {
+        console.log("[ChatWindow] Auto-starting workflow with:", autoStartMessage);
+        sendMessage(autoStartMessage);
+      }
+      
+      // Lock the trigger so it never fires again
+      hasAutoStarted.current = true; 
+    }
+  }, [isConnecting, messages, autoStartMessage, sendMessage]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

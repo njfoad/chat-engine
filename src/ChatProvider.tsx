@@ -17,6 +17,7 @@ export interface ChatEngineConfig {
     userId: string;
     userName: string;
   };
+  autoStartMessage?: string;
 }
 
 export interface ChatContextState {
