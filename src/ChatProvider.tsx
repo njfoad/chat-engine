@@ -13,7 +13,7 @@ export interface ChatEngineConfig {
   logLevel?: LogLevel;
 }
 
-interface ChatContextState {
+export interface ChatContextState {
   messages: any[]; 
   isConnecting: boolean;
   connectionError: string | null;

@@ -7,7 +7,7 @@ export interface ChatEngineConfig {
     fetchJwt: () => Promise<string>;
     logLevel?: LogLevel;
 }
-interface ChatContextState {
+export interface ChatContextState {
     messages: any[];
     isConnecting: boolean;
     connectionError: string | null;
@@ -24,4 +24,3 @@ export declare const ChatProvider: React.FC<{
     config: ChatEngineConfig;
 }>;
 export declare const useChat: () => ChatContextState;
-export {};

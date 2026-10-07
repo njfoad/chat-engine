@@ -1,7 +1,7 @@
-import { createContext as e, useContext as t, useEffect as n, useState as r } from "react";
-import { jsx as i } from "react/jsx-runtime";
+import { createContext as e, useContext as t, useEffect as n, useRef as r, useState as i } from "react";
+import { jsx as a, jsxs as o } from "react/jsx-runtime";
 //#region node_modules/@avaya/infinity-omni-sdk-core/lib/avaya-infinity-omni-sdk-core.js
-var a = class extends Error {
+var s = class extends Error {
 	code;
 	detail;
 	metadata;
@@ -14,10 +14,10 @@ var a = class extends Error {
 		return t.name === "AvayaInfinityOmniSdkError" && typeof t.code == "string" && typeof t.message == "string";
 	}
 };
-function o(e) {
+function c(e) {
 	return `AvayaInfinityOmniSdkError :: ${e}`;
 }
-var s = {
+var l = {
 	INVALID_ARGUMENT: "OSE_CORE_INVALID_ARGUMENT",
 	SDK_NOT_INITIALIZED: "OSE_CORE_SDK_NOT_INITIALIZED",
 	SESSION_INITIALIZED_ALREADY: "OSE_CORE_SESSION_INITIALIZED_ALREADY",
@@ -30,101 +30,101 @@ var s = {
 	CREATE_CONVERSATION_FAILED: "OSE_CORE_CREATE_CONVERSATION_FAILED",
 	CONVERSATIONS_NOT_CLOSABLE: "OSE_CORE_CONVERSATIONS_NOT_CLOSABLE",
 	MAX_CONVERSATIONS_REACHED: "OSE_CORE_MAX_CONVERSATIONS_REACHED"
-}, c = {
+}, u = {
 	INVALID_LOG_LEVEL: {
-		code: s.INVALID_ARGUMENT,
+		code: l.INVALID_ARGUMENT,
 		detail: "invalid-log-level",
 		message: "Invalid log level"
 	},
 	CONSTRAINT_VIOLATION: {
-		code: s.INVALID_ARGUMENT,
+		code: l.INVALID_ARGUMENT,
 		detail: "constraint-violation",
-		message: o("Constraint violated")
+		message: c("Constraint violated")
 	},
 	SDK_NOT_INITIALIZED: {
-		code: s.SDK_NOT_INITIALIZED,
-		message: o("Omni SDK is not yet initialized")
+		code: l.SDK_NOT_INITIALIZED,
+		message: c("Omni SDK is not yet initialized")
 	},
 	SESSION_INITIALIZED_ALREADY: {
-		code: s.SESSION_INITIALIZED_ALREADY,
-		message: o("Session is initialized already")
+		code: l.SESSION_INITIALIZED_ALREADY,
+		message: c("Session is initialized already")
 	},
 	SDK_BUSY: {
-		code: s.SDK_BUSY,
+		code: l.SDK_BUSY,
 		message: "Omni SDK is in process of initialization or shutdown, no operations are allowed until either is completed"
 	},
 	SDK_INIT_FAILED: {
-		code: s.SDK_INIT_FAILED,
+		code: l.SDK_INIT_FAILED,
 		message: "Failed to initialize the session"
 	},
 	CONVERSATION_CLOSING: {
-		code: s.CONVERSATION_NOT_ACTIVE,
+		code: l.CONVERSATION_NOT_ACTIVE,
 		detail: "conversation-closing",
 		message: "Conversation is closing."
 	},
 	CONVERSATION_CLOSED: {
-		code: s.CONVERSATION_NOT_ACTIVE,
+		code: l.CONVERSATION_NOT_ACTIVE,
 		detail: "conversation-closed",
 		message: "Conversation is closed."
 	},
 	PARTICIPANT_CHANNEL_MISSING: {
-		code: s.MALFORMED_SERVER_RESPONSE,
+		code: l.MALFORMED_SERVER_RESPONSE,
 		detail: "participant-channel-missing",
 		message: "Missing required participant fields channel"
 	},
 	GET_SESSION_UNEXPECTED_STATUS: {
-		code: s.MALFORMED_SERVER_RESPONSE,
+		code: l.MALFORMED_SERVER_RESPONSE,
 		detail: "get-session-unexpected-status",
-		message: o("Failed to get session. Received unexpected code from server")
+		message: c("Failed to get session. Received unexpected code from server")
 	},
 	SESSION_NOT_FOUND: {
-		code: s.SESSION_ENDED,
+		code: l.SESSION_ENDED,
 		detail: "session-not-found",
-		message: o("Session not found")
+		message: c("Session not found")
 	},
 	SESSION_POLLING_MAX_RETRIES_EXCEEDED: {
-		code: s.SESSION_ENDED,
+		code: l.SESSION_ENDED,
 		detail: "session-polling-max-retries-exceeded",
-		message: o("Session polling failed due to max number of retries exceeded")
+		message: c("Session polling failed due to max number of retries exceeded")
 	},
 	TOKEN_EXPIRED: {
-		code: s.INVALID_JWT,
+		code: l.INVALID_JWT,
 		detail: "token-expired",
-		message: o("JWT Token expired or not set")
+		message: c("JWT Token expired or not set")
 	},
 	INVALID_JWT_PROVIDED: {
-		code: s.INVALID_JWT,
+		code: l.INVALID_JWT,
 		detail: "invalid-jwt-provided",
-		message: o("Invalid JWT PROVIDED")
+		message: c("Invalid JWT PROVIDED")
 	},
 	CREATE_CONVERSATION_FAILED: {
-		code: s.CREATE_CONVERSATION_FAILED,
-		message: o("Failed to create conversation")
+		code: l.CREATE_CONVERSATION_FAILED,
+		message: c("Failed to create conversation")
 	},
 	CONVERSATIONS_NOT_CLOSABLE: {
-		code: s.CONVERSATIONS_NOT_CLOSABLE,
-		message: o("Creating/Ending conversations is not permitted")
+		code: l.CONVERSATIONS_NOT_CLOSABLE,
+		message: c("Creating/Ending conversations is not permitted")
 	},
 	MAX_CONVERSATIONS_REACHED: {
-		code: s.MAX_CONVERSATIONS_REACHED,
-		message: o("Max conversations limit reached")
+		code: l.MAX_CONVERSATIONS_REACHED,
+		message: c("Max conversations limit reached")
 	}
 };
-function l(e) {
-	return a.is(e) && e.code.startsWith("OSE_CORE_");
+function d(e) {
+	return s.is(e) && e.code.startsWith("OSE_CORE_");
 }
-var u, d, f, p, m;
+var f, p, m, h, g;
 (function(e) {
 	e.ERROR = "ERROR", e.WARN = "WARN", e.INFO = "INFO", e.DEBUG = "DEBUG", e.OFF = "OFF";
-})(u ||= {}), function(e) {
+})(f ||= {}), function(e) {
 	e.USER_INACTIVE = "USER_INACTIVE", e.USER_CLOSED = "USER_CLOSED", e.UNKNOWN = "UNKNOWN";
-}(d ||= {}), function(e) {
-	e.SESSION_NOT_FOUND = "Session not found";
-}(f ||= {}), function(e) {
-	e.CUSTOMER = "CUSTOMER", e.AGENT = "AGENT", e.SUPERVISOR = "SUPERVISOR", e.SYSTEM = "SYSTEM", e.BOT = "BOT";
 }(p ||= {}), function(e) {
+	e.SESSION_NOT_FOUND = "Session not found";
+}(m ||= {}), function(e) {
+	e.CUSTOMER = "CUSTOMER", e.AGENT = "AGENT", e.SUPERVISOR = "SUPERVISOR", e.SYSTEM = "SYSTEM", e.BOT = "BOT";
+}(h ||= {}), function(e) {
 	e.JwtExpiry = "TokenExpiryTimer", e.JwtWarning = "TokenExpiryWarningTimer";
-}(m ||= {});
+}(g ||= {});
 var ee = /\b\d{13,19}\b/g, te = /[\w.+-]{1,64}@(?:[\w-]{1,63}\.){1,10}\w{2,24}/g, ne = /\+\d{10,15}/g, re = /\(\d{3}\)\s?\d{3}[-\s]?\d{4}/g, ie = /(?<![\w.])\+?(?:\d{1,3}\.)?\d{3}\.\d{3}\.\d{4}\b/g, ae = /\b[2-9]\d{2}[-\s]\d{3}[-\s]\d{4}\b/g;
 function oe(e) {
 	return e.includes("@") || e.includes("+") || e.includes("(") || /\d{13,}/.test(e) || /\d{3}[-.\s]\d{3}[-.\s]\d{4}/.test(e) ? e.replaceAll(ee, ((e) => function(e) {
@@ -151,7 +151,7 @@ function ce(e, t = /* @__PURE__ */ new WeakSet(), n = 0) {
 		message: se(e.message)
 	};
 	(function(e, t) {
-		if (!a.is(e)) return;
+		if (!s.is(e)) return;
 		t.code = e.code, t.detail = e.detail;
 		let n = se(JSON.stringify(e.metadata));
 		if (e.metadata && n) try {
@@ -203,12 +203,12 @@ function ue() {
 function de() {
 	le.clear();
 }
-var fe = class e {
+var _ = class e {
 	static level;
 	name;
 	prefix;
 	static {
-		this.level = u.WARN;
+		this.level = f.WARN;
 	}
 	static setLevel(e) {
 		this.level = e;
@@ -235,19 +235,19 @@ var fe = class e {
 	}
 	writeEntry(e, t) {
 		switch (e) {
-			case u.DEBUG:
+			case f.DEBUG:
 				console.debug(t);
 				break;
-			case u.INFO:
+			case f.INFO:
 				console.log(t);
 				break;
-			case u.WARN:
+			case f.WARN:
 				console.warn(t);
 				break;
-			case u.ERROR:
+			case f.ERROR:
 				console.error(t);
 				break;
-			case u.OFF: break;
+			case f.OFF: break;
 			default: console.log(t);
 		}
 	}
@@ -261,25 +261,25 @@ var fe = class e {
 		le.push(o), a.length > 0 ? this.writeEntries(e, s, ...a) : this.writeEntry(e, s);
 	}
 	debug(t, n, r, ...i) {
-		e.level === u.DEBUG && this.write(u.DEBUG, t, n, r, void 0, ...i);
+		e.level === f.DEBUG && this.write(f.DEBUG, t, n, r, void 0, ...i);
 	}
 	info(e, t, n, ...r) {
 		this.log(e, t, n, ...r);
 	}
 	log(t, n, r, ...i) {
-		e.level !== u.DEBUG && e.level !== u.INFO || this.write(u.INFO, t, n, r, void 0, ...i);
+		e.level !== f.DEBUG && e.level !== f.INFO || this.write(f.INFO, t, n, r, void 0, ...i);
 	}
 	warn(t, n, r, i, ...a) {
-		e.level !== u.DEBUG && e.level !== u.INFO && e.level !== u.WARN || this.write(u.WARN, t, n, r, i, ...a);
+		e.level !== f.DEBUG && e.level !== f.INFO && e.level !== f.WARN || this.write(f.WARN, t, n, r, i, ...a);
 	}
 	error(t, n, r, i, ...a) {
-		e.level !== u.OFF && this.write(u.ERROR, t, n, r, i, ...a);
+		e.level !== f.OFF && this.write(f.ERROR, t, n, r, i, ...a);
 	}
 };
-function h(e) {
-	return new fe(e, "AvayaInfinityOmniSdkCore");
+function v(e) {
+	return new _(e, "AvayaInfinityOmniSdkCore");
 }
-var pe = class {
+var fe = class {
 	name;
 	handle;
 	duration;
@@ -287,7 +287,7 @@ var pe = class {
 	startTime;
 	logger;
 	constructor(e, t, n) {
-		this.name = e, this.handle = void 0, this.duration = t, this.onTimeoutListener = n, this.startTime = void 0, this.logger = h("Timer");
+		this.name = e, this.handle = void 0, this.duration = t, this.onTimeoutListener = n, this.startTime = void 0, this.logger = v("Timer");
 	}
 	get isRunning() {
 		return this.handle !== void 0;
@@ -334,13 +334,13 @@ var pe = class {
 	get remainingTime() {
 		return this.isRunning && this.startTime ? this.duration - this.elapsedTime : (this.logger.debug("remainingTime", `Timer ${this.name} is not running.`, { timerName: this.name }), 0);
 	}
-}, g, me;
+}, y, pe;
 (function(e) {
 	e.INITIALIZED = "INITIALIZED", e.SHUTDOWN = "SHUTDOWN", e.PARTICIPANT_ADDED = "PARTICIPANT_ADDED", e.PARTICIPANT_DISCONNECTED = "PARTICIPANT_DISCONNECTED", e.IDLE_TIMEOUT = "IDLE_TIMEOUT", e.JWT_STATE_CHANGED = "JWT_STATE_CHANGED", e.SESSION_ERROR = "SESSION_ERROR", e.PARTICIPANT_SYNC = "PARTICIPANT_SYNC", e.CONVERSATION_SYNC = "CONVERSATION_SYNC", e.PARTICIPANT_LIST_UPDATE = "PARTICIPANT_LIST_UPDATE", e.END_CONVERSATION_INITIATED = "END_CONVERSATION_INITIATED", e.CONVERSATION_ENDED = "CONVERSATION_ENDED";
-})(g ||= {}), function(e) {
+})(y ||= {}), function(e) {
 	e.REINITIALIZED = "REINITIALIZED", e.EXPIRED = "EXPIRED";
-}(me ||= {});
-var he = new class {
+}(pe ||= {});
+var me = new class {
 	latestModuleEventHandlerId = 0;
 	latestClientEventHandlerId = 0;
 	moduleEventHandlers;
@@ -378,7 +378,7 @@ var he = new class {
 		this.moduleEventHandlers.clear();
 	}
 	removeAllClientHandlers() {
-		for (let e of Array.from(this.clientEventHandlers.keys()).filter(((e) => !e.endsWith(g.INITIALIZED) && !e.endsWith(g.SHUTDOWN)))) this.clientEventHandlers.delete(e);
+		for (let e of Array.from(this.clientEventHandlers.keys()).filter(((e) => !e.endsWith(y.INITIALIZED) && !e.endsWith(y.SHUTDOWN)))) this.clientEventHandlers.delete(e);
 	}
 	async invokeEventHandler(e, t, n) {
 		let r = this.getFullEventName(e, n), i = this.moduleEventHandlers.get(r);
@@ -386,21 +386,21 @@ var he = new class {
 		let a = this.clientEventHandlers.get(r);
 		if (a !== void 0) for (let e of a.values()) e(t);
 	}
-}(), ge = new class {
-	logger = h("EventProcessor");
+}(), he = new class {
+	logger = v("EventProcessor");
 	async processEvents(e) {
 		for (let t of e) switch (t.type) {
-			case g.INITIALIZED:
-			case g.PARTICIPANT_ADDED:
-			case g.PARTICIPANT_DISCONNECTED:
-			case g.IDLE_TIMEOUT:
-			case g.JWT_STATE_CHANGED:
-			case g.CONVERSATION_SYNC:
-			case g.SESSION_ERROR:
-				he.invokeEventHandler(t.type, t.event, t.namespace);
+			case y.INITIALIZED:
+			case y.PARTICIPANT_ADDED:
+			case y.PARTICIPANT_DISCONNECTED:
+			case y.IDLE_TIMEOUT:
+			case y.JWT_STATE_CHANGED:
+			case y.CONVERSATION_SYNC:
+			case y.SESSION_ERROR:
+				me.invokeEventHandler(t.type, t.event, t.namespace);
 				break;
-			case g.SHUTDOWN:
-				await he.invokeEventHandler(t.type, t.event, t.namespace);
+			case y.SHUTDOWN:
+				await me.invokeEventHandler(t.type, t.event, t.namespace);
 				break;
 			default: this.logger.warn("processEvents()", "Unknown event type", {
 				eventType: t.type,
@@ -409,27 +409,27 @@ var he = new class {
 		}
 	}
 }();
-function _e() {
-	return ge;
+function ge() {
+	return he;
 }
-var ve = class {
+var _e = class {
 	tokenExpiryWarningTimer;
 	tokenExpiryTimer;
-	logger = h("JWT");
+	logger = v("JWT");
 	ttl;
 	tokenExpiryWarnPeriod;
 	beforeWarnPeriod;
 	jwtProvider;
 	token;
-	eventProcessor = _e();
+	eventProcessor = ge();
 	constructor(e, t) {
-		this.tokenExpiryTimer = new pe(m.JwtExpiry, 9e5, this.onTokenExpiryTimeout.bind(this)), this.tokenExpiryWarningTimer = new pe(m.JwtWarning, 72e4, this.onTokenExpiryWarningTimeout.bind(this)), this.ttl = 0, this.beforeWarnPeriod = 0, this.tokenExpiryWarnPeriod = 18e4, this.jwtProvider = e, this.token = t, this.startTimers(t);
+		this.tokenExpiryTimer = new fe(g.JwtExpiry, 9e5, this.onTokenExpiryTimeout.bind(this)), this.tokenExpiryWarningTimer = new fe(g.JwtWarning, 72e4, this.onTokenExpiryWarningTimeout.bind(this)), this.ttl = 0, this.beforeWarnPeriod = 0, this.tokenExpiryWarnPeriod = 18e4, this.jwtProvider = e, this.token = t, this.startTimers(t);
 	}
 	stop() {
 		this.clear(), this.token = void 0;
 	}
 	startTimers(e) {
-		if (this.ttl = this.extractJwtTTL(e), this.isExpired()) throw this.logger.error("startTimers", c.INVALID_JWT_PROVIDED.message), new a(c.INVALID_JWT_PROVIDED);
+		if (this.ttl = this.extractJwtTTL(e), this.isExpired()) throw this.logger.error("startTimers", u.INVALID_JWT_PROVIDED.message), new s(u.INVALID_JWT_PROVIDED);
 		this.beforeWarnPeriod = this.ttl < this.tokenExpiryWarnPeriod ? this.ttl : this.ttl - this.tokenExpiryWarnPeriod, this.setTokenExpiryDuration(this.ttl), this.setTokenExpiryWarningDuration(this.beforeWarnPeriod), this.tokenExpiryTimer.start(), this.tokenExpiryWarningTimer.start();
 	}
 	clear() {
@@ -439,7 +439,7 @@ var ve = class {
 		this.clear(), this.startTimers(e);
 	}
 	getToken() {
-		if (this.isExpired()) throw new a(c.TOKEN_EXPIRED);
+		if (this.isExpired()) throw new s(u.TOKEN_EXPIRED);
 		return this.token;
 	}
 	isExpired() {
@@ -462,10 +462,10 @@ var ve = class {
 	setJwtToken(e) {
 		let t = this.isExpired();
 		this.token = e, this.restart(e), t && this.eventProcessor.processEvents([{
-			type: g.JWT_STATE_CHANGED,
+			type: y.JWT_STATE_CHANGED,
 			event: {
 				eventDate: /* @__PURE__ */ new Date(),
-				status: me.REINITIALIZED
+				status: pe.REINITIALIZED
 			}
 		}]), this.logger.debug("setJwtToken()", "JWT token renewed", { wasExpired: t });
 	}
@@ -480,21 +480,21 @@ var ve = class {
 	}
 	onTokenExpiryTimeout() {
 		this.logger.warn("onTokenExpiryTimeout()", "Token expired"), this.eventProcessor.processEvents([{
-			type: g.JWT_STATE_CHANGED,
+			type: y.JWT_STATE_CHANGED,
 			event: {
 				eventDate: /* @__PURE__ */ new Date(),
-				status: me.EXPIRED
+				status: pe.EXPIRED
 			}
 		}]), this.jwtProvider.onExpire();
 	}
-}, _ = {
+}, ve = {
 	host: "",
 	sdkBasePath: "/sdk/digital/chat",
 	integrationId: "",
 	setConfig(e) {
 		this.host = e.host.startsWith("https://") || e.host.startsWith("http://") ? e.host : "https://" + e.host, this.integrationId = e.integrationId;
 	}
-}, v = {
+}, b = {
 	NEW_LOG_LEVEL: "Setting LogLevel to : ",
 	SESSION_NOT_FOUND: "Session not found",
 	INTEGRATION_NOT_FOUND: "Integration not found",
@@ -512,12 +512,12 @@ var ve = class {
 	HTTPS: "https://",
 	JWT_STATUS_CHANGED: "JWT status changed",
 	MAX_CONVERSATIONS_REACHED: "Max conversations limit reached"
-}, y;
+}, x;
 (function(e) {
 	e.MESSAGING = "messaging";
-})(y ||= {});
+})(x ||= {});
 var ye = 70, be = 20, xe = 256, Se = 256, Ce = 20, we = 256, Te = 256, Ee = { shouldBeObject: "ContextParameters should be object of type {key: string (64 max length) -> value: string (256 max length)} with maximum 20 records" }, De = 6e5, Oe = 12e4, ke = 3e5, Ae = 33e5, je = 3e4, Me = 3e5;
-function b(e, t, n, r) {
+function S(e, t, n, r) {
 	return {
 		participantId: e,
 		participantType: Ne(t),
@@ -527,11 +527,11 @@ function b(e, t, n, r) {
 }
 function Ne(e) {
 	switch (e) {
-		case "CUSTOMER": return p.CUSTOMER;
-		case "AGENT": return p.AGENT;
-		case "BOT": return p.BOT;
-		case "SYSTEM": return p.SYSTEM;
-		case "SUPERVISOR": return p.SUPERVISOR;
+		case "CUSTOMER": return h.CUSTOMER;
+		case "AGENT": return h.AGENT;
+		case "BOT": return h.BOT;
+		case "SYSTEM": return h.SYSTEM;
+		case "SUPERVISOR": return h.SUPERVISOR;
 	}
 }
 function Pe(e) {
@@ -545,7 +545,7 @@ function Pe(e) {
 var Fe = {
 	UUID: /* @__PURE__ */ new RegExp(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/),
 	FQDN: /* @__PURE__ */ new RegExp(/^(?!:\/\/)(?=.{1,255}$)((.{1,63}\.){1,127}(?!\d*$)[a-z\d-]+\.?)$/)
-}, x = {
+}, C = {
 	notBlank: (e) => e.trim().length > 0,
 	notMoreThan: (e, t) => e.length <= t,
 	notLessThan: (e, t) => e.length >= t,
@@ -565,7 +565,7 @@ var Fe = {
 		isUUID: (e) => e === void 0 || Fe.UUID.test(e),
 		isFQDN: (e) => e === void 0 || Fe.FQDN.test(e)
 	}
-}, S = {
+}, Ie = {
 	notMoreThan: (e, t) => e <= t,
 	notLessThan: (e, t) => e >= t,
 	between: (e, t, n) => e >= t && e <= n,
@@ -574,7 +574,7 @@ var Fe = {
 		notLessThan: (e, t) => e === void 0 || e >= t,
 		between: (e, t, n) => e === void 0 || e >= t && e <= n
 	}
-}, C = {
+}, w = {
 	isString: (e) => typeof e == "string",
 	isNumber: (e) => typeof e == "number",
 	isFunction: (e) => typeof e == "function",
@@ -595,22 +595,22 @@ var Fe = {
 		isNumber: (e) => e === void 0 || typeof e == "number",
 		isFunction: (e) => e === void 0 || typeof e == "function",
 		isObject: (e) => e === void 0 || typeof e == "object" && !Array.isArray(e),
-		isRecord: (e, t, n, r) => e === void 0 || C.isRecord(e, t, n, r)
+		isRecord: (e, t, n, r) => e === void 0 || w.isRecord(e, t, n, r)
 	}
 };
-function w(e, t, n, r) {
+function T(e, t, n, r) {
 	if (!e) {
 		if (n) {
 			let e = r ? `${r}::assertConstraint()` : "assertConstraint";
 			n.error(e, t);
-		} else console.assert(e, o(t));
-		throw new a({
-			...c.CONSTRAINT_VIOLATION,
-			message: o(t)
+		} else console.assert(e, c(t));
+		throw new s({
+			...u.CONSTRAINT_VIOLATION,
+			message: c(t)
 		});
 	}
 }
-var Ie = class e {
+var Le = class e {
 	static #e = /* @__PURE__ */ new Map();
 	#t;
 	constructor(e, t, n, r) {
@@ -662,28 +662,28 @@ var Ie = class e {
 	clearParticipants() {
 		this.#t.clear();
 	}
-}, T, E;
+}, E, D;
 (function(e) {
 	e.INITIALIZING = "INITIALIZING", e.ACTIVE = "ACTIVE", e.CLOSING = "CLOSING", e.CLOSED = "CLOSED";
-})(T ||= {});
-var Le = class {
+})(E ||= {});
+var Re = class {
 	#e;
 	setDelegate(e) {
 		this.#e = e;
 	}
 	getState() {
-		return this.#e ? this.#e.getState() : T.INITIALIZING;
+		return this.#e ? this.#e.getState() : E.INITIALIZING;
 	}
 	isOperational() {
 		return !!this.#e && this.#e.isOperational();
 	}
-}, Re = class {
+}, ze = class {
 	state;
 	logger;
 	sessionId;
 	conversationId;
 	constructor(e, t, n) {
-		this.sessionId = e, this.conversationId = t, this.logger = n("ConversationStateController"), this.state = T.ACTIVE;
+		this.sessionId = e, this.conversationId = t, this.logger = n("ConversationStateController"), this.state = E.ACTIVE;
 	}
 	get logContext() {
 		return {
@@ -695,53 +695,53 @@ var Le = class {
 		return this.state;
 	}
 	isOperational() {
-		return this.state === T.ACTIVE;
+		return this.state === E.ACTIVE;
 	}
 	transitionToClosing() {
-		if (this.state === T.CLOSING) return void this.logger.warn("transitionToClosing", "Already in CLOSING state", this.logContext);
+		if (this.state === E.CLOSING) return void this.logger.warn("transitionToClosing", "Already in CLOSING state", this.logContext);
 		let e = this.state;
-		this.state = T.CLOSING, this.logger.debug("transitionToClosing", `Transitioned state: ${e} -> ${T.CLOSING}`, {
+		this.state = E.CLOSING, this.logger.debug("transitionToClosing", `Transitioned state: ${e} -> ${E.CLOSING}`, {
 			...this.logContext,
 			fromState: e,
-			toState: T.CLOSING
+			toState: E.CLOSING
 		});
 	}
 	transitionToClosed() {
-		if (this.state === T.CLOSED) return void this.logger.warn("transitionToClosed", "Already in CLOSED state", this.logContext);
+		if (this.state === E.CLOSED) return void this.logger.warn("transitionToClosed", "Already in CLOSED state", this.logContext);
 		let e = this.state;
-		this.state = T.CLOSED, this.logger.debug("transitionToClosed", `Transitioned state: ${e} -> ${T.CLOSED}`, {
+		this.state = E.CLOSED, this.logger.debug("transitionToClosed", `Transitioned state: ${e} -> ${E.CLOSED}`, {
 			...this.logContext,
 			fromState: e,
-			toState: T.CLOSED
+			toState: E.CLOSED
 		});
 	}
 };
 (function(e) {
 	e.GET = "GET", e.POST = "POST", e.PUT = "PUT", e.DELETE = "DELETE";
-})(E ||= {});
-var D = {
+})(D ||= {});
+var O = {
 	CREATE_SESSION: {
-		requestType: E.POST,
+		requestType: D.POST,
 		path: (e) => `/v1/messaging-integrations/${e}/sessions`,
 		queryParams: { features: "features" }
 	},
 	TERMINATE_SESSION: {
-		requestType: E.DELETE,
+		requestType: D.DELETE,
 		path: (e, t) => `/v1/messaging-integrations/${e}/sessions/${t}`
 	},
 	GET_SESSION: {
-		requestType: E.GET,
+		requestType: D.GET,
 		path: (e, t) => `/v1/messaging-integrations/${e}/sessions/${t}`
 	},
 	CREATE_CONVERSATION: {
-		requestType: E.POST,
+		requestType: D.POST,
 		path: (e) => `/v1/messaging-integrations/${e}/conversations`
 	},
 	END_CONVERSATION: {
-		requestType: E.POST,
+		requestType: D.POST,
 		path: (e, t) => `/v1/messaging-integrations/${e}/conversations/${t}:end`
 	}
-}, ze = class {
+}, Be = class {
 	conversationId;
 	rawConversationDetails;
 	restController;
@@ -758,9 +758,9 @@ var D = {
 	createdAt;
 	constructor(e) {
 		let { conversationId: t, conversationDetails: n, restController: r, isSessionValid: i, loggerFactory: a, eventDispatcher: o, contextParameters: s, conversationStatusChecker: c, channelRegistry: l, config: u } = e;
-		this.conversationId = t, this.createdAt = new Date(n.createdAt), this.rawConversationDetails = n, this.restController = r, this.logger = a("CoreConversationDelegate"), this.isSessionValid = i, this.eventDispatcher = o, this.registerCallbacks(), this.contextParameters = s, this.conversationStateController = new Re(n.sessionId, t, a), this.config = u, this.channelRegistry = l;
-		let d = Ie.getInstance(t);
-		d ||= (this.logger.warn("constructor()", "Participant registry not found, creating a new one. Omni SDK functionality might be affected.", this.logContext), Ie.createInstance(t, n.sessionId, i, a)), this.participantRegistry = d, this.initializeParticipantList(n), this.conversationClosurePromise = this.channelRegistry.allChannelsClosed.then(this.concludeConversation.bind(this)).catch(((e) => {
+		this.conversationId = t, this.createdAt = new Date(n.createdAt), this.rawConversationDetails = n, this.restController = r, this.logger = a("CoreConversationDelegate"), this.isSessionValid = i, this.eventDispatcher = o, this.registerCallbacks(), this.contextParameters = s, this.conversationStateController = new ze(n.sessionId, t, a), this.config = u, this.channelRegistry = l;
+		let d = Le.getInstance(t);
+		d ||= (this.logger.warn("constructor()", "Participant registry not found, creating a new one. Omni SDK functionality might be affected.", this.logContext), Le.createInstance(t, n.sessionId, i, a)), this.participantRegistry = d, this.initializeParticipantList(n), this.conversationClosurePromise = this.channelRegistry.allChannelsClosed.then(this.concludeConversation.bind(this)).catch(((e) => {
 			this.logger.debug("conversationClosurePromise()", "Conversation closure promise cancelled", this.logContext, e);
 		})), c.setDelegate(this.conversationStateController);
 	}
@@ -773,21 +773,21 @@ var D = {
 	initializeParticipantList(e) {
 		if (e.engagements.length > 0) for (let t of e.engagements[0].dialogs[0].participants) {
 			let e = t;
-			this.updateParticipant(b(e.participantId, e.participantType, y.MESSAGING, e.displayName));
+			this.updateParticipant(S(e.participantId, e.participantType, x.MESSAGING, e.displayName));
 		}
 	}
 	registerCallbacks() {
-		this.handlerIdMap.set(g.PARTICIPANT_ADDED, this.eventDispatcher.addModuleEventHandler(g.PARTICIPANT_ADDED, this.handleParticipantAddition.bind(this), this.conversationId)), this.handlerIdMap.set(g.PARTICIPANT_DISCONNECTED, this.eventDispatcher.addModuleEventHandler(g.PARTICIPANT_DISCONNECTED, this.handleParticipantRemoval.bind(this), this.conversationId)), this.handlerIdMap.set(g.PARTICIPANT_SYNC, this.eventDispatcher.addModuleEventHandler(g.PARTICIPANT_SYNC, this.handleParticipantSync.bind(this), this.conversationId)), this.handlerIdMap.set(g.CONVERSATION_SYNC, this.eventDispatcher.addModuleEventHandler(g.CONVERSATION_SYNC, this.handleConversationSync.bind(this), this.conversationId)), this.handlerIdMap.set(g.PARTICIPANT_LIST_UPDATE, this.eventDispatcher.addModuleEventHandler(g.PARTICIPANT_LIST_UPDATE, this.handleParticipantListUpdate.bind(this), this.conversationId)), this.handlerIdMap.set(g.SHUTDOWN, this.eventDispatcher.addModuleEventHandler(g.SHUTDOWN, this.handleShutdown.bind(this), this.conversationId));
+		this.handlerIdMap.set(y.PARTICIPANT_ADDED, this.eventDispatcher.addModuleEventHandler(y.PARTICIPANT_ADDED, this.handleParticipantAddition.bind(this), this.conversationId)), this.handlerIdMap.set(y.PARTICIPANT_DISCONNECTED, this.eventDispatcher.addModuleEventHandler(y.PARTICIPANT_DISCONNECTED, this.handleParticipantRemoval.bind(this), this.conversationId)), this.handlerIdMap.set(y.PARTICIPANT_SYNC, this.eventDispatcher.addModuleEventHandler(y.PARTICIPANT_SYNC, this.handleParticipantSync.bind(this), this.conversationId)), this.handlerIdMap.set(y.CONVERSATION_SYNC, this.eventDispatcher.addModuleEventHandler(y.CONVERSATION_SYNC, this.handleConversationSync.bind(this), this.conversationId)), this.handlerIdMap.set(y.PARTICIPANT_LIST_UPDATE, this.eventDispatcher.addModuleEventHandler(y.PARTICIPANT_LIST_UPDATE, this.handleParticipantListUpdate.bind(this), this.conversationId)), this.handlerIdMap.set(y.SHUTDOWN, this.eventDispatcher.addModuleEventHandler(y.SHUTDOWN, this.handleShutdown.bind(this), this.conversationId));
 	}
 	unregisterCallbacks() {
 		for (let [e, t] of this.handlerIdMap.entries()) this.eventDispatcher.removeModuleEventHandler(e, t, this.conversationId);
 	}
 	assertSessionValidity() {
-		if (!this.isSessionValid()) throw new a(c.SDK_NOT_INITIALIZED);
+		if (!this.isSessionValid()) throw new s(u.SDK_NOT_INITIALIZED);
 	}
 	assertConversationValidity() {
-		if (this.conversationStateController.getState() === T.CLOSING) throw new a(c.CONVERSATION_CLOSING);
-		if (this.conversationStateController.getState() === T.CLOSED) throw new a(c.CONVERSATION_CLOSED);
+		if (this.conversationStateController.getState() === E.CLOSING) throw new s(u.CONVERSATION_CLOSING);
+		if (this.conversationStateController.getState() === E.CLOSED) throw new s(u.CONVERSATION_CLOSED);
 	}
 	assertBasicValidity() {
 		this.assertSessionValidity(), this.assertConversationValidity();
@@ -796,32 +796,32 @@ var D = {
 		return this.conversationStateController.getState();
 	}
 	addParticipantAddedListener(e) {
-		return w(C.isFunction(e), "handler should be a function", this.logger, "addParticipantAddedListener()"), this.assertBasicValidity(), this.eventDispatcher.addClientEventHandler(g.PARTICIPANT_ADDED, e, this.conversationId);
+		return T(w.isFunction(e), "handler should be a function", this.logger, "addParticipantAddedListener()"), this.assertBasicValidity(), this.eventDispatcher.addClientEventHandler(y.PARTICIPANT_ADDED, e, this.conversationId);
 	}
 	addParticipantDisconnectedListener(e) {
-		return w(C.isFunction(e), "handler should be a function", this.logger, "addParticipantDisconnectedListener()"), this.assertBasicValidity(), this.eventDispatcher.addClientEventHandler(g.PARTICIPANT_DISCONNECTED, e, this.conversationId);
+		return T(w.isFunction(e), "handler should be a function", this.logger, "addParticipantDisconnectedListener()"), this.assertBasicValidity(), this.eventDispatcher.addClientEventHandler(y.PARTICIPANT_DISCONNECTED, e, this.conversationId);
 	}
 	removeParticipantAddedListener(e) {
-		this.eventDispatcher.removeClientEventHandler(g.PARTICIPANT_ADDED, e, this.conversationId);
+		this.eventDispatcher.removeClientEventHandler(y.PARTICIPANT_ADDED, e, this.conversationId);
 	}
 	removeParticipantDisconnectedListener(e) {
-		this.eventDispatcher.removeClientEventHandler(g.PARTICIPANT_DISCONNECTED, e, this.conversationId);
+		this.eventDispatcher.removeClientEventHandler(y.PARTICIPANT_DISCONNECTED, e, this.conversationId);
 	}
 	get participants() {
 		return this.assertSessionValidity(), JSON.parse(JSON.stringify(this.participantRegistry.getParticipants()));
 	}
 	handleParticipantAddition(e) {
 		let { participant: t } = e;
-		if (!t?.channel) throw new a(c.PARTICIPANT_CHANNEL_MISSING, { metadata: { operation: "handleParticipantAddition" } });
-		this.updateParticipant(b(t?.participantId, t?.participantType, t?.channel, t?.displayName));
+		if (!t?.channel) throw new s(u.PARTICIPANT_CHANNEL_MISSING, { metadata: { operation: "handleParticipantAddition" } });
+		this.updateParticipant(S(t?.participantId, t?.participantType, t?.channel, t?.displayName));
 	}
 	handleParticipantRemoval(e) {
 		let { participant: t } = e;
-		if (!t?.channel) throw new a(c.PARTICIPANT_CHANNEL_MISSING, { metadata: { operation: "handleParticipantRemoval" } });
-		this.removeParticipant(b(t.participantId, t.participantType, t.channel, t.displayName));
+		if (!t?.channel) throw new s(u.PARTICIPANT_CHANNEL_MISSING, { metadata: { operation: "handleParticipantRemoval" } });
+		this.removeParticipant(S(t.participantId, t.participantType, t.channel, t.displayName));
 	}
 	addParticipant(e) {
-		this.participantRegistry.addParticipant(e), this.logger.debug("addParticipant()", v.PARTICIPANT_ADDED, {
+		this.participantRegistry.addParticipant(e), this.logger.debug("addParticipant()", b.PARTICIPANT_ADDED, {
 			sessionId: this.rawConversationDetails.sessionId,
 			participantId: e.participantId,
 			participantType: e.participantType,
@@ -829,7 +829,7 @@ var D = {
 		});
 	}
 	removeParticipant(e) {
-		this.participantRegistry.hasParticipant(e.participantId) && (this.participantRegistry.removeParticipant(e.participantId), this.logger.debug("removeParticipant()", v.PARTICIPANT_REMOVED, {
+		this.participantRegistry.hasParticipant(e.participantId) && (this.participantRegistry.removeParticipant(e.participantId), this.logger.debug("removeParticipant()", b.PARTICIPANT_REMOVED, {
 			sessionId: this.rawConversationDetails.sessionId,
 			participantId: e.participantId,
 			participantType: e.participantType,
@@ -837,7 +837,7 @@ var D = {
 		}));
 	}
 	async updateParticipant(e) {
-		this.participantRegistry.hasParticipant(e.participantId) ? (this.participantRegistry.updateParticipant(e.participantId, e.displayName ?? ""), this.logger.debug("updateParticipant()", v.PARTICIPANT_UPDATED, {
+		this.participantRegistry.hasParticipant(e.participantId) ? (this.participantRegistry.updateParticipant(e.participantId, e.displayName ?? ""), this.logger.debug("updateParticipant()", b.PARTICIPANT_UPDATED, {
 			sessionId: this.rawConversationDetails.sessionId,
 			participantId: e.participantId,
 			participantType: e.participantType,
@@ -851,13 +851,13 @@ var D = {
 			addedCount: t.added.length,
 			removedCount: t.removed.length
 		});
-		for (let n of t.removed) this.eventDispatcher.invokeEventHandler(g.PARTICIPANT_DISCONNECTED, {
+		for (let n of t.removed) this.eventDispatcher.invokeEventHandler(y.PARTICIPANT_DISCONNECTED, {
 			participant: n,
 			conversationId: e.conversationId,
 			eventDate: /* @__PURE__ */ new Date(),
 			channel: e.channel
 		}, this.conversationId);
-		for (let n of t.added) this.eventDispatcher.invokeEventHandler(g.PARTICIPANT_ADDED, {
+		for (let n of t.added) this.eventDispatcher.invokeEventHandler(y.PARTICIPANT_ADDED, {
 			participant: n,
 			conversationId: e.conversationId,
 			eventDate: /* @__PURE__ */ new Date(),
@@ -883,20 +883,20 @@ var D = {
 		for (let t of e.participants) this.updateParticipant(t);
 	}
 	setContextParameters(e) {
-		w(C.isRecord(e, Ce, we, Te), Ee.shouldBeObject, this.logger, "setContextParameters()"), this.assertBasicValidity(), this.contextParameters.reset(e);
+		T(w.isRecord(e, Ce, we, Te), Ee.shouldBeObject, this.logger, "setContextParameters()"), this.assertBasicValidity(), this.contextParameters.reset(e);
 	}
 	addConversationEndedListener(e) {
-		return w(C.isFunction(e), "handler should be a function", this.logger, "addConversationEndedListener()"), this.assertBasicValidity(), this.eventDispatcher.addClientEventHandler(g.CONVERSATION_ENDED, e, this.conversationId);
+		return T(w.isFunction(e), "handler should be a function", this.logger, "addConversationEndedListener()"), this.assertBasicValidity(), this.eventDispatcher.addClientEventHandler(y.CONVERSATION_ENDED, e, this.conversationId);
 	}
 	removeConversationEndedListener(e) {
-		this.eventDispatcher.removeClientEventHandler(g.CONVERSATION_ENDED, e, this.conversationId);
+		this.eventDispatcher.removeClientEventHandler(y.CONVERSATION_ENDED, e, this.conversationId);
 	}
 	async requestEndConversation() {
 		this.logger.debug("closeConversation()", "Closing conversation", this.logContext);
 		try {
 			let e = await this.restController.send({
-				methodType: D.END_CONVERSATION.requestType,
-				url: D.END_CONVERSATION.path(this.config.integrationId, this.conversationId),
+				methodType: O.END_CONVERSATION.requestType,
+				url: O.END_CONVERSATION.path(this.config.integrationId, this.conversationId),
 				isUrlFull: !1
 			});
 			e.status !== 204 && this.logger.warn("closeConversation()", `Received unexpected response from server: ${e.status}, ignoring`, {
@@ -908,17 +908,17 @@ var D = {
 		}
 	}
 	async end() {
-		this.assertBasicValidity(), this.logger.debug("endConversation()", "Ending conversation", this.logContext), this.conversationStateController.transitionToClosing(), await this.requestEndConversation(), this.eventDispatcher.invokeEventHandler(g.END_CONVERSATION_INITIATED, {
+		this.assertBasicValidity(), this.logger.debug("endConversation()", "Ending conversation", this.logContext), this.conversationStateController.transitionToClosing(), await this.requestEndConversation(), this.eventDispatcher.invokeEventHandler(y.END_CONVERSATION_INITIATED, {
 			conversationId: this.conversationId,
 			eventDate: /* @__PURE__ */ new Date(),
 			sessionId: this.rawConversationDetails.sessionId
 		}, this.conversationId), await this.conversationClosurePromise;
 	}
 	cleanup() {
-		this.logger.debug("cleanup()", "Cleaning up conversation", this.logContext), this.unregisterCallbacks(), this.participantRegistry.clearParticipants(), Ie.clearInstance(this.conversationId);
+		this.logger.debug("cleanup()", "Cleaning up conversation", this.logContext), this.unregisterCallbacks(), this.participantRegistry.clearParticipants(), Le.clearInstance(this.conversationId);
 	}
 	async concludeConversation() {
-		this.logger.debug("concludeConversation()", "Concluding conversation", this.logContext), this.conversationStateController.getState() === T.ACTIVE && this.conversationStateController.transitionToClosing(), this.conversationStateController.transitionToClosed(), this.logger.info("concludeConversation()", "Conversation concluded", this.logContext), this.cleanup(), this.eventDispatcher.invokeEventHandler(g.CONVERSATION_ENDED, {
+		this.logger.debug("concludeConversation()", "Concluding conversation", this.logContext), this.conversationStateController.getState() === E.ACTIVE && this.conversationStateController.transitionToClosing(), this.conversationStateController.transitionToClosed(), this.logger.info("concludeConversation()", "Conversation concluded", this.logContext), this.cleanup(), this.eventDispatcher.invokeEventHandler(y.CONVERSATION_ENDED, {
 			conversationId: this.conversationId,
 			eventDate: /* @__PURE__ */ new Date(),
 			sessionId: this.rawConversationDetails.sessionId
@@ -927,11 +927,11 @@ var D = {
 	handleShutdown() {
 		this.logger.debug("handleShutdown()", "Received shutdown event", this.logContext), this.conversationStateController.transitionToClosed(), this.channelRegistry.handleShutdown(), this.cleanup();
 	}
-}, Be = class {
+}, Ve = class {
 	conversationId;
 	#e;
 	constructor(e) {
-		this.conversationId = e.conversationId, this.#e = new ze(e);
+		this.conversationId = e.conversationId, this.#e = new Be(e);
 	}
 	addParticipantAddedListener(e) {
 		return this.#e.addParticipantAddedListener(e);
@@ -967,7 +967,7 @@ var D = {
 		return this.#e.createdAt;
 	}
 };
-function Ve() {
+function He() {
 	let e, t;
 	return {
 		promise: new Promise(((n, r) => {
@@ -977,22 +977,22 @@ function Ve() {
 		reject: t
 	};
 }
-function O(e) {
+function k(e) {
 	let t = new Uint8Array(e);
 	globalThis.crypto.getRandomValues(t);
 	let n = "";
 	for (let e of t) n += e.toString(16).padStart(2, "0");
 	return n;
 }
-function He() {
+function Ue() {
 	if (typeof globalThis.crypto?.randomUUID == "function") return globalThis.crypto.randomUUID();
-	let e = O(16), t = (3 & Number.parseInt(e[16], 16) | 8).toString(16);
+	let e = k(16), t = (3 & Number.parseInt(e[16], 16) | 8).toString(16);
 	return `${e.slice(0, 8)}-${e.slice(8, 12)}-4${e.slice(13, 16)}-${t}${e.slice(17, 20)}-${e.slice(20)}`;
 }
-var Ue = class {
+var We = class {
 	isDone = !1;
 	counter = 0;
-	promiseWithResolvers = Ve();
+	promiseWithResolvers = He();
 	add(e = 1) {
 		if (this.isDone) throw Error("WaitGroup is already completed");
 		this.counter += e;
@@ -1011,19 +1011,19 @@ var Ue = class {
 		if (this.isDone) throw Error("WaitGroup is already completed");
 		this.isDone = !0, this.promiseWithResolvers.reject();
 	}
-}, We = "av-log-id", Ge = class {
+}, Ge = "av-log-id", Ke = class {
 	#e;
 	#t;
-	#n = h("RestController");
+	#n = v("RestController");
 	constructor(e, t) {
 		this.#e = e, this.#t = t;
 	}
 	async send(e) {
-		let { methodType: t, url: n, requestBody: r, requestParameters: i, isUrlFull: a, maxRequestTimeout: o } = e, s, c = n, l = this.#t.getToken(), u = He(), d = {
+		let { methodType: t, url: n, requestBody: r, requestParameters: i, isUrlFull: a, maxRequestTimeout: o } = e, s, c = n, l = this.#t.getToken(), u = Ue(), d = {
 			Authorization: "Bearer " + l,
-			[We]: u
+			[Ge]: u
 		};
-		r instanceof FormData || t !== E.POST && t !== E.PUT || (d["Content-Type"] = "application/json");
+		r instanceof FormData || t !== D.POST && t !== D.PUT || (d["Content-Type"] = "application/json");
 		let f = {
 			method: t,
 			headers: d
@@ -1040,7 +1040,7 @@ var Ue = class {
 		});
 		let m = performance.now();
 		try {
-			let e = o ? await this.fetchWithTimeout(o, p) : await fetch(p), n = e.headers.get(We);
+			let e = o ? await this.fetchWithTimeout(o, p) : await fetch(p), n = e.headers.get(Ge);
 			return this.#n.debug("send()", "Received HTTP response", {
 				avLogId: u,
 				responseAvLogId: n,
@@ -1074,14 +1074,14 @@ var Ue = class {
 			clearTimeout(r);
 		}));
 	}
-}, k, A;
+}, A, qe;
 (function(e) {
 	var t;
 	(t = e.DialogStatus ||= {}).PENDING = "PENDING", t.ACTIVE = "ACTIVE", t.TERMINATING = "TERMINATING", t.TERMINATED = "TERMINATED", function(e) {
 		e.CUSTOMER = "CUSTOMER", e.AGENT = "AGENT", e.SUPERVISOR = "SUPERVISOR", e.BOT = "BOT", e.SYSTEM = "SYSTEM";
 	}(e.ParticipantType ||= {});
-})(k ||= {});
-var Ke = class {
+})(A ||= {});
+var Je = class {
 	_parameters;
 	constructor(e) {
 		this._parameters = e ?? {};
@@ -1105,66 +1105,66 @@ var Ke = class {
 		this._parameters = {};
 	}
 };
-function qe(e) {
+function Ye(e) {
 	return e.conversations.map(((t) => ({
 		sessionId: e.sessionId,
 		participantId: e.participantId,
 		conversationId: t.conversationId,
 		createdAt: t.createdAt,
-		engagements: e.engagements.filter(((e) => e.conversationId === t.conversationId)).map(Je)
+		engagements: e.engagements.filter(((e) => e.conversationId === t.conversationId)).map(Xe)
 	})));
 }
-function Je(e) {
+function Xe(e) {
 	return {
 		engagementId: e.engagementId,
 		engagementParameters: e.engagementParameters,
-		dialogs: e.dialogs.map(Ye)
+		dialogs: e.dialogs.map(Ze)
 	};
 }
-function Ye(e) {
+function Ze(e) {
 	return {
 		dialogId: e.dialogId,
-		dialogStatus: Xe(e.dialogStatus),
+		dialogStatus: Qe(e.dialogStatus),
 		createdAt: e.createdAt,
 		lastUpdatedAt: e.lastUpdatedAt,
 		participants: e.participants.map(((e) => ({
 			participantId: e.participantId,
-			participantType: Ze(e.participantType),
+			participantType: $e(e.participantType),
 			displayName: e.displayName
 		})))
 	};
 }
-function Xe(e) {
-	switch (e) {
-		case "PENDING": return k.DialogStatus.PENDING;
-		case "ACTIVE": return k.DialogStatus.ACTIVE;
-		case "TERMINATING": return k.DialogStatus.TERMINATING;
-		case "TERMINATED": return k.DialogStatus.TERMINATED;
-	}
-}
-function Ze(e) {
-	switch (e) {
-		case "CUSTOMER": return k.ParticipantType.CUSTOMER;
-		case "AGENT": return k.ParticipantType.AGENT;
-		case "SUPERVISOR": return k.ParticipantType.SUPERVISOR;
-		case "BOT": return k.ParticipantType.BOT;
-		case "SYSTEM": return k.ParticipantType.SYSTEM;
-	}
-}
 function Qe(e) {
+	switch (e) {
+		case "PENDING": return A.DialogStatus.PENDING;
+		case "ACTIVE": return A.DialogStatus.ACTIVE;
+		case "TERMINATING": return A.DialogStatus.TERMINATING;
+		case "TERMINATED": return A.DialogStatus.TERMINATED;
+	}
+}
+function $e(e) {
+	switch (e) {
+		case "CUSTOMER": return A.ParticipantType.CUSTOMER;
+		case "AGENT": return A.ParticipantType.AGENT;
+		case "SUPERVISOR": return A.ParticipantType.SUPERVISOR;
+		case "BOT": return A.ParticipantType.BOT;
+		case "SYSTEM": return A.ParticipantType.SYSTEM;
+	}
+}
+function et(e) {
 	return {
 		name: e.name,
 		enabled: e.enabled ?? !1,
-		properties: e.properties ? $e(e.properties) : {},
-		configurations: e.configurations ? e.configurations.map(Qe) : []
+		properties: e.properties ? tt(e.properties) : {},
+		configurations: e.configurations ? e.configurations.map(et) : []
 	};
 }
-function $e(e) {
+function tt(e) {
 	let t = {};
 	for (let n in e) e[n] && (t[n] = e[n]);
 	return t;
 }
-var et = class {
+var nt = class {
 	sessionId;
 	currentSessionDetails;
 	sessionParameters = {};
@@ -1173,7 +1173,7 @@ var et = class {
 	participantId = void 0;
 	sessionPoller;
 	eventProcessor;
-	logger = h("Session");
+	logger = v("Session");
 	sessionPollingManager;
 	features;
 	endConversationHandlerIds;
@@ -1186,12 +1186,12 @@ var et = class {
 	handleSessionPollResponse(e) {
 		if (this.sessionLatch.isLatched()) {
 			this.currentSessionDetails = e;
-			let t = qe(e);
+			let t = Ye(e);
 			this.logger.debug("handleSessionPollResponse()", "Dispatching conversation sync event", {
 				sessionId: this.sessionId,
 				conversationCount: t.length
 			}), this.eventProcessor.processEvents([{
-				type: g.CONVERSATION_SYNC,
+				type: y.CONVERSATION_SYNC,
 				event: { conversations: t }
 			}]);
 		}
@@ -1203,22 +1203,22 @@ var et = class {
 				conversationId: e.conversationId
 			}), this.conversations.delete(e.conversationId);
 			let t = this.endConversationHandlerIds.get(e.conversationId);
-			t && (this.eventDispatcher.removeModuleEventHandler(g.CONVERSATION_ENDED, t, e.conversationId), this.endConversationHandlerIds.delete(e.conversationId));
+			t && (this.eventDispatcher.removeModuleEventHandler(y.CONVERSATION_ENDED, t, e.conversationId), this.endConversationHandlerIds.delete(e.conversationId));
 		}
 	}
 	handleSessionError() {
 		this.sessionLatch.isLatched() && (this.logger.warn("handleSessionError()", "Session poller reported a session error, dispatching event", { sessionId: this.sessionId }), this.sessionPoller.stop(), this.eventProcessor.processEvents([{
-			type: g.SESSION_ERROR,
+			type: y.SESSION_ERROR,
 			event: {
 				sessionId: this.sessionId,
 				eventDate: /* @__PURE__ */ new Date(),
-				errorReason: f.SESSION_NOT_FOUND
+				errorReason: m.SESSION_NOT_FOUND
 			}
 		}]));
 	}
 	cleanup() {
 		this.sessionPoller.stop(), this.sessionPoller.removeListeners(), this.conversations.clear();
-		for (let [e, t] of this.endConversationHandlerIds.entries()) this.eventDispatcher.removeModuleEventHandler(g.CONVERSATION_ENDED, t, e);
+		for (let [e, t] of this.endConversationHandlerIds.entries()) this.eventDispatcher.removeModuleEventHandler(y.CONVERSATION_ENDED, t, e);
 	}
 	getSessionId() {
 		return this.sessionId;
@@ -1245,7 +1245,7 @@ var et = class {
 		this.logger.debug("addConversation()", `Adding conversation (${e.conversationId})`, {
 			sessionId: this.sessionId,
 			conversationId: e.conversationId
-		}), this.conversations.set(e.conversationId, e), this.endConversationHandlerIds.set(e.conversationId, this.eventDispatcher.addModuleEventHandler(g.CONVERSATION_ENDED, this.handleEndConversation.bind(this), e.conversationId));
+		}), this.conversations.set(e.conversationId, e), this.endConversationHandlerIds.set(e.conversationId, this.eventDispatcher.addModuleEventHandler(y.CONVERSATION_ENDED, this.handleEndConversation.bind(this), e.conversationId));
 	}
 	removeConversation(e) {
 		this.logger.debug("removeConversation()", `Removing conversation (${e})`, {
@@ -1280,16 +1280,16 @@ var et = class {
 };
 (function(e) {
 	e.Idle = "SessionIdleTimer", e.Grace = "SessionGraceTimer";
-})(A ||= {});
-var tt = class {
+})(qe ||= {});
+var rt = class {
 	idleTimer;
 	graceTimer;
 	onIdleTimeoutCallback;
 	onGraceTimeoutCallback;
-	logger = h("InactivityTimerController");
+	logger = v("InactivityTimerController");
 	continuousActivityCount = 0;
 	constructor(e, t) {
-		this.idleTimer = new pe(A.Idle, De, this.onIdleTimeout.bind(this)), this.graceTimer = new pe(A.Grace, Oe, this.onGraceTimeout.bind(this)), this.onIdleTimeoutCallback = e, this.onGraceTimeoutCallback = t;
+		this.idleTimer = new fe(qe.Idle, De, this.onIdleTimeout.bind(this)), this.graceTimer = new fe(qe.Grace, Oe, this.onGraceTimeout.bind(this)), this.onIdleTimeoutCallback = e, this.onGraceTimeoutCallback = t;
 	}
 	setIdleTimeoutDuration(e) {
 		this.logger.debug("setIdleTimeoutDuration", "Setting idle timeout duration", { idleTimeout: e }), this.idleTimer.setDuration(e);
@@ -1304,7 +1304,7 @@ var tt = class {
 		this.stopCurrentTimer(), this.graceTimer.start();
 	}
 	get currentTimer() {
-		return this.idleTimer.isRunning ? A.Idle : this.graceTimer.isRunning ? A.Grace : void 0;
+		return this.idleTimer.isRunning ? qe.Idle : this.graceTimer.isRunning ? qe.Grace : void 0;
 	}
 	reportIntermittentActivity() {
 		this.continuousActivityCount > 0 ? this.logger.debug("reportIntermittentActivity", `Ignoring the request as continuous ${this.continuousActivityCount > 1 ? "activities are" : "activity is"} ongoing.`, { continuousActivityCount: this.continuousActivityCount }) : (this.logger.debug("reportIntermittentActivity", "Resetting inactivity timers."), this.startIdleTimer());
@@ -1319,7 +1319,7 @@ var tt = class {
 		this.idleTimer.isRunning && this.idleTimer.stop(), this.graceTimer.isRunning && this.graceTimer.stop();
 	}
 	stopCurrentTimer() {
-		this.currentTimer === A.Idle ? this.idleTimer.stop() : this.currentTimer === A.Grace && this.graceTimer.stop();
+		this.currentTimer === qe.Idle ? this.idleTimer.stop() : this.currentTimer === qe.Grace && this.graceTimer.stop();
 	}
 	onIdleTimeout() {
 		this.logger.debug("onIdleTimeout", "Idle timeout occurred. Starting grace timer.", { graceDuration: this.graceTimer.getDuration() }), this.startGraceTimer(), this.onIdleTimeoutCallback(this.graceTimer.getDuration());
@@ -1327,7 +1327,7 @@ var tt = class {
 	onGraceTimeout() {
 		this.logger.debug("onGraceTimeout", "Grace timeout occurred."), this.onGraceTimeoutCallback();
 	}
-}, nt = class {
+}, it = class {
 	sessionId;
 	frequency = 6e4;
 	fallbackFrequency = 6e5;
@@ -1341,7 +1341,7 @@ var tt = class {
 	notifyPollResponse;
 	notifySessionError;
 	constructor(e, t, n) {
-		this.isPollingAllowed = !1, this.restController = t, this.config = n, this.sessionId = e, this.logger = h("SessionPoller");
+		this.isPollingAllowed = !1, this.restController = t, this.config = n, this.sessionId = e, this.logger = v("SessionPoller");
 	}
 	async check() {
 		if (this.isPollingAllowed) {
@@ -1353,17 +1353,17 @@ var tt = class {
 				this.logger.warn("check()", "Unexpected error while trying to fetch session details.", {
 					integrationId: this.config.integrationId,
 					sessionId: this.sessionId
-				}, e), l(e) && e.detail === c.SESSION_POLLING_MAX_RETRIES_EXCEEDED.detail ? this.activateFallbackMode() : l(e) && e.detail === c.SESSION_NOT_FOUND.detail && this.notifySessionError?.();
+				}, e), d(e) && e.detail === u.SESSION_POLLING_MAX_RETRIES_EXCEEDED.detail ? this.activateFallbackMode() : d(e) && e.detail === u.SESSION_NOT_FOUND.detail && this.notifySessionError?.();
 			}
 		}
 	}
 	async fetchSession() {
 		let e = await this.restController.send({
-			methodType: D.GET_SESSION.requestType,
-			url: D.GET_SESSION.path(this.config.integrationId, this.sessionId),
+			methodType: O.GET_SESSION.requestType,
+			url: O.GET_SESSION.path(this.config.integrationId, this.sessionId),
 			isUrlFull: !1
 		});
-		if (!e.ok) throw e.status === 404 && (await e.json()).detail === v.SESSION_NOT_FOUND ? new a(c.SESSION_NOT_FOUND) : new a(c.GET_SESSION_UNEXPECTED_STATUS, { metadata: { httpStatus: e.status } });
+		if (!e.ok) throw e.status === 404 && (await e.json()).detail === b.SESSION_NOT_FOUND ? new s(u.SESSION_NOT_FOUND) : new s(u.GET_SESSION_UNEXPECTED_STATUS, { metadata: { httpStatus: e.status } });
 		return e.json();
 	}
 	async getSessionWithRetry() {
@@ -1377,10 +1377,10 @@ var tt = class {
 				sessionId: this.sessionId,
 				consecutiveFailures: t,
 				maxConsecutiveFailures: this.maxConsecutiveFailures
-			}, e), l(e) && e.detail === c.SESSION_NOT_FOUND.detail) throw e;
+			}, e), d(e) && e.detail === u.SESSION_NOT_FOUND.detail) throw e;
 			t++;
 		}
-		if (e === void 0) throw new a(c.SESSION_POLLING_MAX_RETRIES_EXCEEDED);
+		if (e === void 0) throw new s(u.SESSION_POLLING_MAX_RETRIES_EXCEEDED);
 		return e;
 	}
 	enableFallbackMode() {
@@ -1414,34 +1414,34 @@ var tt = class {
 	removeListeners() {
 		this.notifyPollResponse = void 0, this.notifySessionError = void 0;
 	}
-}, rt = class {
+}, at = class {
 	sessionId;
 	eventDispatcher;
 	sessionPollingControls;
 	checkSessionLatch;
 	moduleSubscriptionCount = 0;
-	logger = h("SessionPollingManager");
+	logger = v("SessionPollingManager");
 	constructor(e, t, n, r) {
 		this.sessionId = e, this.eventDispatcher = t, this.sessionPollingControls = n, this.checkSessionLatch = r;
 	}
 	subscribe(e) {
 		if (this.checkSessionLatch()) {
-			let t = this.eventDispatcher.addModuleEventHandler(g.CONVERSATION_SYNC, e);
+			let t = this.eventDispatcher.addModuleEventHandler(y.CONVERSATION_SYNC, e);
 			return this.moduleSubscriptionCount === 0 && (this.logger.debug("subscribe()", "A module has started listening, starting session poller.", { sessionId: this.sessionId }), this.sessionPollingControls.start()), this.moduleSubscriptionCount++, t;
 		}
 		this.logger.debug("subscribe()", "Ignoring the call as session is invalid", { sessionId: this.sessionId });
 	}
 	unsubscribe(e) {
-		this.checkSessionLatch() ? (this.eventDispatcher.removeModuleEventHandler(g.CONVERSATION_SYNC, e), this.moduleSubscriptionCount--, this.moduleSubscriptionCount === 0 && (this.logger.debug("unsubscribe()", "No modules are listening, stopping the session poller.", { sessionId: this.sessionId }), this.sessionPollingControls.stop())) : this.logger.debug("unsubscribe()", "Ignoring the call as session is invalid", { sessionId: this.sessionId });
+		this.checkSessionLatch() ? (this.eventDispatcher.removeModuleEventHandler(y.CONVERSATION_SYNC, e), this.moduleSubscriptionCount--, this.moduleSubscriptionCount === 0 && (this.logger.debug("unsubscribe()", "No modules are listening, stopping the session poller.", { sessionId: this.sessionId }), this.sessionPollingControls.stop())) : this.logger.debug("unsubscribe()", "Ignoring the call as session is invalid", { sessionId: this.sessionId });
 	}
-}, it = class {
+}, ot = class {
 	#e = /* @__PURE__ */ new Map();
 	#t;
 	#n;
 	#r;
 	constructor(e, t, n) {
 		this.#n = e, this.#t = n("OmniSdkFeatures"), this.#r = n;
-		for (let r of t) this.#e.set(r.name, new at(r, e, n));
+		for (let r of t) this.#e.set(r.name, new st(r, e, n));
 		this.#t.info("constructor", "Parsed session features", {
 			sessionId: this.#n,
 			features: t.map(((e) => ({
@@ -1458,7 +1458,7 @@ var tt = class {
 	}
 	getFeatureOrDefault(e, t) {
 		let n = this.getFeature(e);
-		return n || (n = new at(Pe(t), this.#n, this.#r), this.#e.set(e, n)), n;
+		return n || (n = new st(Pe(t), this.#n, this.#r), this.#e.set(e, n)), n;
 	}
 	getAllFeatures() {
 		return Array.from(this.#e.values());
@@ -1467,7 +1467,7 @@ var tt = class {
 		this.#t.debug("forceDisableAll", "Disabling all features", { sessionId: this.#n });
 		for (let e of this.#e.values()) e.forceDisable();
 	}
-}, at = class e {
+}, st = class e {
 	#e;
 	#t;
 	#n;
@@ -1533,15 +1533,15 @@ var tt = class {
 		});
 		for (let e of this.#i.values()) e.forceDisable();
 	}
-}, ot = { areConversationsClosable: (e) => e.getFeatureOrDefault("conversations", {
+}, ct = { areConversationsClosable: (e) => e.getFeatureOrDefault("conversations", {
 	name: "conversations",
 	properties: { closable: "true" },
 	configurations: []
-}).getRawPropertyOrDefault("closable", "false") === "true" }, st = class {
+}).getRawPropertyOrDefault("closable", "false") === "true" }, lt = class {
 	#e;
 	constructor(e) {
 		this.#e = {};
-		for (let t of e) this.#e[t.name] = new ct(t);
+		for (let t of e) this.#e[t.name] = new ut(t);
 	}
 	hasFeature(e) {
 		return Object.hasOwn(this.#e, e);
@@ -1552,7 +1552,7 @@ var tt = class {
 	getAllFeatures() {
 		return Object.values(this.#e);
 	}
-}, ct = class e {
+}, ut = class e {
 	#e;
 	#t;
 	#n;
@@ -1585,7 +1585,7 @@ var tt = class {
 	getAllSubFeatures() {
 		return Object.values(this.#r);
 	}
-}, lt = class {
+}, dt = class {
 	#e;
 	#t;
 	#n;
@@ -1593,7 +1593,7 @@ var tt = class {
 	#i;
 	#a;
 	constructor(e, t, n, r) {
-		this.#e = e, this.#t = t, this.#n = n, this.#i = r("ConversationChannelsRegistry"), this.#r = /* @__PURE__ */ new Map(), this.#a = new Ue();
+		this.#e = e, this.#t = t, this.#n = n, this.#i = r("ConversationChannelsRegistry"), this.#r = /* @__PURE__ */ new Map(), this.#a = new We();
 	}
 	get #o() {
 		return {
@@ -1643,29 +1643,29 @@ var tt = class {
 	static #e;
 	static #t;
 	static #n;
-	static #r = _e();
-	static #i = he;
-	static #a = h("AvayaInfinityOmniSdk");
+	static #r = ge();
+	static #i = me;
+	static #a = v("AvayaInfinityOmniSdk");
 	static #o = !1;
-	static #s = new tt(((e) => {
+	static #s = new rt(((e) => {
 		this.#r.processEvents([{
-			type: g.IDLE_TIMEOUT,
+			type: y.IDLE_TIMEOUT,
 			event: { gracePeriod: e }
 		}]);
 	}), (() => {
-		this.shutdown(d.USER_INACTIVE);
+		this.shutdown(p.USER_INACTIVE);
 	}));
 	static version() {
 		return "1.0.5";
 	}
 	static #c(e) {
-		w(C.isNonNullableObject(e), "initParams should be an object", this.#a, "validateInitParams()"), this.#l(e.logLevel), w(e.integrationId !== void 0, "integrationId is required", this.#a, "validateInitParams()"), w(C.isString(e.integrationId), "integrationId should be a string", this.#a, "validateInitParams()"), w(e.host !== void 0, "host is required", this.#a, "validateInitParams()"), w(C.isString(e.host), "host should be a string", this.#a, "validateInitParams()"), w(x.notBlank(e.host), "host should not be blank", this.#a, "validateInitParams()"), w(e.token !== void 0, "token is required", this.#a, "validateInitParams()"), w(C.isString(e.token), "token should be a string", this.#a, "validateInitParams()"), w(x.notBlank(e.token), "token should not be blank", this.#a, "validateInitParams()"), w(C.isOptionalAnd.isNumber(e.idleTimeoutDuration), "idleTimeoutDuration should be a number", this.#a, "validateInitParams()"), w(S.isOptionalAnd.between(e.idleTimeoutDuration, ke, Ae), `idleTimeoutDuration should be between ${ke} and ${Ae}`, this.#a, "validateInitParams()"), w(C.isOptionalAnd.isNumber(e.idleShutdownGraceTimeoutDuration), "idleShutdownGraceTimeoutDuration should be a number", this.#a, "validateInitParams()"), w(S.isOptionalAnd.between(e.idleShutdownGraceTimeoutDuration, je, Me), `idleShutdownGraceTimeoutDuration should be between ${je} and ${Me}`, this.#a, "validateInitParams()"), w(e.jwtProvider !== void 0, "JWTProvider is required", this.#a, "validateInitParams()"), w(C.isObject(e.jwtProvider), "JWTProvider should be an object", this.#a, "validateInitParams()"), this.#u(e.displayName, e.sessionParameters);
+		T(w.isNonNullableObject(e), "initParams should be an object", this.#a, "validateInitParams()"), this.#l(e.logLevel), T(e.integrationId !== void 0, "integrationId is required", this.#a, "validateInitParams()"), T(w.isString(e.integrationId), "integrationId should be a string", this.#a, "validateInitParams()"), T(e.host !== void 0, "host is required", this.#a, "validateInitParams()"), T(w.isString(e.host), "host should be a string", this.#a, "validateInitParams()"), T(C.notBlank(e.host), "host should not be blank", this.#a, "validateInitParams()"), T(e.token !== void 0, "token is required", this.#a, "validateInitParams()"), T(w.isString(e.token), "token should be a string", this.#a, "validateInitParams()"), T(C.notBlank(e.token), "token should not be blank", this.#a, "validateInitParams()"), T(w.isOptionalAnd.isNumber(e.idleTimeoutDuration), "idleTimeoutDuration should be a number", this.#a, "validateInitParams()"), T(Ie.isOptionalAnd.between(e.idleTimeoutDuration, ke, Ae), `idleTimeoutDuration should be between ${ke} and ${Ae}`, this.#a, "validateInitParams()"), T(w.isOptionalAnd.isNumber(e.idleShutdownGraceTimeoutDuration), "idleShutdownGraceTimeoutDuration should be a number", this.#a, "validateInitParams()"), T(Ie.isOptionalAnd.between(e.idleShutdownGraceTimeoutDuration, je, Me), `idleShutdownGraceTimeoutDuration should be between ${je} and ${Me}`, this.#a, "validateInitParams()"), T(e.jwtProvider !== void 0, "JWTProvider is required", this.#a, "validateInitParams()"), T(w.isObject(e.jwtProvider), "JWTProvider should be an object", this.#a, "validateInitParams()"), this.#u(e.displayName, e.sessionParameters);
 	}
 	static #l(e) {
-		if (e && !Object.values(u).includes(e)) throw new a(c.INVALID_LOG_LEVEL);
+		if (e && !Object.values(f).includes(e)) throw new s(u.INVALID_LOG_LEVEL);
 	}
 	static setLogLevel(e) {
-		this.#l(e), fe.setLevel(e);
+		this.#l(e), _.setLevel(e);
 	}
 	static getRawLogs() {
 		return ue();
@@ -1681,28 +1681,28 @@ var tt = class {
 			return new Blob([JSON.stringify(n, void 0, 2)], { type: "application/json" });
 		}(this.version());
 	}
-	static async init(e, t = Be) {
-		if (this.#o) throw new a(c.SDK_BUSY);
-		if (this.#n && this.#n.isLatched()) throw new a(c.SESSION_INITIALIZED_ALREADY);
+	static async init(e, t = Ve) {
+		if (this.#o) throw new s(u.SDK_BUSY);
+		if (this.#n && this.#n.isLatched()) throw new s(u.SESSION_INITIALIZED_ALREADY);
 		let n, r;
 		de(), this.#a.info("init()", "Session initialization initiated", { integrationId: e.integrationId });
 		try {
-			this.#o = !0, this.#c(e), fe.setLevel(e.logLevel ?? u.WARN), _.setConfig(e), e.idleTimeoutDuration && this.#s.setIdleTimeoutDuration(e.idleTimeoutDuration), e.idleShutdownGraceTimeoutDuration && this.#s.setGraceTimeoutDuration(e.idleShutdownGraceTimeoutDuration), this.#t = new ve(e.jwtProvider, e.token), this.#e = new Ge(_, this.#t);
+			this.#o = !0, this.#c(e), _.setLevel(e.logLevel ?? f.WARN), ve.setConfig(e), e.idleTimeoutDuration && this.#s.setIdleTimeoutDuration(e.idleTimeoutDuration), e.idleShutdownGraceTimeoutDuration && this.#s.setGraceTimeoutDuration(e.idleShutdownGraceTimeoutDuration), this.#t = new _e(e.jwtProvider, e.token), this.#e = new Ke(ve, this.#t);
 			let i = await this.#e.send({
-				methodType: D.CREATE_SESSION.requestType,
-				url: D.CREATE_SESSION.path(_.integrationId),
+				methodType: O.CREATE_SESSION.requestType,
+				url: O.CREATE_SESSION.path(ve.integrationId),
 				requestBody: JSON.stringify({
 					displayName: e.displayName,
 					sessionParameters: e.sessionParameters,
-					clientType: v.WEB_CLIENT_TYPE
+					clientType: b.WEB_CLIENT_TYPE
 				}),
 				isUrlFull: !1,
-				requestParameters: (/* @__PURE__ */ new Map()).set(D.CREATE_SESSION.queryParams.features, "true")
+				requestParameters: (/* @__PURE__ */ new Map()).set(O.CREATE_SESSION.queryParams.features, "true")
 			});
-			if (r = i.status, !i.ok) throw new a(c.SDK_INIT_FAILED);
-			let o = await i.json();
-			n = o.sessionId;
-			let s = function() {
+			if (r = i.status, !i.ok) throw new s(u.SDK_INIT_FAILED);
+			let a = await i.json();
+			n = a.sessionId;
+			let o = function() {
 				let e = !0;
 				return {
 					release: () => {
@@ -1710,44 +1710,44 @@ var tt = class {
 					},
 					isLatched: () => e
 				};
-			}(), l = new nt(o.sessionId, this.#e, _), d = new rt(o.sessionId, this.#i, l, (() => s.isLatched())), f;
+			}(), c = new it(a.sessionId, this.#e, ve), l = new at(a.sessionId, this.#i, c, (() => o.isLatched())), d;
 			try {
-				f = Array.isArray(o.features) ? o.features.map(Qe) : [];
+				d = Array.isArray(a.features) ? a.features.map(et) : [];
 			} catch (e) {
-				this.#a.warn("init()", "Unexpected error occurred while transforming feature list, falling back to empty list", { sessionId: o.sessionId }, e), f = [];
+				this.#a.warn("init()", "Unexpected error occurred while transforming feature list, falling back to empty list", { sessionId: a.sessionId }, e), d = [];
 			}
-			let p = new it(o.sessionId, f, h), m = new st(f), ee = qe(o).map(((e) => new t({
+			let p = new ot(a.sessionId, d, v), m = new lt(d), h = Ye(a).map(((e) => new t({
 				conversationId: e.conversationId,
 				conversationDetails: e,
-				conversationStatusChecker: new Le(),
+				conversationStatusChecker: new Re(),
 				restController: this.#e,
 				jwt: this.#t,
-				config: _,
-				isSessionValid: s.isLatched,
-				loggerFactory: h,
+				config: ve,
+				isSessionValid: o.isLatched,
+				loggerFactory: v,
 				eventDispatcher: this.#i,
 				inactivityTimerController: this.#s,
-				contextParameters: new Ke(),
-				sessionPollingManager: d,
+				contextParameters: new Je(),
+				sessionPollingManager: l,
 				features: p,
-				participantRegistry: Ie.createInstance(e.conversationId, e.sessionId, s.isLatched, h),
-				channelRegistry: new lt(o.sessionId, e.conversationId, ot.areConversationsClosable(p), h)
+				participantRegistry: Le.createInstance(e.conversationId, e.sessionId, o.isLatched, v),
+				channelRegistry: new dt(a.sessionId, e.conversationId, ct.areConversationsClosable(p), v)
 			})));
-			this.#n = new et(o, ee, s, this.#r, l, d, p, he);
-			let te = {
-				displayName: o.displayName,
-				sessionParameters: o.sessionParameters,
-				conversations: ee,
+			this.#n = new nt(a, h, o, this.#r, c, l, p, me);
+			let g = {
+				displayName: a.displayName,
+				sessionParameters: a.sessionParameters,
+				conversations: h,
 				participantId: this.#n.getParticipantId(),
 				featureConfigs: m
 			};
-			return this.#s.startIdleTimer(), this.#i.addModuleEventHandler(g.SESSION_ERROR, this.#d.bind(this)), this.#r.processEvents([{
-				type: g.INITIALIZED,
-				event: te
+			return this.#s.startIdleTimer(), this.#i.addModuleEventHandler(y.SESSION_ERROR, this.#d.bind(this)), this.#r.processEvents([{
+				type: y.INITIALIZED,
+				event: g
 			}]), this.#a.info("init()", "Session initialized", {
 				sessionId: n,
-				conversationCount: ee.length
-			}), te;
+				conversationCount: h.length
+			}), g;
 		} catch (t) {
 			throw t instanceof Error && this.#a.error("init()", "Failed to initialize the session", {
 				integrationId: e.integrationId,
@@ -1759,54 +1759,54 @@ var tt = class {
 		}
 	}
 	static getDefaultConversation() {
-		if (this.#o) throw new a(c.SDK_BUSY);
-		if (!this.#n || !this.#n.isLatched()) throw new a(c.SDK_NOT_INITIALIZED);
+		if (this.#o) throw new s(u.SDK_BUSY);
+		if (!this.#n || !this.#n.isLatched()) throw new s(u.SDK_NOT_INITIALIZED);
 		return this.#n.getConversations()[0];
 	}
-	static async createConversation(e = Be) {
-		if (this.#o) throw new a(c.SDK_BUSY);
-		if (!this.#n || !this.#n.isLatched()) throw new a(c.SDK_NOT_INITIALIZED);
-		let t = ot.areConversationsClosable(this.#n.getFeatures());
-		if (!t) throw new a(c.CONVERSATIONS_NOT_CLOSABLE);
+	static async createConversation(e = Ve) {
+		if (this.#o) throw new s(u.SDK_BUSY);
+		if (!this.#n || !this.#n.isLatched()) throw new s(u.SDK_NOT_INITIALIZED);
+		let t = ct.areConversationsClosable(this.#n.getFeatures());
+		if (!t) throw new s(u.CONVERSATIONS_NOT_CLOSABLE);
 		let n;
 		try {
 			let r = await this.#e.send({
-				methodType: D.CREATE_CONVERSATION.requestType,
-				url: D.CREATE_CONVERSATION.path(_.integrationId),
+				methodType: O.CREATE_CONVERSATION.requestType,
+				url: O.CREATE_CONVERSATION.path(ve.integrationId),
 				requestBody: JSON.stringify({ sessionId: this.#n.getSessionId() }),
 				isUrlFull: !1
 			});
 			if (n = r.status, !r.ok) {
 				let e = await r.json();
-				throw r.status === 400 && e.detail === v.MAX_CONVERSATIONS_REACHED ? new a(c.MAX_CONVERSATIONS_REACHED) : new a(c.CREATE_CONVERSATION_FAILED);
+				throw r.status === 400 && e.detail === b.MAX_CONVERSATIONS_REACHED ? new s(u.MAX_CONVERSATIONS_REACHED) : new s(u.CREATE_CONVERSATION_FAILED);
 			}
-			let i = await r.json(), o = {
+			let i = await r.json(), a = {
 				conversationId: i.conversationId,
 				participantId: this.#n.getParticipantId(),
 				createdAt: i.createdAt,
 				sessionId: this.#n.getSessionId(),
 				engagements: []
-			}, s = new e({
-				conversationId: o.conversationId,
-				conversationDetails: o,
-				conversationStatusChecker: new Le(),
+			}, o = new e({
+				conversationId: a.conversationId,
+				conversationDetails: a,
+				conversationStatusChecker: new Re(),
 				restController: this.#e,
 				jwt: this.#t,
-				config: _,
+				config: ve,
 				isSessionValid: this.#n.getLatchChecker(),
-				loggerFactory: h,
+				loggerFactory: v,
 				eventDispatcher: this.#i,
 				inactivityTimerController: this.#s,
-				contextParameters: new Ke({}),
+				contextParameters: new Je({}),
 				sessionPollingManager: this.#n.getSessionPollingManager(),
 				features: this.#n.getFeatures(),
-				participantRegistry: Ie.createInstance(o.conversationId, o.sessionId, this.#n.getLatchChecker(), h),
-				channelRegistry: new lt(this.#n.getSessionId(), o.conversationId, t, h)
+				participantRegistry: Le.createInstance(a.conversationId, a.sessionId, this.#n.getLatchChecker(), v),
+				channelRegistry: new dt(this.#n.getSessionId(), a.conversationId, t, v)
 			});
-			return this.#n.addConversation(s), this.#a.info("createConversation()", "Created new conversation", {
+			return this.#n.addConversation(o), this.#a.info("createConversation()", "Created new conversation", {
 				sessionId: this.#n.getSessionId(),
-				conversationId: o.conversationId
-			}), s;
+				conversationId: a.conversationId
+			}), o;
 		} catch (e) {
 			throw this.#a.error("createConversation()", "Error occurred while creating conversation.", {
 				sessionId: this.#n.getSessionId(),
@@ -1815,19 +1815,19 @@ var tt = class {
 		}
 	}
 	static setJwt(e) {
-		if (this.#o) throw new a(c.SDK_BUSY);
-		if (!this.#n || !this.#n.isLatched()) throw new a(c.SDK_NOT_INITIALIZED);
+		if (this.#o) throw new s(u.SDK_BUSY);
+		if (!this.#n || !this.#n.isLatched()) throw new s(u.SDK_NOT_INITIALIZED);
 		this.#t.setJwtToken(e);
 	}
 	static async shutdown(e) {
-		if (this.#o) throw new a(c.SDK_BUSY);
-		if (!this.#n || !this.#n.isLatched()) throw new a(c.SDK_NOT_INITIALIZED);
+		if (this.#o) throw new s(u.SDK_BUSY);
+		if (!this.#n || !this.#n.isLatched()) throw new s(u.SDK_NOT_INITIALIZED);
 		this.#a.info("shutdown()", "Session shutdown initiated", {
 			sessionId: this.#n.getSessionId(),
 			reason: e
 		});
 		try {
-			this.#o = !0, this.#n.cleanup(), e !== d.USER_INACTIVE && this.#s.stopAllTimers();
+			this.#o = !0, this.#n.cleanup(), e !== p.USER_INACTIVE && this.#s.stopAllTimers();
 			let t = {
 				sessionId: this.#n.getSessionId(),
 				eventDate: /* @__PURE__ */ new Date(),
@@ -1835,8 +1835,8 @@ var tt = class {
 			}, n;
 			e && (n = /* @__PURE__ */ new Map(), n.set("reason", e));
 			let r = await this.#e.send({
-				methodType: D.TERMINATE_SESSION.requestType,
-				url: D.TERMINATE_SESSION.path(_.integrationId, this.#n.getSessionId()),
+				methodType: O.TERMINATE_SESSION.requestType,
+				url: O.TERMINATE_SESSION.path(ve.integrationId, this.#n.getSessionId()),
 				isUrlFull: !1,
 				requestParameters: n
 			});
@@ -1844,7 +1844,7 @@ var tt = class {
 				sessionId: this.#n.getSessionId(),
 				httpStatus: r.status
 			}), await this.#r.processEvents([{
-				type: g.SHUTDOWN,
+				type: y.SHUTDOWN,
 				event: t
 			}]), this.#t.stop(), this.#i.removeAllClientHandlers(), this.#i.removeAllModuleHandlers(), this.#a.info("shutdown()", "Session terminated", {
 				sessionId: this.#n.getSessionId(),
@@ -1857,38 +1857,38 @@ var tt = class {
 		}
 	}
 	static resetIdleTimeout() {
-		if (this.#o) throw new a(c.SDK_BUSY);
-		if (!this.#n || !this.#n.isLatched()) throw new a(c.SDK_NOT_INITIALIZED);
+		if (this.#o) throw new s(u.SDK_BUSY);
+		if (!this.#n || !this.#n.isLatched()) throw new s(u.SDK_NOT_INITIALIZED);
 		this.#a.debug("resetIdleTimeout()", "Activity reported by client", { sessionId: this.#n.getSessionId() }), this.#s.reportIntermittentActivity();
 	}
 	static addSdkInitializedListener(e) {
-		if (this.#n?.isLatched()) throw this.#a.error("addSdkInitializedListener()", c.SESSION_INITIALIZED_ALREADY.message, { sessionId: this.#n?.getSessionId() }), new a(c.SESSION_INITIALIZED_ALREADY);
-		return w(C.isFunction(e), "eventHandler should be a function", this.#a, "addSdkInitializedListener()"), this.#i.addClientEventHandler(g.INITIALIZED, e);
+		if (this.#n?.isLatched()) throw this.#a.error("addSdkInitializedListener()", u.SESSION_INITIALIZED_ALREADY.message, { sessionId: this.#n?.getSessionId() }), new s(u.SESSION_INITIALIZED_ALREADY);
+		return T(w.isFunction(e), "eventHandler should be a function", this.#a, "addSdkInitializedListener()"), this.#i.addClientEventHandler(y.INITIALIZED, e);
 	}
 	static removeSdkInitializedListener(e) {
-		this.#i.removeClientEventHandler(g.INITIALIZED, e);
+		this.#i.removeClientEventHandler(y.INITIALIZED, e);
 	}
 	static addSdkShutdownListener(e) {
-		return w(C.isFunction(e), "eventHandler should be a function", this.#a, "addSdkShutdownListener()"), this.#i.addClientEventHandler(g.SHUTDOWN, e);
+		return T(w.isFunction(e), "eventHandler should be a function", this.#a, "addSdkShutdownListener()"), this.#i.addClientEventHandler(y.SHUTDOWN, e);
 	}
 	static removeSdkShutdownListener(e) {
-		this.#i.removeClientEventHandler(g.SHUTDOWN, e);
+		this.#i.removeClientEventHandler(y.SHUTDOWN, e);
 	}
 	static addIdleTimeOutInvokedListener(e) {
-		return w(C.isFunction(e), "eventHandler should be a function", this.#a, "addIdleTimeOutInvokedListener()"), this.#i.addClientEventHandler(g.IDLE_TIMEOUT, e);
+		return T(w.isFunction(e), "eventHandler should be a function", this.#a, "addIdleTimeOutInvokedListener()"), this.#i.addClientEventHandler(y.IDLE_TIMEOUT, e);
 	}
 	static removeIdleTimeOutInvokedListener(e) {
-		this.#i.removeClientEventHandler(g.IDLE_TIMEOUT, e);
+		this.#i.removeClientEventHandler(y.IDLE_TIMEOUT, e);
 	}
 	static #u(e, t) {
-		w(x.isOptionalAnd.notMoreThan(e, ye), "Invalid displayName", this.#a, "validateSessionParams()"), w(C.isOptionalAnd.isRecord(t, be, xe, Se), "Invalid session parameters", this.#a, "validateSessionParams()");
+		T(C.isOptionalAnd.notMoreThan(e, ye), "Invalid displayName", this.#a, "validateSessionParams()"), T(w.isOptionalAnd.isRecord(t, be, xe, Se), "Invalid session parameters", this.#a, "validateSessionParams()");
 	}
 	static #d(e) {
-		this.#a.warn("handleSessionErrorEvent()", v.SESSION_ERROR, {
+		this.#a.warn("handleSessionErrorEvent()", b.SESSION_ERROR, {
 			sessionId: e.sessionId,
 			eventDate: e.eventDate,
 			errorReason: e.errorReason
-		}), e.errorReason === f.SESSION_NOT_FOUND && this.shutdown(d.UNKNOWN);
+		}), e.errorReason === m.SESSION_NOT_FOUND && this.shutdown(p.UNKNOWN);
 	}
 }, M = {
 	INVALID_MESSAGE_ELEMENT_TYPE: "OSE_MSG_INVALID_MESSAGE_ELEMENT_TYPE",
@@ -1910,7 +1910,7 @@ var tt = class {
 	INVALID_MESSAGE_ELEMENT_TYPE: {
 		code: M.INVALID_MESSAGE_ELEMENT_TYPE,
 		detail: "invalid-message-element-type",
-		message: o("Invalid message element type")
+		message: c("Invalid message element type")
 	},
 	INVALID_ELEMENT_TYPE: {
 		code: M.MALFORMED_SERVER_EVENT,
@@ -1925,27 +1925,27 @@ var tt = class {
 	SEND_MESSAGE_FAILED: {
 		code: M.SEND_MESSAGE_FAILED,
 		detail: "send-message-failed",
-		message: o("Failed to send message")
+		message: c("Failed to send message")
 	},
 	SEND_MESSAGE_STATUS_FAILED: {
 		code: M.SEND_MESSAGE_FAILED,
 		detail: "send-message-status-failed",
-		message: o("Failed to acknowledge message delivery status")
+		message: c("Failed to acknowledge message delivery status")
 	},
 	MALICIOUS_CONTENT_DETECTED: {
 		code: M.ATTACHMENT_REJECTED,
 		detail: "malicious-content-detected",
-		message: o("A virus has been detected in the attachment")
+		message: c("A virus has been detected in the attachment")
 	},
 	GENERATE_SIGNED_UPLOAD_URL_FAILED: {
 		code: M.ATTACHMENT_UPLOAD_FAILED,
 		detail: "generate-signed-upload-url-failed",
-		message: o("Failed to Generate Signed Upload URL")
+		message: c("Failed to Generate Signed Upload URL")
 	},
 	UPLOAD_ATTACHMENT_FAILED: {
 		code: M.ATTACHMENT_UPLOAD_FAILED,
 		detail: "upload-attachment-failed",
-		message: o("Failed to upload attachment")
+		message: c("Failed to upload attachment")
 	},
 	UPLOAD_ATTACHMENT_REQUEST_FAILED: {
 		code: M.ATTACHMENT_UPLOAD_FAILED,
@@ -1955,52 +1955,52 @@ var tt = class {
 	LIST_CONVERSATION_MESSAGES_FAILED: {
 		code: M.FETCH_MESSAGES_FAILED,
 		detail: "list-conversation-messages-failed",
-		message: o("Failed to list conversation messages")
+		message: c("Failed to list conversation messages")
 	},
 	FETCHING_ADDITIONAL_MESSAGES_FAILED: {
 		code: M.FETCH_MESSAGES_FAILED,
 		detail: "fetching-additional-messages-failed",
-		message: o("Failed to fetch additional messages")
+		message: c("Failed to fetch additional messages")
 	},
 	FAILED_TO_DOWNLOAD_TRANSCRIPT: {
 		code: M.TRANSCRIPT_UNAVAILABLE,
 		detail: "failed-to-download-transcript",
-		message: o("Failed to download transcript")
+		message: c("Failed to download transcript")
 	},
 	MESSAGING_TRANSCRIPT_UNAVAILABLE: {
 		code: M.TRANSCRIPT_UNAVAILABLE,
 		detail: "messaging-transcript-unavailable",
-		message: o("Messaging transcript unavailable")
+		message: c("Messaging transcript unavailable")
 	},
 	DIALOG_INVALID_STATE: {
 		code: M.INVALID_STATE,
 		detail: "dialog-invalid-state",
-		message: o("Invalid dialog state")
+		message: c("Invalid dialog state")
 	},
 	CREATION_FAILED_ENGAGEMENT_EXISTS: {
 		code: M.INVALID_STATE,
 		detail: "creation-failed-engagement-exists",
-		message: o("Engagement creation failed. Messaging engagement already exists")
+		message: c("Engagement creation failed. Messaging engagement already exists")
 	},
 	OPERATION_ON_DEFUNCT_CONVERSATION: {
 		code: M.INVALID_STATE,
 		detail: "operation-on-defunct-conversation",
-		message: o("No operations allowed on Conversation in CLOSING / CLOSED state")
+		message: c("No operations allowed on Conversation in CLOSING / CLOSED state")
 	},
 	OPERATION_ON_OPEN_CONVERSATION: {
 		code: M.INVALID_STATE,
 		detail: "operation-on-open-conversation",
-		message: o("Operation not allowed on Conversation in OPEN state")
+		message: c("Operation not allowed on Conversation in OPEN state")
 	},
 	OPERATION_ON_CLOSED_CHANNEL: {
 		code: M.INVALID_STATE,
 		detail: "operation-on-closed-channel",
-		message: o("No operations allowed on closed channel")
+		message: c("No operations allowed on closed channel")
 	},
 	OPERATION_ON_ACTIVE_CHANNEL: {
 		code: M.INVALID_STATE,
 		detail: "operation-on-active-channel",
-		message: o("Operation not allowed on active channel")
+		message: c("Operation not allowed on active channel")
 	},
 	RECONNECT_WITHOUT_STREAM_FAILURE: {
 		code: M.INVALID_STATE,
@@ -2010,54 +2010,54 @@ var tt = class {
 	SESSION_NOT_FOUND: {
 		code: M.SESSION_ENDED,
 		detail: "session-not-found",
-		message: o("Session not found")
+		message: c("Session not found")
 	},
 	ENGAGEMENT_NOT_FOUND: {
 		code: M.CONVERSATION_NOT_FOUND,
 		detail: "engagement-not-found",
-		message: o("Engagement not found")
+		message: c("Engagement not found")
 	},
 	ENGAGEMENT_ABSENT_IN_CONVERSATION: {
 		code: M.CONVERSATION_NOT_FOUND,
 		detail: "engagement-absent-in-conversation",
-		message: o("Engagement not found in conversation")
+		message: c("Engagement not found in conversation")
 	},
 	CREATION_FAILED_CONVERSATION_NOT_FOUND: {
 		code: M.CONVERSATION_NOT_FOUND,
 		detail: "creation-failed-conversation-not-found",
-		message: o("Engagement creation failed. Conversation not found")
+		message: c("Engagement creation failed. Conversation not found")
 	},
 	JOIN_FAILED_CONVERSATION_NOT_FOUND: {
 		code: M.CONVERSATION_NOT_FOUND,
 		detail: "join-failed-conversation-not-found",
-		message: o("Join failed. Conversation not found")
+		message: c("Join failed. Conversation not found")
 	},
 	JWT_INVALID: {
 		code: M.JWT_INVALID,
-		message: o("Invalid JWT")
+		message: c("Invalid JWT")
 	},
 	SERVER_UNREACHABLE: {
 		code: M.SERVER_UNREACHABLE,
-		message: o("Server is unreachable")
+		message: c("Server is unreachable")
 	},
 	OPERATION_TIMEOUT: {
 		code: M.OPERATION_TIMEOUT,
-		message: o("The requested operation took too long to complete")
+		message: c("The requested operation took too long to complete")
 	},
 	SERVER_RESPONDED_UNEXPECTEDLY: {
 		code: M.SERVER_ERROR,
 		detail: "server-responded-unexpectedly",
-		message: o("Server responded unexpectedly")
+		message: c("Server responded unexpectedly")
 	},
 	GET_SESSION_FAILED: {
 		code: M.SERVER_ERROR,
 		detail: "get-session-failed",
-		message: o("Failed to get session details")
+		message: c("Failed to get session details")
 	},
 	CREATE_DIALOG_FAILED: {
 		code: M.SERVER_ERROR,
 		detail: "create-dialog-failed",
-		message: o("Failed to create dialog")
+		message: c("Failed to create dialog")
 	},
 	LIST_CONVERSATION_UNEXPECTED_STATUS: {
 		code: M.SERVER_ERROR,
@@ -2140,15 +2140,15 @@ var tt = class {
 		message: "eventTransformer: Missing participant in toParticipantEvent"
 	}
 };
-function ut(e) {
-	return a.is(e) && e.code.startsWith("OSE_MSG_");
+function ft(e) {
+	return s.is(e) && e.code.startsWith("OSE_MSG_");
 }
-var P, dt, F, I, L, ft, pt, mt;
+var P, pt, F, I, L, mt, ht, gt;
 (function(e) {
 	e.PLAINTEXT = "PLAINTEXT", e.HTML = "HTML", e.MARKDOWN = "MARKDOWN";
 })(P ||= {}), function(e) {
 	e.PENDING = "PENDING", e.ACTIVE = "ACTIVE", e.TERMINATING = "TERMINATING", e.TERMINATED = "TERMINATED";
-}(dt ||= {}), function(e) {
+}(pt ||= {}), function(e) {
 	e.TEXT = "text", e.IMAGE = "image", e.FILE = "file", e.REPLY = "reply", e.POST_BACK = "postback", e.LOCATION = "location", e.CAROUSEL = "carousel";
 }(F ||= {}), function(e) {
 	e.LINK = "link", e.POST_BACK = "postback", e.REPLY = "reply", e.LOCATION_REQUEST = "locationRequest";
@@ -2156,13 +2156,13 @@ var P, dt, F, I, L, ft, pt, mt;
 	e.TEXT = "text", e.IMAGE = "image", e.FILE = "file", e.POST_BACK = "postback", e.REPLY = "reply", e.LOCATION = "location";
 }(L ||= {}), function(e) {
 	e.POST_BACK = "postback", e.REPLY = "reply";
-}(ft ||= {}), function(e) {
+}(mt ||= {}), function(e) {
 	e.Reconnection = "LongPollingReconnectionTimer";
-}(pt ||= {}), function(e) {
+}(ht ||= {}), function(e) {
 	e.PENDING = "pending", e.SENT = "sent", e.DELIVERED = "delivered", e.FAILED = "failed";
-}(mt ||= {});
+}(gt ||= {});
 var R = {
-	...v,
+	...b,
 	MESSAGING_CHANNEL_NAME: "messaging",
 	CREATE_ENGAGEMENT_FAILED: "Failed to create engagement",
 	LONG_POLLING_STARTING: "Starting long polling",
@@ -2229,7 +2229,7 @@ var R = {
 	DELIVERY_ACK_BATCH_SIZE: 50,
 	DELIVERY_ACK_RETRY_ATTEMPTS: 3,
 	DELIVERY_ACK_RETRY_DELAY_MS: 500
-}, ht = "messaging", gt = {
+}, _t = "messaging", vt = {
 	botname: "botname",
 	considerSentOnDelivered: "considerSentOnDelivered"
 }, z = {
@@ -2362,7 +2362,7 @@ var R = {
 		},
 		name: { shouldNotBeLessThan: "Attachment file name should not be empty string" }
 	}
-}), _t = 4096, vt = 1, yt = 1, bt = 512, xt = 512, St = 2048, Ct = -90, wt = 90, Tt = -180, Et = 180, Dt = 50, Ot = 512, kt = 1, At = 50, jt = 50, Mt = 1, V = class {
+}), yt = 4096, bt = 1, xt = 1, St = 512, Ct = 512, wt = 2048, Tt = -90, Et = 90, Dt = -180, Ot = 180, kt = 50, At = 512, jt = 1, Mt = 50, Nt = 50, Pt = 1, V = class {
 	static areConversationsClosable(e) {
 		return e.getFeatureOrDefault("conversations", {
 			name: "conversations",
@@ -2391,11 +2391,11 @@ var R = {
 	static getMaxAttachmentSize(e) {
 		if (e.hasSubFeature("attachments")) {
 			let t = e.getSubFeature("attachments")?.getRawProperty("maxAttachmentSizeMb"), n = Number(t);
-			return isNaN(n) ? jt : n;
+			return isNaN(n) ? Nt : n;
 		}
-		return jt;
+		return Nt;
 	}
-}, Nt = class {
+}, Ft = class {
 	static isEngagementExistsResponse(e, t) {
 		return !(e !== 400 || !t.violations?.some(((e) => e.field === "engagementId" && e.message === R.MESSAGING_ENGAGEMENT_EXISTS)));
 	}
@@ -2456,14 +2456,14 @@ var R = {
 			case L.LOCATION: return F.LOCATION;
 			case L.POST_BACK: return F.POST_BACK;
 			case L.REPLY: return F.REPLY;
-			default: throw new a(N.INVALID_MESSAGE_ELEMENT_TYPE);
+			default: throw new s(N.INVALID_MESSAGE_ELEMENT_TYPE);
 		}
 	}
 	static isMaliciousContentDetectedResponse(e, t) {
 		return e === 400 && t.title === "VALIDATION_FAILED" && (t.violations?.some(((e) => e.field === "attachment" && e.code === 9001)) ?? !1);
 	}
 };
-function Pt(e, t) {
+function It(e, t) {
 	let n = parseInt(e, 10);
 	switch (t.toLowerCase()) {
 		case "seconds": return 1e3 * n;
@@ -2472,7 +2472,7 @@ function Pt(e, t) {
 		default: return 0;
 	}
 }
-function Ft(e) {
+function Lt(e) {
 	let t = `^${e.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*")}$`;
 	return new RegExp(t);
 }
@@ -2484,76 +2484,76 @@ var U = class {
 			errorReason: t
 		};
 		r.debug("dispatchSessionErrorEvent()", "Dispatching session error event", i), n.processEvents([{
-			type: g.SESSION_ERROR,
+			type: y.SESSION_ERROR,
 			event: i
 		}]);
 	}
 	static isSessionNotFoundResponse(e, t) {
 		return e === 404 && t.detail === R.SESSION_NOT_FOUND;
 	}
-}, It, Lt, Rt, zt;
+}, Rt, zt, Bt, Vt;
 (function(e) {
 	e.PENDING = "PENDING", e.ACTIVE = "ACTIVE", e.TERMINATING = "TERMINATING", e.TERMINATED = "TERMINATED";
-})(It ||= {}), function(e) {
+})(Rt ||= {}), function(e) {
 	e[e.AddParticipant = 0] = "AddParticipant", e[e.RemoveParticipant = 1] = "RemoveParticipant";
-}(Lt ||= {}), function(e) {
+}(zt ||= {}), function(e) {
 	e.WEB = "web";
-}(Rt ||= {}), function(e) {
+}(Bt ||= {}), function(e) {
 	e.SELF = "SELF", e.EXISTING = "EXISTING", e.REMOTE = "REMOTE";
-}(zt ||= {});
+}(Vt ||= {});
 var W = {
 	GET_SESSION: {
-		requestType: E.GET,
+		requestType: D.GET,
 		path: (e, t) => `/v1/messaging-integrations/${e}/sessions/${t}`
 	},
 	CREATE_ENGAGEMENT: {
-		requestType: E.POST,
+		requestType: D.POST,
 		path: (e) => `/v1/messaging-integrations/${e}/engagements`
 	},
 	SEND_MESSAGE: {
-		requestType: E.POST,
+		requestType: D.POST,
 		path: (e, t) => `/v1/messaging-integrations/${e}/engagements/${t}/messages`
 	},
 	SEND_MESSAGE_WITH_ATTACHMENT: {
-		requestType: E.POST,
+		requestType: D.POST,
 		path: (e, t, n) => `/v1/${e}/${t}/engagements/${n}/attachments`
 	},
 	JOIN_ENGAGEMENT: {
-		requestType: E.POST,
+		requestType: D.POST,
 		path: (e, t) => `/v1/messaging-integrations/${e}/engagements/${t}:join`
 	},
 	LIST_CONVERSATION: {
-		requestType: E.GET,
+		requestType: D.GET,
 		path: (e, t, n, r, i, a) => `/v1/messaging-integrations/${e}/conversations/${t}/messages?sessionId=${n}&conversationSessionId=${r}&pageSize=${i}&pageNumber=${a}&orderby=desc`
 	},
 	GENERATE_UPLOAD_URL: {
-		requestType: E.POST,
+		requestType: D.POST,
 		path: (e, t) => `/v1/messaging-integrations/${e}/engagements/${t}:generateUploadUrl`
 	},
 	SEND_TYPING_INDICATOR: {
-		requestType: E.POST,
+		requestType: D.POST,
 		path: (e, t) => `/v1/messaging-integrations/${e}/engagements/${t}:typing`
 	},
 	DOWNLOAD_TRANSCRIPT: {
-		requestType: E.POST,
+		requestType: D.POST,
 		path: (e, t) => `/v1/messaging-integrations/${e}/conversations/${t}/transcript`
 	},
 	SEND_MESSAGE_STATUS: {
-		requestType: E.POST,
+		requestType: D.POST,
 		path: (e) => `/v1/messaging-integrations/${e}/messages/status`
 	}
 };
-function Bt(e) {
+function Ht(e) {
 	return {
-		elementType: Vt(e.elementType),
+		elementType: Ut(e.elementType),
 		elementText: {
 			text: e.elementText.text,
-			textFormat: Ht(e.elementText.textFormat)
+			textFormat: Wt(e.elementText.textFormat)
 		},
-		richMediaPayload: e.richMediaPayload ? Ut(e.richMediaPayload) : void 0
+		richMediaPayload: e.richMediaPayload ? Gt(e.richMediaPayload) : void 0
 	};
 }
-function Vt(e) {
+function Ut(e) {
 	switch (e) {
 		case "text": return F.TEXT;
 		case "location": return F.LOCATION;
@@ -2562,20 +2562,20 @@ function Vt(e) {
 		case "file": return F.FILE;
 		case "image": return F.IMAGE;
 		case "carousel": return F.CAROUSEL;
-		default: throw new a(N.INVALID_ELEMENT_TYPE);
+		default: throw new s(N.INVALID_ELEMENT_TYPE);
 	}
 }
-function Ht(e) {
+function Wt(e) {
 	switch (e) {
 		case "PLAINTEXT": return P.PLAINTEXT;
 		case "HTML": return P.HTML;
 		case "MARKDOWN": return P.MARKDOWN;
 	}
 }
-function Ut(e) {
+function Gt(e) {
 	let t = {};
 	var n, r;
-	return e.selectedAction && (t.selectedAction = Wt(e.selectedAction)), e.actions && (t.actions = e.actions.map(Wt)), e.items && (t.items = e.items.map(Kt)), e.coordinates && (t.coordinates = {
+	return e.selectedAction && (t.selectedAction = Kt(e.selectedAction)), e.actions && (t.actions = e.actions.map(Kt)), e.items && (t.items = e.items.map(Jt)), e.coordinates && (t.coordinates = {
 		lat: (n = e.coordinates).lat,
 		long: n.long
 	}), e.location && (t.location = {
@@ -2583,33 +2583,33 @@ function Ut(e) {
 		name: r.name
 	}), e.attachmentIds && (t.attachmentIds = e.attachmentIds), t;
 }
-function Wt(e) {
+function Kt(e) {
 	return {
-		type: Gt(e.type.toUpperCase()),
+		type: qt(e.type.toUpperCase()),
 		text: e.text,
 		payload: e.payload,
 		iconUrl: e.iconUrl,
 		uri: e.uri
 	};
 }
-function Gt(e) {
+function qt(e) {
 	switch (e) {
 		case "POSTBACK": return I.POST_BACK;
 		case "REPLY": return I.REPLY;
 		case "LINK": return I.LINK;
 		case "LOCATIONREQUEST": return I.LOCATION_REQUEST;
-		default: throw new a(N.INVALID_ACTION_TYPE);
+		default: throw new s(N.INVALID_ACTION_TYPE);
 	}
 }
-function Kt(e) {
+function Jt(e) {
 	return {
 		title: e.title,
 		mediaUrl: e.mediaUrl,
 		description: e.description,
-		actions: e.actions.map(Wt)
+		actions: e.actions.map(Kt)
 	};
 }
-function qt(e) {
+function Yt(e) {
 	return {
 		attachmentId: e.attachmentId,
 		contentType: e.contentType,
@@ -2618,51 +2618,51 @@ function qt(e) {
 		attachmentUrl: e.url
 	};
 }
-function Jt(e) {
+function Xt(e) {
 	return {
 		dialogId: e.dialogId,
-		dialogStatus: Yt(e.dialogStatus),
+		dialogStatus: Zt(e.dialogStatus),
 		createdAt: e.createdAt,
 		lastUpdatedAt: e.lastUpdatedAt,
 		participants: e.participants.map(((e) => ({
 			participantId: e.participantId,
-			participantType: Xt(e.participantType),
+			participantType: Qt(e.participantType),
 			displayName: e.displayName
 		})))
 	};
 }
-function Yt(e) {
-	switch (e) {
-		case "PENDING": return k.DialogStatus.PENDING;
-		case "ACTIVE": return k.DialogStatus.ACTIVE;
-		case "TERMINATING": return k.DialogStatus.TERMINATING;
-		case "TERMINATED": return k.DialogStatus.TERMINATED;
-	}
-}
-function Xt(e) {
-	switch (e) {
-		case "CUSTOMER": return k.ParticipantType.CUSTOMER;
-		case "AGENT": return k.ParticipantType.AGENT;
-		case "SUPERVISOR": return k.ParticipantType.SUPERVISOR;
-		case "BOT": return k.ParticipantType.BOT;
-		case "SYSTEM": return k.ParticipantType.SYSTEM;
-	}
-}
 function Zt(e) {
+	switch (e) {
+		case "PENDING": return A.DialogStatus.PENDING;
+		case "ACTIVE": return A.DialogStatus.ACTIVE;
+		case "TERMINATING": return A.DialogStatus.TERMINATING;
+		case "TERMINATED": return A.DialogStatus.TERMINATED;
+	}
+}
+function Qt(e) {
+	switch (e) {
+		case "CUSTOMER": return A.ParticipantType.CUSTOMER;
+		case "AGENT": return A.ParticipantType.AGENT;
+		case "SUPERVISOR": return A.ParticipantType.SUPERVISOR;
+		case "BOT": return A.ParticipantType.BOT;
+		case "SYSTEM": return A.ParticipantType.SYSTEM;
+	}
+}
+function $t(e) {
 	return {
 		messageId: e.messageId,
 		conversationId: e.conversationId,
-		body: Bt(e.body),
+		body: Ht(e.body),
 		_messageIndex: e.messageIndex,
 		parentMessageId: e.parentMessageId,
-		senderParticipant: b(e.senderParticipantId, e.participantType, y.MESSAGING, e.displayName),
+		senderParticipant: S(e.senderParticipantId, e.participantType, x.MESSAGING, e.displayName),
 		receivedAt: e.receivedAt ? new Date(e.receivedAt) : /* @__PURE__ */ new Date(),
 		lastUpdatedAt: e.lastUpdatedAt ? new Date(e.lastUpdatedAt) : /* @__PURE__ */ new Date(),
-		attachments: e.attachments?.map(((e) => qt(e))),
+		attachments: e.attachments?.map(((e) => Yt(e))),
 		canned: e.canned ?? !1
 	};
 }
-var Qt = class {
+var en = class {
 	engagementId;
 	conversationId;
 	defaultDialog;
@@ -2675,11 +2675,11 @@ var Qt = class {
 	creationSource;
 	constructor(e, t, n, r, i, a, o) {
 		var s;
-		this.sessionId = e, this.restController = r, this.config = i, this.logger = a("MessagingEngagement"), this.creationSource = o, this.engagementId = n.engagementId, this.conversationId = t, this.engagementStatus = It.PENDING, this.defaultDialog = {
+		this.sessionId = e, this.restController = r, this.config = i, this.logger = a("MessagingEngagement"), this.creationSource = o, this.engagementId = n.engagementId, this.conversationId = t, this.engagementStatus = Rt.PENDING, this.defaultDialog = {
 			dialogId: (s = n.dialogs[0]).dialogId,
 			createdAt: s.createdAt,
 			lastUpdatedAt: s.lastUpdatedAt,
-			participants: s.participants.map(((e) => b(e.participantId, e.participantType, y.MESSAGING, e.displayName)))
+			participants: s.participants.map(((e) => S(e.participantId, e.participantType, x.MESSAGING, e.displayName)))
 		}, this.engagementParameters = n.engagementParameters ?? {};
 	}
 	get participants() {
@@ -2716,7 +2716,7 @@ var Qt = class {
 		});
 		if (!e.ok) {
 			let t = await e.json();
-			throw V.isConversationNotFoundResponse(e.status, t) ? new a(N.JOIN_FAILED_CONVERSATION_NOT_FOUND, { metadata: { httpStatus: e.status } }) : new a(N.JOIN_ENGAGEMENT_FAILED, { metadata: { httpStatus: e.status } });
+			throw V.isConversationNotFoundResponse(e.status, t) ? new s(N.JOIN_FAILED_CONVERSATION_NOT_FOUND, { metadata: { httpStatus: e.status } }) : new s(N.JOIN_ENGAGEMENT_FAILED, { metadata: { httpStatus: e.status } });
 		}
 		return await e.json();
 	}
@@ -2724,7 +2724,7 @@ var Qt = class {
 		if (this.logger.debug("sendMessage()", R.SEND_MESSAGE_CALLED, {
 			...this.logContext,
 			correlationId: t
-		}), this.engagementStatus !== It.ACTIVE) throw this.logger.error("sendMessage()", "Invalid dialog state: " + this.engagementStatus, this.logContext), new a(N.DIALOG_INVALID_STATE);
+		}), this.engagementStatus !== Rt.ACTIVE) throw this.logger.error("sendMessage()", "Invalid dialog state: " + this.engagementStatus, this.logContext), new s(N.DIALOG_INVALID_STATE);
 		let i = {
 			dialogId: this.defaultDialog.dialogId,
 			sessionId: this.sessionId,
@@ -2732,21 +2732,21 @@ var Qt = class {
 			body: e,
 			correlationId: t,
 			cannedMessages: n.length > 0 ? n : void 0
-		}, o = await this.restController.send({
+		}, a = await this.restController.send({
 			methodType: W.SEND_MESSAGE.requestType,
 			url: W.SEND_MESSAGE.path(this.config.integrationId, this.engagementId),
 			isUrlFull: !1,
 			requestBody: JSON.stringify(i)
 		});
-		if (!o.ok) {
-			let e = await o.json();
-			throw H.isMaliciousContentDetectedResponse(o.status, e) ? new a(N.MALICIOUS_CONTENT_DETECTED, { metadata: { httpStatus: o.status } }) : U.isSessionNotFoundResponse(o.status, e) ? new a(N.SESSION_NOT_FOUND, { metadata: { httpStatus: o.status } }) : new a(N.SEND_MESSAGE_FAILED, { metadata: { httpStatus: o.status } });
+		if (!a.ok) {
+			let e = await a.json();
+			throw H.isMaliciousContentDetectedResponse(a.status, e) ? new s(N.MALICIOUS_CONTENT_DETECTED, { metadata: { httpStatus: a.status } }) : U.isSessionNotFoundResponse(a.status, e) ? new s(N.SESSION_NOT_FOUND, { metadata: { httpStatus: a.status } }) : new s(N.SEND_MESSAGE_FAILED, { metadata: { httpStatus: a.status } });
 		}
-		let s = await o.json();
-		return s.conversationId ||= this.conversationId, Zt(s);
+		let o = await a.json();
+		return o.conversationId ||= this.conversationId, $t(o);
 	}
 	async sendAlternativeAttachmentMessage(e, t) {
-		if (this.logger.debug("sendAlternativeAttachmentMessage()", R.SEND_MESSAGE_CALLED, this.logContext), this.engagementStatus !== It.ACTIVE) throw this.logger.error("sendAlternativeAttachmentMessage()", "Invalid dialog state: " + this.engagementStatus, this.logContext), new a(N.DIALOG_INVALID_STATE);
+		if (this.logger.debug("sendAlternativeAttachmentMessage()", R.SEND_MESSAGE_CALLED, this.logContext), this.engagementStatus !== Rt.ACTIVE) throw this.logger.error("sendAlternativeAttachmentMessage()", "Invalid dialog state: " + this.engagementStatus, this.logContext), new s(N.DIALOG_INVALID_STATE);
 		let n = new FormData();
 		n.append("attachment", e.attachment), n.append("text", e.text), n.append("correlationId", t);
 		let r = await this.restController.send({
@@ -2757,10 +2757,10 @@ var Qt = class {
 		});
 		if (!r.ok) {
 			let e = await r.json();
-			throw H.isMaliciousContentDetectedResponse(r.status, e) ? new a(N.MALICIOUS_CONTENT_DETECTED, { metadata: { httpStatus: r.status } }) : U.isSessionNotFoundResponse(r.status, e) ? new a(N.SESSION_NOT_FOUND, { metadata: { httpStatus: r.status } }) : new a(N.SEND_MESSAGE_FAILED, { metadata: { httpStatus: r.status } });
+			throw H.isMaliciousContentDetectedResponse(r.status, e) ? new s(N.MALICIOUS_CONTENT_DETECTED, { metadata: { httpStatus: r.status } }) : U.isSessionNotFoundResponse(r.status, e) ? new s(N.SESSION_NOT_FOUND, { metadata: { httpStatus: r.status } }) : new s(N.SEND_MESSAGE_FAILED, { metadata: { httpStatus: r.status } });
 		}
 	}
-}, G, K, q, $t, J, Y, en, tn;
+}, G, K, q, tn, J, Y, nn, rn;
 (function(e) {
 	e.ENGAGEMENT_ERROR = "ENGAGEMENT_ERROR", e.EVENT_STREAM_CONNECTED = "EVENT_STREAM_CONNECTED", e.EVENT_STREAM_CLOSED = "EVENT_STREAM_CLOSED", e.EVENT_STREAM_FAILED = "EVENT_STREAM_FAILED", e.EVENT_STREAM_CONNECTING = "EVENT_STREAM_CONNECTING", e.MESSAGE_ARRIVED = "MESSAGE_ARRIVED", e.MESSAGE_DELIVERED = "MESSAGE_DELIVERED", e.INBOUND_TYPING_STARTED = "INBOUND_TYPING_STARTED", e.INBOUND_TYPING_STOPPED = "INBOUND_TYPING_STOPPED", e.INBOUND_TYPING_UPDATE = "INBOUND_TYPING_UPDATE";
 })(G ||= {}), function(e) {
@@ -2769,16 +2769,16 @@ var Qt = class {
 	e.UNAUTHORIZED = "UNAUTHORIZED", e.FORBIDDEN = "FORBIDDEN", e.SDK_SESSION_INVALID = "SDK_SESSION_INVALID", e.SERVER_ERROR = "SERVER_ERROR", e.SERVER_UNREACHABLE = "SERVER_UNREACHABLE", e.UNEXPECTED_ERROR = "UNEXPECTED_ERROR", e.RECONNECTION_TIMEOUT = "RECONNECTION_TIMEOUT";
 }(q ||= {}), function(e) {
 	e.STARTED = "STARTED", e.STOPPED = "STOPPED";
-}($t ||= {}), function(e) {
+}(tn ||= {}), function(e) {
 	e.TYPING = "TYPING", e.STOPPED = "STOPPED", e.BACKOFF = "BACKOFF", e.DEACTIVATED = "DEACTIVATED";
 }(J ||= {}), function(e) {
 	e.Success = "Success", e.InvalidRequest = "InvalidRequest", e.TokenIssues = "TokenIssues", e.CapabilityDisabled = "CapabilityDisabled", e.SessionNotFound = "SessionNotFound", e.EngagementNotFound = "EngagementNotFound", e.DialogNotFound = "DialogNotFound", e.IntegrationNotFound = "IntegrationNotFound", e.PathNotFound = "PathNotFound", e.TooManyRequests = "TooManyRequests", e.InternalServerError = "InternalServerError", e.BadGateway = "BadGateway", e.ServiceUnavailable = "ServiceUnavailable", e.NetworkError = "NetworkError", e.Unknown = "Unknown";
 }(Y ||= {}), function(e) {
 	e.STARTED = "STARTED", e.STOPPED = "STOPPED";
-}(en ||= {}), function(e) {
+}(nn ||= {}), function(e) {
 	e[e.SENDING_START = 0] = "SENDING_START", e[e.WAITING = 1] = "WAITING", e[e.SENDING_STOP = 2] = "SENDING_STOP";
-}(tn ||= {});
-var nn = class e {
+}(rn ||= {});
+var an = class e {
 	static exponentialValues = [
 		1,
 		2,
@@ -2808,7 +2808,7 @@ var nn = class e {
 	get currentMilliseconds() {
 		return 60 * this.current * 1e3;
 	}
-}, rn = class {
+}, on = class {
 	logger;
 	restController;
 	isSessionValid;
@@ -2833,7 +2833,7 @@ var nn = class e {
 	scheduleTypingStop = !1;
 	typingStatus = void 0;
 	constructor(e, t, n, r, i, a, o, s) {
-		this.sessionId = e, this.integrationId = t, this.currentState = J.STOPPED, this.isSessionValid = n, this.logger = r("OutboundTypingEventsController"), this.restController = i, this.featureConfiguration = s, this.tokenValidityGate = !0, this.lastTypingTime = 0, this.backoffSequenceGenerator = new nn(this.maxBackoffDuration / 6e4), this.eventProcessor = a, this.eventDispatcher = o, this.shutdownHandler = this.eventDispatcher.addModuleEventHandler(g.SHUTDOWN, this.handleShutdown.bind(this)), this.jwtStatusUpdateHandler = this.eventDispatcher.addModuleEventHandler(g.JWT_STATE_CHANGED, this.handleJwtStatusUpdate.bind(this)), this.isCapableOutbound || (this.logger.debug("constructor()", "Deactivating as the outbound typing indicators are disabled.", this.logContext), this.deactivate());
+		this.sessionId = e, this.integrationId = t, this.currentState = J.STOPPED, this.isSessionValid = n, this.logger = r("OutboundTypingEventsController"), this.restController = i, this.featureConfiguration = s, this.tokenValidityGate = !0, this.lastTypingTime = 0, this.backoffSequenceGenerator = new an(this.maxBackoffDuration / 6e4), this.eventProcessor = a, this.eventDispatcher = o, this.shutdownHandler = this.eventDispatcher.addModuleEventHandler(y.SHUTDOWN, this.handleShutdown.bind(this)), this.jwtStatusUpdateHandler = this.eventDispatcher.addModuleEventHandler(y.JWT_STATE_CHANGED, this.handleJwtStatusUpdate.bind(this)), this.isCapableOutbound || (this.logger.debug("constructor()", "Deactivating as the outbound typing indicators are disabled.", this.logContext), this.deactivate());
 	}
 	get sessionValidityGate() {
 		return this.isSessionValid();
@@ -2865,7 +2865,7 @@ var nn = class e {
 		};
 	}
 	handleJwtStatusUpdate(e) {
-		e.status === me.REINITIALIZED && (this.tokenValidityGate = !0);
+		e.status === pe.REINITIALIZED && (this.tokenValidityGate = !0);
 	}
 	handleShutdown() {
 		this.logger.debug("handleShutdown()", "Deactivating as the Omni SDK is shutting down.", this.logContext), this.deactivate();
@@ -2906,19 +2906,19 @@ var nn = class e {
 		return this.getDelta(e) < this.maxTypingDelta;
 	}
 	async processTypingStarted() {
-		this.typingStatus = tn.SENDING_START;
-		let e = await this.sendTypingUpdate(en.STARTED);
+		this.typingStatus = rn.SENDING_START;
+		let e = await this.sendTypingUpdate(nn.STARTED);
 		if (this.currentState === J.TYPING) {
-			if (e !== Y.Success) return this.logger.debug("processTypingStarted()", `Typing [${en.STARTED}] update failed with reason: ${e}`, this.logContext), this.scheduleTypingStop = !1, void this.handleTypingUpdateError(e);
+			if (e !== Y.Success) return this.logger.debug("processTypingStarted()", `Typing [${nn.STARTED}] update failed with reason: ${e}`, this.logContext), this.scheduleTypingStop = !1, void this.handleTypingUpdateError(e);
 			if (this.scheduleTypingStop) return this.logger.debug("processTypingStarted()", "Executing scheduled stop request.", this.logContext), this.processTypingStopped();
-			this.typingStatus = tn.WAITING, this.scheduleNextTypingCheck();
+			this.typingStatus = rn.WAITING, this.scheduleNextTypingCheck();
 		} else this.logger.debug("processTypingStarted()", `Returning as the state is not ${J.TYPING}.`, this.logContext);
 	}
 	async processTypingStopped() {
-		this.typingStatus = tn.SENDING_STOP, this.clearNextTypingCheck();
-		let e = await this.sendTypingUpdate(en.STOPPED);
+		this.typingStatus = rn.SENDING_STOP, this.clearNextTypingCheck();
+		let e = await this.sendTypingUpdate(nn.STOPPED);
 		if (this.currentState === J.TYPING) {
-			if (this.scheduleTypingStop = !1, e !== Y.Success) return this.logger.debug("processTypingStopped()", `Typing [${en.STOPPED}] update failed with reason: ${e}`, this.logContext), void this.handleTypingUpdateError(e);
+			if (this.scheduleTypingStop = !1, e !== Y.Success) return this.logger.debug("processTypingStopped()", `Typing [${nn.STOPPED}] update failed with reason: ${e}`, this.logContext), void this.handleTypingUpdateError(e);
 			this.typingStatus = void 0, this.transitionToStopped();
 		} else this.logger.debug("processTypingStopped()", `Returning as the state is not ${J.TYPING}.`, this.logContext);
 	}
@@ -2948,11 +2948,11 @@ var nn = class e {
 					...this.logContext,
 					reason: e
 				}), this.eventProcessor.processEvents([{
-					type: g.SESSION_ERROR,
+					type: y.SESSION_ERROR,
 					event: {
 						sessionId: this.sessionId,
 						eventDate: /* @__PURE__ */ new Date(),
-						errorReason: f.SESSION_NOT_FOUND
+						errorReason: m.SESSION_NOT_FOUND
 					}
 				}]);
 				break;
@@ -3033,7 +3033,7 @@ var nn = class e {
 		}
 	}
 	deactivate() {
-		this.selfTransitionGate(J.DEACTIVATED) || (this.changeState(J.DEACTIVATED), this.eventDispatcher.removeModuleEventHandler(g.SHUTDOWN, this.shutdownHandler), this.eventDispatcher.removeModuleEventHandler(g.JWT_STATE_CHANGED, this.jwtStatusUpdateHandler), this.typingStatus = void 0, this.clearBackoff(), this.clearNextTypingCheck(), this.scheduleTypingStop = !1, this.backoffSequenceGenerator.reset());
+		this.selfTransitionGate(J.DEACTIVATED) || (this.changeState(J.DEACTIVATED), this.eventDispatcher.removeModuleEventHandler(y.SHUTDOWN, this.shutdownHandler), this.eventDispatcher.removeModuleEventHandler(y.JWT_STATE_CHANGED, this.jwtStatusUpdateHandler), this.typingStatus = void 0, this.clearBackoff(), this.clearNextTypingCheck(), this.scheduleTypingStop = !1, this.backoffSequenceGenerator.reset());
 	}
 	get state() {
 		return this.currentState;
@@ -3049,10 +3049,10 @@ var nn = class e {
 	}
 	clearTyping() {
 		if (this.isTyping) switch (this.typingStatus) {
-			case tn.SENDING_START:
+			case rn.SENDING_START:
 				this.logger.debug("clearTyping()", "Typing update API call in progress, scheduling typing stop request to commence once API call is finished.", this.logContext), this.scheduleTypingStop = !0;
 				break;
-			case tn.WAITING:
+			case rn.WAITING:
 				this.logger.debug("clearTyping()", "Sending typing stop request now", this.logContext), this.processTypingStopped();
 				break;
 			default: this.logger.debug("clearTyping()", `Ignoring clearTyping() as typing status is ${this.typingStatus}`, {
@@ -3061,14 +3061,14 @@ var nn = class e {
 			});
 		}
 	}
-}, an = {
+}, sn = {
 	name: z.TypingIndicators.name,
 	properties: {
 		[z.TypingIndicators.PropertyKeys.inbound]: "false",
 		[z.TypingIndicators.PropertyKeys.outbound]: "false"
 	},
 	configurations: []
-}, on = class {
+}, cn = class {
 	participantId;
 	countdownDuration;
 	countdownCompletionHandler;
@@ -3090,7 +3090,7 @@ var nn = class e {
 	get isRunning() {
 		return !!this.handle;
 	}
-}, sn = class {
+}, ln = class {
 	eventDispatcher;
 	eventProcessor;
 	isSessionValid;
@@ -3106,10 +3106,10 @@ var nn = class e {
 	participantRegistry;
 	featureConfiguration;
 	constructor(e, t, n, r, i, a, o, s) {
-		this.eventDispatcher = r, this.eventProcessor = i, this.isSessionValid = a, this.conversationId = t, this.sessionId = e, this.participantRegistry = s, this.featureConfiguration = n, this.logger = o("InboundTypingEventsController"), this.participantRemovedHandler = this.eventDispatcher.addModuleEventHandler(g.PARTICIPANT_DISCONNECTED, this.handleParticipantRemoved.bind(this), this.conversationId), this.typingEventHandler = this.eventDispatcher.addModuleEventHandler(G.INBOUND_TYPING_UPDATE, this.handleTypingUpdate.bind(this), this.conversationId), this.shutdownHandler = this.eventDispatcher.addModuleEventHandler(g.SHUTDOWN, this.handleShutdown.bind(this)), this.engagementErrorHandler = this.eventDispatcher.addModuleEventHandler(G.ENGAGEMENT_ERROR, this.handleEngagementError.bind(this), this.conversationId);
+		this.eventDispatcher = r, this.eventProcessor = i, this.isSessionValid = a, this.conversationId = t, this.sessionId = e, this.participantRegistry = s, this.featureConfiguration = n, this.logger = o("InboundTypingEventsController"), this.participantRemovedHandler = this.eventDispatcher.addModuleEventHandler(y.PARTICIPANT_DISCONNECTED, this.handleParticipantRemoved.bind(this), this.conversationId), this.typingEventHandler = this.eventDispatcher.addModuleEventHandler(G.INBOUND_TYPING_UPDATE, this.handleTypingUpdate.bind(this), this.conversationId), this.shutdownHandler = this.eventDispatcher.addModuleEventHandler(y.SHUTDOWN, this.handleShutdown.bind(this)), this.engagementErrorHandler = this.eventDispatcher.addModuleEventHandler(G.ENGAGEMENT_ERROR, this.handleEngagementError.bind(this), this.conversationId);
 	}
 	validateSession() {
-		if (!this.isSessionValid()) throw new a(N.SDK_NOT_INITIALIZED);
+		if (!this.isSessionValid()) throw new s(N.SDK_NOT_INITIALIZED);
 	}
 	get logContext() {
 		return {
@@ -3118,7 +3118,7 @@ var nn = class e {
 		};
 	}
 	cleanup() {
-		this.stopAllCountdowns(), this.eventDispatcher.removeModuleEventHandler(g.PARTICIPANT_DISCONNECTED, this.participantRemovedHandler, this.conversationId), this.eventDispatcher.removeModuleEventHandler(G.INBOUND_TYPING_UPDATE, this.typingEventHandler, this.conversationId), this.eventDispatcher.removeModuleEventHandler(g.SHUTDOWN, this.shutdownHandler), this.eventDispatcher.removeModuleEventHandler(G.ENGAGEMENT_ERROR, this.engagementErrorHandler, this.conversationId), this.participantTypingCountdowns.clear(), this.logger.debug("cleanup()", "Cleaned up InboundTypingEventController", this.logContext);
+		this.stopAllCountdowns(), this.eventDispatcher.removeModuleEventHandler(y.PARTICIPANT_DISCONNECTED, this.participantRemovedHandler, this.conversationId), this.eventDispatcher.removeModuleEventHandler(G.INBOUND_TYPING_UPDATE, this.typingEventHandler, this.conversationId), this.eventDispatcher.removeModuleEventHandler(y.SHUTDOWN, this.shutdownHandler), this.eventDispatcher.removeModuleEventHandler(G.ENGAGEMENT_ERROR, this.engagementErrorHandler, this.conversationId), this.participantTypingCountdowns.clear(), this.logger.debug("cleanup()", "Cleaned up InboundTypingEventController", this.logContext);
 	}
 	get isCapableInbound() {
 		let e = this.featureConfiguration.getRawProperty(z.TypingIndicators.PropertyKeys.inbound);
@@ -3137,16 +3137,16 @@ var nn = class e {
 			...this.logContext,
 			participantId: t.participantId
 		});
-		if (t.participantType === p.CUSTOMER) return;
+		if (t.participantType === h.CUSTOMER) return;
 		let n = this.participantTypingCountdowns.get(t.participantId);
 		switch (e.updateType) {
-			case $t.STARTED:
+			case tn.STARTED:
 				n ? n.isRunning ? n.restart() : (this.participantTypingCountdowns.get(t.participantId).start(), this.dispatchTypingStarted(t)) : (this.logger.debug("handleTypingUpdate()", `Created countdown for Participant (${t.participantId})`, {
 					...this.logContext,
 					participantId: t.participantId
 				}), this.createCountdownForParticipant(t.participantId).start(), this.dispatchTypingStarted(t));
 				break;
-			case $t.STOPPED:
+			case tn.STOPPED:
 				n?.isRunning && (n.stop(), this.dispatchTypingStopped(t));
 				break;
 			default: this.logger.debug("handleTypingUpdate()", `Ignoring typing update of unknown type ${e.updateType} for Participant (${t.participantId})`, {
@@ -3174,7 +3174,7 @@ var nn = class e {
 		});
 	}
 	createCountdownForParticipant(e) {
-		let t = new on(e, this.countdownDuration, this.handleParticipantTypingCountdown.bind(this));
+		let t = new cn(e, this.countdownDuration, this.handleParticipantTypingCountdown.bind(this));
 		return this.participantTypingCountdowns.set(e, t), t;
 	}
 	dispatchTypingStarted(e) {
@@ -3213,7 +3213,7 @@ var nn = class e {
 	handleShutdown() {
 		this.cleanup(), this.logger.debug("handleShutdown()", "Stopped inbound typing indicators as the Omni SDK is shutting down", this.logContext);
 	}
-}, cn = class {
+}, un = class {
 	static officialName = z.TypingIndicators.name;
 	isSessionValid;
 	conversationId;
@@ -3223,14 +3223,14 @@ var nn = class e {
 	outboundTypingEventsController;
 	featureConfiguration;
 	constructor(e, t, n, r, i, a, o, s, c, l) {
-		this.isSessionValid = a, this.conversationId = t, this.sessionId = e, this.logger = o("TypingIndicatorsController"), n.hasSubFeature(z.TypingIndicators.name) || this.logger.debug("constructor()", "Typing indicators configuration not found, falling back to default configuration.", this.logContext), this.featureConfiguration = n.getSubFeatureOrDefault(z.TypingIndicators.name, an), this.inboundTypingEventsController = new sn(e, t, this.featureConfiguration, r, i, a, o, s), this.outboundTypingEventsController = new rn(e, l.integrationId, a, o, c, i, r, this.featureConfiguration), this.logger.debug("constructor()", "Typing indicators feature status", {
+		this.isSessionValid = a, this.conversationId = t, this.sessionId = e, this.logger = o("TypingIndicatorsController"), n.hasSubFeature(z.TypingIndicators.name) || this.logger.debug("constructor()", "Typing indicators configuration not found, falling back to default configuration.", this.logContext), this.featureConfiguration = n.getSubFeatureOrDefault(z.TypingIndicators.name, sn), this.inboundTypingEventsController = new ln(e, t, this.featureConfiguration, r, i, a, o, s), this.outboundTypingEventsController = new on(e, l.integrationId, a, o, c, i, r, this.featureConfiguration), this.logger.debug("constructor()", "Typing indicators feature status", {
 			...this.logContext,
 			enabledInbound: this.isCapableInbound,
 			enabledOutbound: this.isCapableOutbound
 		});
 	}
 	validateSession() {
-		if (!this.isSessionValid()) throw new a(N.SDK_NOT_INITIALIZED);
+		if (!this.isSessionValid()) throw new s(N.SDK_NOT_INITIALIZED);
 	}
 	get logContext() {
 		return {
@@ -3259,7 +3259,7 @@ var nn = class e {
 	deactivate() {
 		this.logger.debug("deactivate()", "Deactivating typing indicators feature", this.logContext), this.outboundTypingEventsController.deactivate();
 	}
-}, ln = class {
+}, dn = class {
 	queue = [];
 	isProcessing = !1;
 	restController;
@@ -3296,7 +3296,7 @@ var nn = class e {
 	async sendBatch(e) {
 		let t = (/* @__PURE__ */ new Date()).toISOString(), n = JSON.stringify({ items: e.map(((e) => ({
 			messageId: e,
-			status: mt.DELIVERED,
+			status: gt.DELIVERED,
 			statusTimestamp: t
 		}))) });
 		for (let t = 1; t <= R.DELIVERY_ACK_RETRY_ATTEMPTS; t++) {
@@ -3333,8 +3333,8 @@ var nn = class e {
 			reason: "exhausted retries, batch dropped"
 		});
 	}
-}, un = (e) => {
-	if (!e.message || !e.participant) throw new a(N.INVALID_MESSAGE_EVENT);
+}, fn = (e) => {
+	if (!e.message || !e.participant) throw new s(N.INVALID_MESSAGE_EVENT);
 	return {
 		conversationId: e.conversationId,
 		eventDate: new Date(e.eventDate),
@@ -3343,42 +3343,42 @@ var nn = class e {
 		_messageIndex: e.message.messageIndex,
 		receivedAt: e.message?.receivedAt ? new Date(e.message.receivedAt) : /* @__PURE__ */ new Date(),
 		lastUpdatedAt: e.message?.lastUpdatedAt ? new Date(e.message.lastUpdatedAt) : /* @__PURE__ */ new Date(),
-		body: Bt(e.message.body),
-		senderParticipant: b(e.participant.participantId, e.participant.participantType, y.MESSAGING, e.participant.displayName),
-		attachments: e.message.attachments?.map(((e) => qt(e))),
+		body: Ht(e.message.body),
+		senderParticipant: S(e.participant.participantId, e.participant.participantType, x.MESSAGING, e.participant.displayName),
+		attachments: e.message.attachments?.map(((e) => Yt(e))),
 		_correlationId: e.message.correlationId
 	};
-}, dn = (e) => gn(e), fn = (e) => gn(e), pn = (e) => ({
+}, pn = (e) => vn(e), mn = (e) => vn(e), hn = (e) => ({
 	eventDate: new Date(e.eventDate),
 	type: e.error.type,
 	title: e.error.title,
 	detail: e.error.detail
-}), mn = (e) => {
-	if (!e.participant) throw new a(N.TYPING_UPDATE_PARTICIPANT_MISSING);
+}), gn = (e) => {
+	if (!e.participant) throw new s(N.TYPING_UPDATE_PARTICIPANT_MISSING);
 	return {
 		conversationId: e.conversationId,
 		eventDate: new Date(e.eventDate),
-		participant: b(e.participant.participantId, e.participant.participantType, y.MESSAGING, e.participant.displayName),
-		updateType: hn(e.eventType)
+		participant: S(e.participant.participantId, e.participant.participantType, x.MESSAGING, e.participant.displayName),
+		updateType: _n(e.eventType)
 	};
 };
-function hn(e) {
+function _n(e) {
 	switch (e) {
-		case K.TYPING_STARTED: return $t.STARTED;
-		case K.TYPING_STOPPED: return $t.STOPPED;
-		default: throw new a(N.UNKNOWN_TYPING_UPDATE_TYPE);
+		case K.TYPING_STARTED: return tn.STARTED;
+		case K.TYPING_STOPPED: return tn.STOPPED;
+		default: throw new s(N.UNKNOWN_TYPING_UPDATE_TYPE);
 	}
 }
-function gn(e) {
-	if (!e.participant) throw new a(N.PARTICIPANT_EVENT_PARTICIPANT_MISSING);
+function vn(e) {
+	if (!e.participant) throw new s(N.PARTICIPANT_EVENT_PARTICIPANT_MISSING);
 	return {
 		conversationId: e.conversationId,
 		eventDate: new Date(e.eventDate),
-		participant: b(e.participant.participantId, e.participant.participantType, y.MESSAGING, e.participant.displayName),
-		channel: y.MESSAGING
+		participant: S(e.participant.participantId, e.participant.participantType, x.MESSAGING, e.participant.displayName),
+		channel: x.MESSAGING
 	};
 }
-var _n = class {
+var yn = class {
 	logger;
 	eventDispatcher;
 	deliveryAckQueue;
@@ -3387,7 +3387,7 @@ var _n = class {
 		this.logger = e("MessagingEventProcessor"), this.eventDispatcher = t, this.deliveryAckQueue = n, this.isDeliveryNotificationEnabled = r;
 	}
 	async processEvents(e) {
-		this.isDeliveryNotificationEnabled() && this.deliveryAckQueue.add(e.filter(((e) => e.type === K.MESSAGE && (e.event.participant?.participantType === p.AGENT || e.event.participant?.participantType === p.SYSTEM) && e.event.message?.messageId)).map(((e) => e.event.message.messageId)));
+		this.isDeliveryNotificationEnabled() && this.deliveryAckQueue.add(e.filter(((e) => e.type === K.MESSAGE && (e.event.participant?.participantType === h.AGENT || e.event.participant?.participantType === h.SYSTEM) && e.event.message?.messageId)).map(((e) => e.event.message.messageId)));
 		for (let t of e) switch (t.type) {
 			case K.MESSAGE:
 				await this.processAndDispatchMessageEvent(t.event);
@@ -3406,19 +3406,19 @@ var _n = class {
 			case K.TYPING_STOPPED:
 				this.processAndDispatchTypingEvent(t.event);
 				break;
-			case g.SESSION_ERROR:
+			case y.SESSION_ERROR:
 			case G.EVENT_STREAM_CONNECTING:
 			case G.EVENT_STREAM_CONNECTED:
 			case G.EVENT_STREAM_FAILED:
 			case G.EVENT_STREAM_CLOSED:
 				this.eventDispatcher.invokeEventHandler(t.type, t.event);
 				break;
-			case g.PARTICIPANT_SYNC: {
+			case y.PARTICIPANT_SYNC: {
 				let e = t.event.conversationId;
 				this.eventDispatcher.invokeEventHandler(t.type, t.event, e);
 				break;
 			}
-			case g.PARTICIPANT_LIST_UPDATE: {
+			case y.PARTICIPANT_LIST_UPDATE: {
 				let e = t.event.conversationId;
 				this.eventDispatcher.invokeEventHandler(t.type, t.event, e);
 				break;
@@ -3437,32 +3437,32 @@ var _n = class {
 		}
 	}
 	async processAndDispatchMessageEvent(e) {
-		let t = un(e);
-		e.participant.participantType == p.CUSTOMER ? await this.eventDispatcher.invokeEventHandler(G.MESSAGE_DELIVERED, t, t.conversationId) : await this.eventDispatcher.invokeEventHandler(G.MESSAGE_ARRIVED, t, t.conversationId);
+		let t = fn(e);
+		e.participant.participantType == h.CUSTOMER ? await this.eventDispatcher.invokeEventHandler(G.MESSAGE_DELIVERED, t, t.conversationId) : await this.eventDispatcher.invokeEventHandler(G.MESSAGE_ARRIVED, t, t.conversationId);
 	}
 	async processAndDispatchParticipantAddedEvent(e) {
-		let t = dn(e);
-		await this.eventDispatcher.invokeEventHandler(g.PARTICIPANT_ADDED, t, t.conversationId);
+		let t = pn(e);
+		await this.eventDispatcher.invokeEventHandler(y.PARTICIPANT_ADDED, t, t.conversationId);
 	}
 	async processAndDispatchParticipantDisconnectedEvent(e) {
-		let t = fn(e);
-		await this.eventDispatcher.invokeEventHandler(g.PARTICIPANT_DISCONNECTED, t, t.conversationId);
+		let t = mn(e);
+		await this.eventDispatcher.invokeEventHandler(y.PARTICIPANT_DISCONNECTED, t, t.conversationId);
 	}
 	processAndDispatchEngagementErrorEvent(e) {
-		let t = pn(e);
+		let t = hn(e);
 		this.eventDispatcher.invokeEventHandler(G.ENGAGEMENT_ERROR, t, t.conversationId);
 	}
 	processAndDispatchTypingEvent(e) {
-		let t = mn(e);
+		let t = gn(e);
 		this.eventDispatcher.invokeEventHandler(G.INBOUND_TYPING_UPDATE, t, t.conversationId);
 	}
-}, vn, X;
+}, bn, X;
 (function(e) {
 	e.STARTED = "STARTED", e.PAUSED = "PAUSED", e.STOPPED = "STOPPED", e.FAILED = "FAILED";
-})(vn ||= {}), function(e) {
+})(bn ||= {}), function(e) {
 	e[e.Closed = 0] = "Closed", e[e.Connecting = 1] = "Connecting", e[e.Connected = 2] = "Connected", e[e.Retry = 3] = "Retry", e[e.Paused = 4] = "Paused", e[e.Failed = 5] = "Failed";
 }(X ||= {});
-var yn = class {
+var xn = class {
 	restController;
 	config;
 	logger;
@@ -3481,7 +3481,7 @@ var yn = class {
 	missingEventsManager;
 	nonAcknowledgeableEvents = [K.TYPING_STARTED, K.TYPING_STOPPED];
 	constructor(e, t, n, r, i, a) {
-		this.sessionId = e, this.restController = t, this.config = n, this.dispatchedEventIds = /* @__PURE__ */ new Set(), this.latestEventId = null, this.state = new bn(), this.currentDelay = 1, this.nextDelay = 1, this.disconnectionCheckCount = 3, this.maxRequestTimeout = 4e4, this.messagingEventProcessor = i, this.missingEventsManager = a, this.logger = r("LongPollingReceiver"), this.reconnectionTimer = new pe(pt.Reconnection, R.RECONNECTION_TIMEOUT, this.handleReconnectionTimeout.bind(this)), this.isManualRetryInProgress = !1;
+		this.sessionId = e, this.restController = t, this.config = n, this.dispatchedEventIds = /* @__PURE__ */ new Set(), this.latestEventId = null, this.state = new Sn(), this.currentDelay = 1, this.nextDelay = 1, this.disconnectionCheckCount = 3, this.maxRequestTimeout = 4e4, this.messagingEventProcessor = i, this.missingEventsManager = a, this.logger = r("LongPollingReceiver"), this.reconnectionTimer = new fe(ht.Reconnection, R.RECONNECTION_TIMEOUT, this.handleReconnectionTimeout.bind(this)), this.isManualRetryInProgress = !1;
 	}
 	handleReconnectionTimeout() {
 		let e = this.state.isClosed;
@@ -3489,12 +3489,12 @@ var yn = class {
 	}
 	getStatus() {
 		switch (this.state.getState()) {
-			case X.Closed: return vn.STOPPED;
+			case X.Closed: return bn.STOPPED;
 			case X.Connecting:
-			case X.Connected: return vn.STARTED;
+			case X.Connected: return bn.STARTED;
 			case X.Retry:
-			case X.Failed: return vn.FAILED;
-			case X.Paused: return vn.PAUSED;
+			case X.Failed: return bn.FAILED;
+			case X.Paused: return bn.PAUSED;
 		}
 	}
 	async start() {
@@ -3547,13 +3547,13 @@ var yn = class {
 	async checkDisconnection() {
 		for (let e = 0; e < this.disconnectionCheckCount; e++) try {
 			let e = await this.restController.send({
-				methodType: E.GET,
+				methodType: D.GET,
 				url: this.prepareURL(),
 				isUrlFull: !0
 			});
 			if (e !== void 0 && e.status === 200) return !1;
 			let t = await e.json();
-			if (e !== void 0 && U.isSessionNotFoundResponse(e.status, t) && U.dispatchSessionErrorEvent(this.sessionId, f.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), e !== void 0 && (e.status === 401 || e.status === 403)) return !1;
+			if (e !== void 0 && U.isSessionNotFoundResponse(e.status, t) && U.dispatchSessionErrorEvent(this.sessionId, m.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), e !== void 0 && (e.status === 401 || e.status === 403)) return !1;
 		} catch (e) {
 			this.logger.warn("checkDisconnection()", "Error occurred in connecting, retrying", { sessionId: this.sessionId }, e);
 			continue;
@@ -3621,7 +3621,7 @@ var yn = class {
 	}
 	async poll() {
 		if (this.state.isRetry && await this.syntheticDelay(), this.state.isRetry && this.dispatchEventStreamConnecting(), this.pollingAllowed) return this.restController.send({
-			methodType: E.GET,
+			methodType: D.GET,
 			url: this.prepareURL(),
 			isUrlFull: !0,
 			maxRequestTimeout: this.maxRequestTimeout
@@ -3648,7 +3648,7 @@ var yn = class {
 				this.handleNegativeReconnection(), this.logger.debug("processRetryResponse()", "Reconnection failed due to JWT issue", { sessionId: this.sessionId }), this.dispatchEventStreamFailed(q.FORBIDDEN);
 				break;
 			case 404:
-				(await e.json()).detail === R.SESSION_NOT_FOUND ? (this.stop(), U.dispatchSessionErrorEvent(this.sessionId, f.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), this.dispatchEventStreamFailed(q.SDK_SESSION_INVALID)) : this.dispatchEventStreamFailed(q.SERVER_UNREACHABLE);
+				(await e.json()).detail === R.SESSION_NOT_FOUND ? (this.stop(), U.dispatchSessionErrorEvent(this.sessionId, m.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), this.dispatchEventStreamFailed(q.SDK_SESSION_INVALID)) : this.dispatchEventStreamFailed(q.SERVER_UNREACHABLE);
 				break;
 			default: this.logger.error("processRetryResponse()", "Unexpected response from server", {
 				status: e.status,
@@ -3681,7 +3681,7 @@ var yn = class {
 					status: e.status,
 					sessionId: this.sessionId
 				}), e.status === 404 && (await e.json()).detail === R.SESSION_NOT_FOUND) {
-					this.stop(), U.dispatchSessionErrorEvent(this.sessionId, f.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger);
+					this.stop(), U.dispatchSessionErrorEvent(this.sessionId, m.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger);
 					break;
 				}
 				await this.checkDisconnection() && (this.dispatchEventStreamFailed(q.UNEXPECTED_ERROR), this.handleDisconnection());
@@ -3721,7 +3721,7 @@ var yn = class {
 		if (this.state.isFailed) {
 			if (this.isManualRetryInProgress) return void this.logger.debug("retry()", "Manual retry attempt is already in progress. Ignoring the call.", { sessionId: this.sessionId });
 			this.isManualRetryInProgress = !0, this.logger.info("retry()", "Manual reconnect initiated", { sessionId: this.sessionId }), this.restController.send({
-				methodType: E.GET,
+				methodType: D.GET,
 				url: this.prepareURL(),
 				isUrlFull: !0
 			}).then(((e) => {
@@ -3737,7 +3737,7 @@ var yn = class {
 						break;
 					case 404:
 						e.json().then(((e) => {
-							e.detail === R.SESSION_NOT_FOUND ? U.dispatchSessionErrorEvent(this.sessionId, f.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger) : this.logger.warn("retry()", "Manual retry received 404 for a reason other than session-not-found", {
+							e.detail === R.SESSION_NOT_FOUND ? U.dispatchSessionErrorEvent(this.sessionId, m.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger) : this.logger.warn("retry()", "Manual retry received 404 for a reason other than session-not-found", {
 								sessionId: this.sessionId,
 								detail: e.detail
 							});
@@ -3751,7 +3751,7 @@ var yn = class {
 				this.isManualRetryInProgress = !1;
 			}));
 		} else {
-			if (!this.state.isRetry) throw new a(N.RECONNECT_WITHOUT_STREAM_FAILURE);
+			if (!this.state.isRetry) throw new s(N.RECONNECT_WITHOUT_STREAM_FAILURE);
 			this.logger.info("retry()", "Cancelling scheduled backoff for immediate reconnect attempt", { sessionId: this.sessionId }), this.clearSyntheticDelay?.(), this.resetBackoffMechanism();
 		}
 	}
@@ -3764,16 +3764,16 @@ var yn = class {
 				event: e
 			})));
 			r.push(...t.map(((e) => ({
-				type: g.PARTICIPANT_SYNC,
+				type: y.PARTICIPANT_SYNC,
 				event: e
 			})))), this.messagingEventProcessor.processEvents(r), n ? (this.logger.debug("handleMissingEvents()", "Resuming the long polling.", { sessionId: this.sessionId }), this.poll()) : (this.logger.debug("handleMissingEvents()", "Engagement is not valid. Stopping the long polling.", { sessionId: this.sessionId }), this.stop());
 		} catch (e) {
-			this.logger.warn("handleMissingEvents()", "Error occurred during manual retry attempt. Manual retry aborted", { sessionId: this.sessionId }, e), ut(e) && e.detail === N.SESSION_NOT_FOUND.detail ? this.dispatchEventStreamFailed(q.SDK_SESSION_INVALID, !0) : this.dispatchEventStreamFailed(q.UNEXPECTED_ERROR, !0);
+			this.logger.warn("handleMissingEvents()", "Error occurred during manual retry attempt. Manual retry aborted", { sessionId: this.sessionId }, e), ft(e) && e.detail === N.SESSION_NOT_FOUND.detail ? this.dispatchEventStreamFailed(q.SDK_SESSION_INVALID, !0) : this.dispatchEventStreamFailed(q.UNEXPECTED_ERROR, !0);
 		} finally {
 			this.isManualRetryInProgress = !1;
 		}
 	}
-}, bn = class {
+}, Sn = class {
 	state;
 	constructor() {
 		this.state = X.Closed;
@@ -3817,7 +3817,7 @@ var yn = class {
 	toConnected() {
 		this.isClosed || (this.state = X.Connected);
 	}
-}, xn = class {
+}, Cn = class {
 	missingEventsCurators;
 	sessionId;
 	logger;
@@ -3873,7 +3873,7 @@ var yn = class {
 			conversationId: e
 		});
 	}
-}, Sn = class {
+}, wn = class {
 	sessionId;
 	eventReceiver;
 	eventDispatcher;
@@ -3886,7 +3886,7 @@ var yn = class {
 	token;
 	sessionTerminated;
 	constructor(e, t, n, r, i, a, o, s) {
-		this.checkSessionValidity = o, this.eventDispatcher = i, this.sessionId = e, this.logger = r("EventStreamController"), this.missingEventsManager = new xn(e, r), this.sessionTerminated = !1, this.eventReceiver = new yn(e, t, n, r, a, this.missingEventsManager), this.interestedConversations = /* @__PURE__ */ new Set(), this.token = s, this.jwtStatusChangeHandlerId = this.eventDispatcher.addModuleEventHandler(g.JWT_STATE_CHANGED, this.handleJwtStatusChangeEvent.bind(this)), this.shutdownHandlerId = this.eventDispatcher.addModuleEventHandler(g.SHUTDOWN, this.handleShutdown.bind(this));
+		this.checkSessionValidity = o, this.eventDispatcher = i, this.sessionId = e, this.logger = r("EventStreamController"), this.missingEventsManager = new Cn(e, r), this.sessionTerminated = !1, this.eventReceiver = new xn(e, t, n, r, a, this.missingEventsManager), this.interestedConversations = /* @__PURE__ */ new Set(), this.token = s, this.jwtStatusChangeHandlerId = this.eventDispatcher.addModuleEventHandler(y.JWT_STATE_CHANGED, this.handleJwtStatusChangeEvent.bind(this)), this.shutdownHandlerId = this.eventDispatcher.addModuleEventHandler(y.SHUTDOWN, this.handleShutdown.bind(this));
 	}
 	get isSessionValid() {
 		return this.checkSessionValidity() && !this.sessionTerminated;
@@ -3896,10 +3896,10 @@ var yn = class {
 			sessionId: this.sessionId,
 			eventDate: e.eventDate,
 			jwtStatus: e.status
-		}), e.status === me.REINITIALIZED && (this.logger.debug("handleJwtStatusChangeEvent()", "JWT is reinitialized, resuming EventReceiver", { sessionId: this.sessionId }), this.eventReceiver.getStatus() === vn.PAUSED && this.resumeEventReceiver())) : this.logger.debug("handleJwtStatusChangeEvent()", "Session is not valid, ignoring JWT status change event.", { sessionId: this.sessionId });
+		}), e.status === pe.REINITIALIZED && (this.logger.debug("handleJwtStatusChangeEvent()", "JWT is reinitialized, resuming EventReceiver", { sessionId: this.sessionId }), this.eventReceiver.getStatus() === bn.PAUSED && this.resumeEventReceiver())) : this.logger.debug("handleJwtStatusChangeEvent()", "Session is not valid, ignoring JWT status change event.", { sessionId: this.sessionId });
 	}
 	handleShutdown() {
-		this.logger.debug("handleShutdown()", "Received shutdown event, concluding EventStreamController", { sessionId: this.sessionId }), this.sessionTerminated = !0, this.eventReceiver.stop(), this.interestedConversations.clear(), this.missingEventsManager.clean(), this.eventDispatcher.removeModuleEventHandler(g.JWT_STATE_CHANGED, this.jwtStatusChangeHandlerId);
+		this.logger.debug("handleShutdown()", "Received shutdown event, concluding EventStreamController", { sessionId: this.sessionId }), this.sessionTerminated = !0, this.eventReceiver.stop(), this.interestedConversations.clear(), this.missingEventsManager.clean(), this.eventDispatcher.removeModuleEventHandler(y.JWT_STATE_CHANGED, this.jwtStatusChangeHandlerId);
 	}
 	addConversation(e, t) {
 		this.isSessionValid ? (this.interestedConversations.add(e), this.missingEventsManager.addMissingConversationEventsCurator(e, t), this.logger.debug("addConversation()", "Added conversation to interested conversations", {
@@ -3925,64 +3925,64 @@ var yn = class {
 	stopEventReceiver() {
 		this.isSessionValid ? this.eventReceiver.stop() : this.logger.debug("stopEventReceiver()", "Session is not valid, ignoring stopEventReceiver()", { sessionId: this.sessionId });
 	}
-}, Cn, wn, Z, Tn, Q, En, Dn, On, kn, An, jn;
-function Mn(e) {
+}, Tn, En, Z, Dn, Q, On, kn, An, jn, Mn, Nn;
+function Pn(e) {
 	return function(e) {
-		if (!e.eventDispatcher) throw new a(N.EVENT_DISPATCHER_UNAVAILABLE);
-		if (!e.isSessionValid) throw new a(N.SESSION_VALIDITY_CHECK_UNAVAILABLE);
-		if (!e.loggerFactory) throw new a(N.LOGGER_FACTORY_UNAVAILABLE);
-		if (!e.restController) throw new a(N.REST_CONTROLLER_UNAVAILABLE);
-		if (!e.config) throw new a(N.INTERNAL_CONFIG_UNAVAILABLE);
-		if (!e.sessionId) throw new a(N.SESSION_ID_UNAVAILABLE);
-		if (!e.token) throw new a(N.TOKEN_UNAVAILABLE);
-		if (!e.isDeliveryNotificationEnabled) throw new a(N.DELIVERY_NOTIFICATION_FLAG_UNAVAILABLE);
+		if (!e.eventDispatcher) throw new s(N.EVENT_DISPATCHER_UNAVAILABLE);
+		if (!e.isSessionValid) throw new s(N.SESSION_VALIDITY_CHECK_UNAVAILABLE);
+		if (!e.loggerFactory) throw new s(N.LOGGER_FACTORY_UNAVAILABLE);
+		if (!e.restController) throw new s(N.REST_CONTROLLER_UNAVAILABLE);
+		if (!e.config) throw new s(N.INTERNAL_CONFIG_UNAVAILABLE);
+		if (!e.sessionId) throw new s(N.SESSION_ID_UNAVAILABLE);
+		if (!e.token) throw new s(N.TOKEN_UNAVAILABLE);
+		if (!e.isDeliveryNotificationEnabled) throw new s(N.DELIVERY_NOTIFICATION_FLAG_UNAVAILABLE);
 	}(e), function(e) {
-		return Cn !== e.sessionId || wn !== e.token || Z !== e.eventDispatcher || Tn !== e.isSessionValid || Dn !== e.config || kn !== e.restController;
-	}(e) ? (Q = e.loggerFactory("AvayaInfinityMessaging"), Q.info("setMessagingContext()", "Setting Avaya Infinity Messaging context", { sessionId: e.sessionId }), Cn = e.sessionId, wn = e.token, Z = e.eventDispatcher, Tn = e.isSessionValid, Dn = e.config, kn = e.restController, An = new ln(e.restController, e.config, e.loggerFactory), On = new _n(e.loggerFactory, Z, An, e.isDeliveryNotificationEnabled), En = new Sn(e.sessionId, e.restController, e.config, e.loggerFactory, Z, On, e.isSessionValid, e.token), jn && Z.removeClientEventHandler(g.SHUTDOWN, jn), jn = Z.addClientEventHandler(g.SHUTDOWN, Nn), {
-		sessionId: Cn,
+		return Tn !== e.sessionId || En !== e.token || Z !== e.eventDispatcher || Dn !== e.isSessionValid || kn !== e.config || jn !== e.restController;
+	}(e) ? (Q = e.loggerFactory("AvayaInfinityMessaging"), Q.info("setMessagingContext()", "Setting Avaya Infinity Messaging context", { sessionId: e.sessionId }), Tn = e.sessionId, En = e.token, Z = e.eventDispatcher, Dn = e.isSessionValid, kn = e.config, jn = e.restController, Mn = new dn(e.restController, e.config, e.loggerFactory), An = new yn(e.loggerFactory, Z, Mn, e.isDeliveryNotificationEnabled), On = new wn(e.sessionId, e.restController, e.config, e.loggerFactory, Z, An, e.isSessionValid, e.token), Nn && Z.removeClientEventHandler(y.SHUTDOWN, Nn), Nn = Z.addClientEventHandler(y.SHUTDOWN, Fn), {
+		sessionId: Tn,
 		eventDispatcher: Z,
-		eventStreamController: En,
-		isSessionValid: Tn,
-		config: Dn,
-		messagingEventProcessor: On,
-		restController: kn,
-		token: wn,
-		deliveryAckQueue: An
+		eventStreamController: On,
+		isSessionValid: Dn,
+		config: kn,
+		messagingEventProcessor: An,
+		restController: jn,
+		token: En,
+		deliveryAckQueue: Mn
 	}) : {
-		sessionId: Cn,
+		sessionId: Tn,
 		eventDispatcher: Z,
-		eventStreamController: En,
-		messagingEventProcessor: On,
-		isSessionValid: Tn,
-		restController: kn,
-		config: Dn,
-		token: wn,
-		deliveryAckQueue: An
+		eventStreamController: On,
+		messagingEventProcessor: An,
+		isSessionValid: Dn,
+		restController: jn,
+		config: kn,
+		token: En,
+		deliveryAckQueue: Mn
 	};
 }
-function Nn() {
-	Q?.info("clearMessagingContext()", "Cleared Avaya Infinity Messaging context", { sessionId: Cn }), Z = void 0, Q = void 0, Tn = void 0, En = void 0, Dn = void 0, On = void 0, An = void 0, kn = void 0, wn = void 0, Cn = void 0;
+function Fn() {
+	Q?.info("clearMessagingContext()", "Cleared Avaya Infinity Messaging context", { sessionId: Tn }), Z = void 0, Q = void 0, Dn = void 0, On = void 0, kn = void 0, An = void 0, Mn = void 0, jn = void 0, En = void 0, Tn = void 0;
 }
-var Pn;
-function Fn(e, t) {
+var In;
+function Ln(e, t) {
 	return !t.some(((t) => t.messageId === e.messageId)) && !(e.messageIndex && t[0].messageIndex && e.messageIndex > t[0].messageIndex) && !(e.receivedAt && t[0].receivedAt && e.receivedAt > t[0].receivedAt);
 }
-function In(e, t) {
+function Rn(e, t) {
 	for (let n of e) n.conversationId ||= t;
 }
 (function(e) {
 	function t() {
-		if (!Tn?.()) throw Q.error("validateInitialization()", R.SDK_NOT_INITIALIZED), new a(N.SDK_NOT_INITIALIZED);
-		if (!Z) throw Q.error("validateInitialization()", "EventDispatcher is undefined"), new a(N.EVENT_DISPATCHER_UNAVAILABLE);
+		if (!Dn?.()) throw Q.error("validateInitialization()", R.SDK_NOT_INITIALIZED), new s(N.SDK_NOT_INITIALIZED);
+		if (!Z) throw Q.error("validateInitialization()", "EventDispatcher is undefined"), new s(N.EVENT_DISPATCHER_UNAVAILABLE);
 	}
 	e.addEventStreamConnectingListener = function(e) {
-		return t(), w(C.isFunction(e), "handler should be a function", Q, "addEventStreamConnectingListener()"), Z.addClientEventHandler(G.EVENT_STREAM_CONNECTING, e);
+		return t(), T(w.isFunction(e), "handler should be a function", Q, "addEventStreamConnectingListener()"), Z.addClientEventHandler(G.EVENT_STREAM_CONNECTING, e);
 	}, e.addEventStreamConnectedListener = function(e) {
-		return t(), w(C.isFunction(e), "handler should be a function", Q, "addEventStreamConnectedListener()"), Z.addClientEventHandler(G.EVENT_STREAM_CONNECTED, e);
+		return t(), T(w.isFunction(e), "handler should be a function", Q, "addEventStreamConnectedListener()"), Z.addClientEventHandler(G.EVENT_STREAM_CONNECTED, e);
 	}, e.addEventStreamFailedListener = function(e) {
-		return t(), w(C.isFunction(e), "handler should be a function", Q, "addEventStreamFailedListener()"), Z.addClientEventHandler(G.EVENT_STREAM_FAILED, e);
+		return t(), T(w.isFunction(e), "handler should be a function", Q, "addEventStreamFailedListener()"), Z.addClientEventHandler(G.EVENT_STREAM_FAILED, e);
 	}, e.addEventStreamClosedListener = function(e) {
-		return t(), w(C.isFunction(e), "handler should be a function", Q, "addEventStreamClosedListener()"), Z.addClientEventHandler(G.EVENT_STREAM_CLOSED, e);
+		return t(), T(w.isFunction(e), "handler should be a function", Q, "addEventStreamClosedListener()"), Z.addClientEventHandler(G.EVENT_STREAM_CLOSED, e);
 	}, e.removeEventStreamConnectingListener = function(e) {
 		Z?.removeClientEventHandler(G.EVENT_STREAM_CONNECTING, e);
 	}, e.removeEventStreamConnectedListener = function(e) {
@@ -3992,13 +3992,13 @@ function In(e, t) {
 	}, e.removeEventStreamClosedListener = function(e) {
 		Z?.removeClientEventHandler(G.EVENT_STREAM_CLOSED, e);
 	}, e.reconnect = function() {
-		t(), Q?.info("reconnect()", "Manual reconnect invoked"), En.tryReconnection();
+		t(), Q?.info("reconnect()", "Manual reconnect invoked"), On.tryReconnection();
 	}, e.version = function() {
 		return "1.0.5";
 	};
-})(Pn ||= {});
-var Ln = { with: (e, t, n, r, i, o) => ({
-	async fetchMessagesUntilActual(s) {
+})(In ||= {});
+var zn = { with: (e, t, n, r, i, a) => ({
+	async fetchMessagesUntilActual(o) {
 		let c = [], l = e.sdkBasePath + W.LIST_CONVERSATION.path(e.integrationId, t, n, r, 20, 1), u = !0;
 		for (; u;) {
 			let d = await i.send({
@@ -4006,51 +4006,51 @@ var Ln = { with: (e, t, n, r, i, o) => ({
 				url: e.host + l,
 				isUrlFull: !0
 			});
-			if (d.status !== 200) throw new a(N.LIST_CONVERSATION_UNEXPECTED_STATUS, { metadata: { httpStatus: d.status } });
+			if (d.status !== 200) throw new s(N.LIST_CONVERSATION_UNEXPECTED_STATUS, { metadata: { httpStatus: d.status } });
 			let f = await d.json();
 			if (f && typeof f?.links?.next == "string" && f.links.next !== "" ? l = f.links.next : u = !1, !f || !Array.isArray(f.messages)) {
-				o.warn("TranscriptUtils.fetchMessagesUntilActual()", "Didn't receive any messages.", {
+				a.warn("TranscriptUtils.fetchMessagesUntilActual()", "Didn't receive any messages.", {
 					sessionId: n,
 					conversationId: t,
 					engagementId: r
 				});
 				break;
 			}
-			let p = c.length > 0 ? f.messages.filter(((e) => Fn(e, c))) : f.messages, m = s ? p.findIndex(((e) => e.messageId === s)) : -1;
+			let p = c.length > 0 ? f.messages.filter(((e) => Ln(e, c))) : f.messages, m = o ? p.findIndex(((e) => e.messageId === o)) : -1;
 			if (m !== -1) {
 				c = c.concat(p.slice(0, m));
 				break;
 			}
 			c = c.concat(p);
 		}
-		return In(c, t), c;
+		return Rn(c, t), c;
 	},
-	async fetchMessagesUntil(s) {
+	async fetchMessagesUntil(o) {
 		let c = e.sdkBasePath + W.LIST_CONVERSATION.path(e.integrationId, t, n, r, 20, 1), l = await i.send({
 			methodType: W.LIST_CONVERSATION.requestType,
 			url: e.host + c,
 			isUrlFull: !0
 		});
-		if (l.status !== 200) throw new a(N.LIST_CONVERSATION_UNEXPECTED_STATUS, { metadata: { httpStatus: l.status } });
+		if (l.status !== 200) throw new s(N.LIST_CONVERSATION_UNEXPECTED_STATUS, { metadata: { httpStatus: l.status } });
 		let u = await l.json();
-		if (!u || !Array.isArray(u.messages)) return o.warn("TranscriptUtils.fetchMessagesUntil()", "Didn't receive any messages.", {
+		if (!u || !Array.isArray(u.messages)) return a.warn("TranscriptUtils.fetchMessagesUntil()", "Didn't receive any messages.", {
 			sessionId: n,
 			conversationId: t,
 			engagementId: r
 		}), [];
-		let d = [...u.messages].reverse(), f = d.findIndex(((e) => e.messageId === s));
-		return f !== -1 && (d = d.slice(0, f)), In(d, t), d;
+		let d = [...u.messages].reverse(), f = d.findIndex(((e) => e.messageId === o));
+		return f !== -1 && (d = d.slice(0, f)), Rn(d, t), d;
 	},
 	async fetchMessagesAsEventsUntil(e) {
-		return (await this.fetchMessagesUntil(e)).map(((e) => Rn(e, n)));
+		return (await this.fetchMessagesUntil(e)).map(((e) => Bn(e, n)));
 	}
 }) };
-function Rn(e, t) {
+function Bn(e, t) {
 	return {
 		eventId: e.messageId,
 		eventType: K.MESSAGE,
 		conversationId: e.conversationId,
-		message: zn(e),
+		message: Vn(e),
 		participant: {
 			participantId: e.senderParticipantId,
 			participantType: e.participantType,
@@ -4062,7 +4062,7 @@ function Rn(e, t) {
 		sessionId: t
 	};
 }
-function zn(e) {
+function Vn(e) {
 	return {
 		messageId: e.messageId,
 		parentMessageId: e.parentMessageId,
@@ -4073,7 +4073,7 @@ function zn(e) {
 		attachments: e.attachments?.map(((e) => e))
 	};
 }
-var Bn = class {
+var Hn = class {
 	logger;
 	sessionId;
 	conversationId;
@@ -4089,36 +4089,36 @@ var Bn = class {
 			fileType: n,
 			fileSize: t.size
 		});
-		let o = await fetch(e, {
-			method: E.POST,
+		let a = await fetch(e, {
+			method: D.POST,
 			body: i
 		});
-		if (o.status !== 202) throw this.logger.error("upload()", R.UPLOAD_ATTACHMENT_FAILED, {
+		if (a.status !== 202) throw this.logger.error("upload()", R.UPLOAD_ATTACHMENT_FAILED, {
 			sessionId: this.sessionId,
 			conversationId: this.conversationId,
 			fileName: t.name,
 			fileType: n,
 			fileSize: t.size,
-			status: `HTTP ${o.status}`
-		}), new a(N.UPLOAD_ATTACHMENT_REQUEST_FAILED);
-		return o;
+			status: `HTTP ${a.status}`
+		}), new s(N.UPLOAD_ATTACHMENT_REQUEST_FAILED);
+		return a;
 	}
-}, Vn = {
-	name: ht,
-	properties: { [gt.considerSentOnDelivered]: "true" },
+}, Un = {
+	name: _t,
+	properties: { [vt.considerSentOnDelivered]: "true" },
 	configurations: []
 }, $;
 (function(e) {
 	e.SILENCE = "SILENCE", e.INITIATING = "INITIATING", e.RESUMING = "RESUMING", e.ACTIVE = "ACTIVE", e.CLOSED = "CLOSED";
 })($ ||= {});
-var Hn = class {
+var Wn = class {
 	conversationId;
 	sessionId;
 	_currentState = $.SILENCE;
 	channelActivation;
 	logger;
 	constructor(e, t, n) {
-		this.conversationId = e, this.sessionId = t, this.channelActivation = Ve(), this.logger = n("MessagingChannelStateController");
+		this.conversationId = e, this.sessionId = t, this.channelActivation = He(), this.logger = n("MessagingChannelStateController");
 	}
 	get activation() {
 		return this.channelActivation.promise;
@@ -4158,7 +4158,7 @@ var Hn = class {
 		if (this._currentState === $.SILENCE) return void this.logger.debug("transitionToSilence()", `Messaging Channel State is already ${$.SILENCE}`, this.logContext);
 		if (this._currentState === $.CLOSED) return void this.logger.warn("transitionToSilence()", `Messaging Channel State is already ${$.CLOSED}`, this.logContext);
 		let e = this._currentState;
-		this._currentState = $.SILENCE, this.channelActivation = Ve(), this.logTransition("transitionToSilence()", e, $.SILENCE);
+		this._currentState = $.SILENCE, this.channelActivation = He(), this.logTransition("transitionToSilence()", e, $.SILENCE);
 	}
 	transitionToInitiating() {
 		if (this._currentState === $.INITIATING) return void this.logger.debug("transitionToInitiating()", `Messaging Channel State is already ${$.INITIATING}`, this.logContext);
@@ -4184,7 +4184,7 @@ var Hn = class {
 		let e = this._currentState;
 		this._currentState = $.CLOSED, this.logTransition("transitionToClosed()", e, $.CLOSED);
 	}
-}, Un = class {
+}, Gn = class {
 	cannedMessages = [];
 	sendMessageMap = /* @__PURE__ */ new Map();
 	welcomeMessageList = [];
@@ -4245,7 +4245,7 @@ var Hn = class {
 	clearSendMessageList() {
 		this.sendMessageMap.clear();
 	}
-}, Wn = class {
+}, Kn = class {
 	cannedMessageUtils;
 	featureConfiguration;
 	conversationDetails;
@@ -4255,7 +4255,7 @@ var Hn = class {
 	timedMessageTimers = [];
 	engagementExists;
 	constructor(e, t, n, r, i, a) {
-		this.featureConfiguration = e, this.conversationDetails = t, this.logger = n("CannedMessagesController"), this.cannedMessageUtils = new Un(n), this.eventProcessor = i, this.conversationId = r, this.engagementExists = a, this.initializeCannedMessages(), this.logger.info("constructor()", "CannedMessagesController initialized.", {
+		this.featureConfiguration = e, this.conversationDetails = t, this.logger = n("CannedMessagesController"), this.cannedMessageUtils = new Gn(n), this.eventProcessor = i, this.conversationId = r, this.engagementExists = a, this.initializeCannedMessages(), this.logger.info("constructor()", "CannedMessagesController initialized.", {
 			sessionId: this.conversationDetails.sessionId,
 			conversationId: this.conversationId,
 			engagementExists: this.engagementExists
@@ -4315,7 +4315,7 @@ var Hn = class {
 		let e = this.featureConfiguration.getSubFeature("cannedMessages"), t = globalThis.location.href;
 		if (e && e.hasSubFeatures() && !1 !== e.isEnabled) {
 			for (let n of e.getAllSubFeatures()) {
-				if (!Ft(n.name).test(t)) continue;
+				if (!Lt(n.name).test(t)) continue;
 				let e = n.getRawProperty("messages");
 				if (typeof e != "string" || e.length === 0) continue;
 				let r = [];
@@ -4330,33 +4330,33 @@ var Hn = class {
 					if (t) {
 						let n = this.buildRichMediaPayload(t), r = typeof e.onOpenMessage == "string" && e.onOpenMessage || t.text || "";
 						this.cannedMessageUtils.addWelcomeMessageList({
-							messageId: O(R.BYTE_LENGTH_MESSAGE_ID),
+							messageId: k(R.BYTE_LENGTH_MESSAGE_ID),
 							onOpenMessage: r,
 							richMediaPayload: n
 						});
 					} else typeof e.onOpenMessage == "string" && e.onOpenMessage && this.cannedMessageUtils.addWelcomeMessageList({
-						messageId: O(R.BYTE_LENGTH_MESSAGE_ID),
+						messageId: k(R.BYTE_LENGTH_MESSAGE_ID),
 						onOpenMessage: e.onOpenMessage
 					});
 					if (typeof e.timeMessage == "string" && e.timeMessage && e.time && e.unit) {
-						let t = new Date(this.conversationDetails.createdAt), n = Pt(String(e.time), String(e.unit)), r = t.getTime() + n - Date.now();
+						let t = new Date(this.conversationDetails.createdAt), n = It(String(e.time), String(e.unit)), r = t.getTime() + n - Date.now();
 						isNaN(r) || r <= 0 ? this.cannedMessageUtils.addWelcomeMessageList({
-							messageId: O(R.BYTE_LENGTH_MESSAGE_ID),
+							messageId: k(R.BYTE_LENGTH_MESSAGE_ID),
 							onOpenMessage: e.timeMessage
 						}) : this.cannedMessageUtils.addTimedMessageList({
-							messageId: O(R.BYTE_LENGTH_MESSAGE_ID),
+							messageId: k(R.BYTE_LENGTH_MESSAGE_ID),
 							timeMessage: e.timeMessage,
 							time: r,
 							expectedTime: new Date(t.getTime() + n)
 						});
 					} else if (this.getTimedTemplate(e) && e.time && e.unit) {
-						let t = this.getTimedTemplate(e), n = new Date(this.conversationDetails.createdAt), r = Pt(String(e.time), String(e.unit)), i = n.getTime() + r - Date.now(), a = this.buildRichMediaPayload(t), o = typeof e.timeMessage == "string" && e.timeMessage || t.text || "";
+						let t = this.getTimedTemplate(e), n = new Date(this.conversationDetails.createdAt), r = It(String(e.time), String(e.unit)), i = n.getTime() + r - Date.now(), a = this.buildRichMediaPayload(t), o = typeof e.timeMessage == "string" && e.timeMessage || t.text || "";
 						isNaN(i) || i <= 0 ? this.cannedMessageUtils.addWelcomeMessageList({
-							messageId: O(R.BYTE_LENGTH_MESSAGE_ID),
+							messageId: k(R.BYTE_LENGTH_MESSAGE_ID),
 							onOpenMessage: o,
 							richMediaPayload: a
 						}) : this.cannedMessageUtils.addTimedMessageList({
-							messageId: O(R.BYTE_LENGTH_MESSAGE_ID),
+							messageId: k(R.BYTE_LENGTH_MESSAGE_ID),
 							timeMessage: o,
 							time: i,
 							expectedTime: new Date(n.getTime() + r),
@@ -4385,8 +4385,8 @@ var Hn = class {
 					...t ? { richMediaPayload: n.richMediaPayload } : {}
 				},
 				senderParticipant: {
-					participantId: O(13),
-					participantType: p.SYSTEM,
+					participantId: k(13),
+					participantType: h.SYSTEM,
 					displayName: this.getBotName()
 				},
 				attachments: [],
@@ -4423,8 +4423,8 @@ var Hn = class {
 					...e ? { richMediaPayload: t.richMediaPayload } : {}
 				},
 				senderParticipant: {
-					participantId: O(13),
-					participantType: p.SYSTEM,
+					participantId: k(13),
+					participantType: h.SYSTEM,
 					displayName: this.getBotName()
 				},
 				attachments: [],
@@ -4442,7 +4442,7 @@ var Hn = class {
 				eventDate: /* @__PURE__ */ new Date(),
 				conversationId: this.conversationId,
 				canned: !0
-			}, i = new pe("TimedMessageEventController", t.time, (() => {
+			}, i = new fe("TimedMessageEventController", t.time, (() => {
 				this.logger.debug("scheduleTimedMessage", `Timed message dispatched: ${n.messageId}`, {
 					conversationId: this.conversationId,
 					messageId: n.messageId
@@ -4496,12 +4496,12 @@ var Hn = class {
 		return e;
 	}
 	getBotName() {
-		return this.featureConfiguration.getRawPropertyOrDefault(gt.botname, "AI Assistant");
+		return this.featureConfiguration.getRawPropertyOrDefault(vt.botname, "AI Assistant");
 	}
 	deactivate() {
 		this.stopAllTimedMessages(), this.clearAllMessages(), this.resetEngagementExists(), this.logger.debug("deactivate", "Deactivated CannedMessagesController.", { conversationId: this.conversationId });
 	}
-}, Gn = class {
+}, qn = class {
 	lastMessageId;
 	sessionId;
 	conversationId;
@@ -4527,8 +4527,8 @@ var Hn = class {
 			...this.logContext,
 			lastMessageId: this.lastMessageId
 		});
-		let e = await Ln.with(this.config, this.conversationId, this.sessionId, this.engagementId, this.restController, this.logger).fetchMessagesUntil(this.lastMessageId);
-		return e.reverse(), this.dispatchedMessageIds = new Set(e.map(((e) => e.messageId))), e.map(((e) => Rn(e, this.sessionId)));
+		let e = await zn.with(this.config, this.conversationId, this.sessionId, this.engagementId, this.restController, this.logger).fetchMessagesUntil(this.lastMessageId);
+		return e.reverse(), this.dispatchedMessageIds = new Set(e.map(((e) => e.messageId))), e.map(((e) => Bn(e, this.sessionId)));
 	}
 	async getParticipantView() {
 		this.logger.debug("getParticipantView()", "Fetching latest participant view", this.logContext);
@@ -4568,13 +4568,13 @@ var Hn = class {
 	}
 	async getSession() {
 		let e = await this.restController.send({
-			methodType: E.GET,
+			methodType: D.GET,
 			url: W.GET_SESSION.path(this.config.integrationId, this.sessionId),
 			isUrlFull: !1
 		});
 		if (e.status !== 200) {
 			let t = await e.json();
-			throw U.isSessionNotFoundResponse(e.status, t) ? (U.dispatchSessionErrorEvent(this.sessionId, f.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), new a(N.SESSION_NOT_FOUND)) : new a(N.GET_SESSION_UNEXPECTED_STATUS, { metadata: { httpStatus: e.status } });
+			throw U.isSessionNotFoundResponse(e.status, t) ? (U.dispatchSessionErrorEvent(this.sessionId, m.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), new s(N.SESSION_NOT_FOUND)) : new s(N.GET_SESSION_UNEXPECTED_STATUS, { metadata: { httpStatus: e.status } });
 		}
 		return await e.json();
 	}
@@ -4582,11 +4582,11 @@ var Hn = class {
 		return {
 			conversationId: e,
 			eventDate: /* @__PURE__ */ new Date(),
-			channel: y.MESSAGING,
-			currentParticipants: t.participants.map(((e) => b(e.participantId, e.participantType, y.MESSAGING, e.displayName)))
+			channel: x.MESSAGING,
+			currentParticipants: t.participants.map(((e) => S(e.participantId, e.participantType, x.MESSAGING, e.displayName)))
 		};
 	}
-}, Kn = class {
+}, Jn = class {
 	conversationId;
 	conversationDetails;
 	restController;
@@ -4621,9 +4621,9 @@ var Hn = class {
 	cannedMessagesController;
 	engagementExists = !1;
 	constructor(e) {
-		let { conversationId: t, conversationDetails: n, restController: r, jwt: i, config: a, isSessionValid: o, loggerFactory: s, eventDispatcher: c, inactivityTimerController: l, contextParameters: u, sessionPollingManager: d, features: f, participantRegistry: p, channelRegistry: m, conversationStatusChecker: ee } = e;
-		this.conversationId = t, this.conversationDetails = n, this.restController = r, this.jwt = i, this.config = a, this.logger = s("MessagingDelegate"), this.isSessionValid = o, this.loggerFactory = s, this.eventDispatcher = c, this.inactivityTimerController = l, this.contextParameters = u, this.messagingChannelStateController = new Hn(t, n.sessionId, e.loggerFactory), this.sessionPollingManager = d, this.channelRegistry = m, this.conversationStatusChecker = ee, this.channelRegistry.registerConversationChannel(R.MESSAGING_CHANNEL_NAME), this.featureConfiguration = f.getFeatureOrDefault(ht, Vn);
-		let { eventStreamController: te, messagingEventProcessor: ne, deliveryAckQueue: re } = Mn({
+		let { conversationId: t, conversationDetails: n, restController: r, jwt: i, config: a, isSessionValid: o, loggerFactory: s, eventDispatcher: c, inactivityTimerController: l, contextParameters: u, sessionPollingManager: d, features: f, participantRegistry: p, channelRegistry: m, conversationStatusChecker: h } = e;
+		this.conversationId = t, this.conversationDetails = n, this.restController = r, this.jwt = i, this.config = a, this.logger = s("MessagingDelegate"), this.isSessionValid = o, this.loggerFactory = s, this.eventDispatcher = c, this.inactivityTimerController = l, this.contextParameters = u, this.messagingChannelStateController = new Wn(t, n.sessionId, e.loggerFactory), this.sessionPollingManager = d, this.channelRegistry = m, this.conversationStatusChecker = h, this.channelRegistry.registerConversationChannel(R.MESSAGING_CHANNEL_NAME), this.featureConfiguration = f.getFeatureOrDefault(_t, Un);
+		let { eventStreamController: g, messagingEventProcessor: ee, deliveryAckQueue: te } = Pn({
 			sessionId: n.sessionId,
 			eventDispatcher: c,
 			isSessionValid: o,
@@ -4633,7 +4633,7 @@ var Hn = class {
 			token: this.jwt,
 			isDeliveryNotificationEnabled: () => V.isDeliveryNotificationEnabled(this.featureConfiguration)
 		});
-		this.messagingEventProcessor = ne, this.eventStreamController = te, this.deliveryAckQueue = re, this.isConversationClosable = V.areConversationsClosable(f), this.participantRegistry = p, this.pendingMessages = /* @__PURE__ */ new Map(), this.pendingAlternativeAttachmentMessages = /* @__PURE__ */ new Map(), this.engagementExists = this.conversationDetails.engagements.length > 0, this.cannedMessagesController = new Wn(this.featureConfiguration, this.conversationDetails, s, t, this.messagingEventProcessor, this.engagementExists), this.typingIndicators = new cn(n.sessionId, t, this.featureConfiguration, c, this.messagingEventProcessor, o, s, this.participantRegistry, r, a), this.registerCallbacks(), this.engagementExists ? this.joinEngagement(zt.EXISTING, this.conversationDetails.engagements[0]).catch(((e) => {
+		this.messagingEventProcessor = ee, this.eventStreamController = g, this.deliveryAckQueue = te, this.isConversationClosable = V.areConversationsClosable(f), this.participantRegistry = p, this.pendingMessages = /* @__PURE__ */ new Map(), this.pendingAlternativeAttachmentMessages = /* @__PURE__ */ new Map(), this.engagementExists = this.conversationDetails.engagements.length > 0, this.cannedMessagesController = new Kn(this.featureConfiguration, this.conversationDetails, s, t, this.messagingEventProcessor, this.engagementExists), this.typingIndicators = new un(n.sessionId, t, this.featureConfiguration, c, this.messagingEventProcessor, o, s, this.participantRegistry, r, a), this.registerCallbacks(), this.engagementExists ? this.joinEngagement(Vt.EXISTING, this.conversationDetails.engagements[0]).catch(((e) => {
 			this.logger.error("constructor()", "Failed to join existing engagement.", {
 				...this.logContext,
 				engagementId: n.engagements[0].engagementId
@@ -4650,19 +4650,19 @@ var Hn = class {
 		};
 	}
 	assertSessionValidity() {
-		if (!this.isSessionValid()) throw this.concludeEngagement(!0), this.logger.error("assertSessionValidity()", R.SDK_NOT_INITIALIZED, this.logContext), new a(N.SDK_NOT_INITIALIZED);
+		if (!this.isSessionValid()) throw this.concludeEngagement(!0), this.logger.error("assertSessionValidity()", R.SDK_NOT_INITIALIZED, this.logContext), new s(N.SDK_NOT_INITIALIZED);
 	}
 	assertConversationActive() {
-		if (!this.conversationStatusChecker.isOperational()) throw new a(N.OPERATION_ON_DEFUNCT_CONVERSATION);
+		if (!this.conversationStatusChecker.isOperational()) throw new s(N.OPERATION_ON_DEFUNCT_CONVERSATION);
 	}
 	assertMessagingChannelOpen() {
-		if (this.messagingChannelStateController.isClosed) throw new a(N.OPERATION_ON_CLOSED_CHANNEL);
+		if (this.messagingChannelStateController.isClosed) throw new s(N.OPERATION_ON_CLOSED_CHANNEL);
 	}
 	async initEngagement() {
 		if (this.defaultEngagement === void 0 && this.messagingChannelStateController.isSilence) try {
 			this.stopListeningSessionPoll(), await this.createEngagement();
 		} catch (e) {
-			if (!ut(e)) throw this.transitionToSilenceAndListen(), e;
+			if (!ft(e)) throw this.transitionToSilenceAndListen(), e;
 			switch (e.detail) {
 				case N.CREATION_FAILED_ENGAGEMENT_EXISTS.detail:
 					this.logger.debug("initEngagement()", "Engagement creation failed as one already exists. Trying to join the existing engagement.", this.logContext), await this.handleEngagementExists();
@@ -4673,23 +4673,23 @@ var Hn = class {
 		}
 	}
 	registerCallbacks() {
-		this.handlerIdMap.set(G.ENGAGEMENT_ERROR, this.eventDispatcher.addModuleEventHandler(G.ENGAGEMENT_ERROR, this.handleEngagementError.bind(this), this.conversationId)), this.handlerIdMap.set(g.PARTICIPANT_ADDED, this.eventDispatcher.addModuleEventHandler(g.PARTICIPANT_ADDED, this.handleParticipantAddition.bind(this), this.conversationId)), this.handlerIdMap.set(g.PARTICIPANT_DISCONNECTED, this.eventDispatcher.addModuleEventHandler(g.PARTICIPANT_DISCONNECTED, this.handleParticipantRemoval.bind(this), this.conversationId)), this.handlerIdMap.set(g.SHUTDOWN, this.eventDispatcher.addModuleEventHandler(g.SHUTDOWN, this.handleSdkShutdown.bind(this))), this.handlerIdMap.set(G.MESSAGE_DELIVERED, this.eventDispatcher.addModuleEventHandler(G.MESSAGE_DELIVERED, this.handleCustomerMessage.bind(this), this.conversationId)), this.handlerIdMap.set(G.MESSAGE_ARRIVED, this.eventDispatcher.addModuleEventHandler(G.MESSAGE_ARRIVED, this.handleNonCustomerMessage.bind(this), this.conversationId)), this.handlerIdMap.set(g.END_CONVERSATION_INITIATED, this.eventDispatcher.addModuleEventHandler(g.END_CONVERSATION_INITIATED, this.handleEndConversationInitiated.bind(this), this.conversationId));
+		this.handlerIdMap.set(G.ENGAGEMENT_ERROR, this.eventDispatcher.addModuleEventHandler(G.ENGAGEMENT_ERROR, this.handleEngagementError.bind(this), this.conversationId)), this.handlerIdMap.set(y.PARTICIPANT_ADDED, this.eventDispatcher.addModuleEventHandler(y.PARTICIPANT_ADDED, this.handleParticipantAddition.bind(this), this.conversationId)), this.handlerIdMap.set(y.PARTICIPANT_DISCONNECTED, this.eventDispatcher.addModuleEventHandler(y.PARTICIPANT_DISCONNECTED, this.handleParticipantRemoval.bind(this), this.conversationId)), this.handlerIdMap.set(y.SHUTDOWN, this.eventDispatcher.addModuleEventHandler(y.SHUTDOWN, this.handleSdkShutdown.bind(this))), this.handlerIdMap.set(G.MESSAGE_DELIVERED, this.eventDispatcher.addModuleEventHandler(G.MESSAGE_DELIVERED, this.handleCustomerMessage.bind(this), this.conversationId)), this.handlerIdMap.set(G.MESSAGE_ARRIVED, this.eventDispatcher.addModuleEventHandler(G.MESSAGE_ARRIVED, this.handleNonCustomerMessage.bind(this), this.conversationId)), this.handlerIdMap.set(y.END_CONVERSATION_INITIATED, this.eventDispatcher.addModuleEventHandler(y.END_CONVERSATION_INITIATED, this.handleEndConversationInitiated.bind(this), this.conversationId));
 	}
 	unregisterCallbacks() {
 		let e = this.handlerIdMap.get(G.ENGAGEMENT_ERROR);
 		e !== void 0 && this.eventDispatcher.removeModuleEventHandler(G.ENGAGEMENT_ERROR, e, this.conversationId);
-		let t = this.handlerIdMap.get(g.PARTICIPANT_ADDED);
-		t !== void 0 && this.eventDispatcher.removeModuleEventHandler(g.PARTICIPANT_ADDED, t, this.conversationId);
-		let n = this.handlerIdMap.get(g.PARTICIPANT_DISCONNECTED);
-		n !== void 0 && this.eventDispatcher.removeModuleEventHandler(g.PARTICIPANT_DISCONNECTED, n, this.conversationId);
-		let r = this.handlerIdMap.get(g.SHUTDOWN);
-		r !== void 0 && this.eventDispatcher.removeModuleEventHandler(g.SHUTDOWN, r);
+		let t = this.handlerIdMap.get(y.PARTICIPANT_ADDED);
+		t !== void 0 && this.eventDispatcher.removeModuleEventHandler(y.PARTICIPANT_ADDED, t, this.conversationId);
+		let n = this.handlerIdMap.get(y.PARTICIPANT_DISCONNECTED);
+		n !== void 0 && this.eventDispatcher.removeModuleEventHandler(y.PARTICIPANT_DISCONNECTED, n, this.conversationId);
+		let r = this.handlerIdMap.get(y.SHUTDOWN);
+		r !== void 0 && this.eventDispatcher.removeModuleEventHandler(y.SHUTDOWN, r);
 		let i = this.handlerIdMap.get(G.MESSAGE_DELIVERED);
 		i !== void 0 && this.eventDispatcher.removeModuleEventHandler(G.MESSAGE_DELIVERED, i, this.conversationId);
 		let a = this.handlerIdMap.get(G.MESSAGE_ARRIVED);
 		a !== void 0 && this.eventDispatcher.removeModuleEventHandler(G.MESSAGE_ARRIVED, a, this.conversationId);
-		let o = this.handlerIdMap.get(g.END_CONVERSATION_INITIATED);
-		o !== void 0 && this.eventDispatcher.removeModuleEventHandler(g.END_CONVERSATION_INITIATED, o, this.conversationId);
+		let o = this.handlerIdMap.get(y.END_CONVERSATION_INITIATED);
+		o !== void 0 && this.eventDispatcher.removeModuleEventHandler(y.END_CONVERSATION_INITIATED, o, this.conversationId);
 	}
 	startListeningSessionPoll() {
 		this.sessionPollingListenerId = this.sessionPollingManager.subscribe(this.handleConversationSync.bind(this));
@@ -4704,30 +4704,30 @@ var Hn = class {
 		this.eventStreamController.removeConversation(this.conversationId);
 	}
 	validateMessageText(e) {
-		w(x.isOptionalAnd.notUndefined(e) && x.notBlank(e), B.Message.shouldNotBeEmpty, this.logger, "validateMessageText()"), w(x.notMoreThan(e, _t), B.Message.shouldNotBeMoreThan, this.logger, "validateMessageText()");
+		T(C.isOptionalAnd.notUndefined(e) && C.notBlank(e), B.Message.shouldNotBeEmpty, this.logger, "validateMessageText()"), T(C.notMoreThan(e, yt), B.Message.shouldNotBeMoreThan, this.logger, "validateMessageText()");
 	}
 	validateAttachmentText(e) {
-		w(x.isOptionalAnd.notMoreThan(e, _t), B.Message.shouldNotBeMoreThan, this.logger, "validateAttachmentText()");
+		T(C.isOptionalAnd.notMoreThan(e, yt), B.Message.shouldNotBeMoreThan, this.logger, "validateAttachmentText()");
 	}
 	validateAttachmentMessage(e) {
-		this.validateAttachmentText(e.getText()), w(e.getAttachment() instanceof File, B.Attachment.shouldBeFile, this.logger, "validateAttachmentMessage()");
+		this.validateAttachmentText(e.getText()), T(e.getAttachment() instanceof File, B.Attachment.shouldBeFile, this.logger, "validateAttachmentMessage()");
 		let t = e.getAttachment().name.split(".").pop()?.toLocaleLowerCase() ?? "";
-		w(V.getListOfSupportedAttachmentExtensions(this.featureConfiguration).includes(t), B.Attachment.type.shouldBeSupportedExtension, this.logger, "validateAttachmentMessage()"), w(x.notLessThan(e.getAttachment().name, vt), B.Attachment.name.shouldNotBeLessThan, this.logger, "validateAttachmentMessage()"), w(x.notLessThan(e.getAttachment().type === void 0 || e.getAttachment().type === "" ? R.DEFAULT_MIME_TYPE : e.getAttachment().type, yt), B.Attachment.type.shouldBeValid, this.logger, "validateAttachmentMessage()"), w(S.notLessThan(e.getAttachment().size, Mt), B.Attachment.size.shouldNotBeLessThan, this.logger, "validateAttachmentMessage()"), w(S.notMoreThan(1e-6 * e.getAttachment().size, V.getMaxAttachmentSize(this.featureConfiguration)), B.Attachment.size.shouldNotBeMoreThan, this.logger, "validateAttachmentMessage()");
+		T(V.getListOfSupportedAttachmentExtensions(this.featureConfiguration).includes(t), B.Attachment.type.shouldBeSupportedExtension, this.logger, "validateAttachmentMessage()"), T(C.notLessThan(e.getAttachment().name, bt), B.Attachment.name.shouldNotBeLessThan, this.logger, "validateAttachmentMessage()"), T(C.notLessThan(e.getAttachment().type === void 0 || e.getAttachment().type === "" ? R.DEFAULT_MIME_TYPE : e.getAttachment().type, xt), B.Attachment.type.shouldBeValid, this.logger, "validateAttachmentMessage()"), T(Ie.notLessThan(e.getAttachment().size, Pt), B.Attachment.size.shouldNotBeLessThan, this.logger, "validateAttachmentMessage()"), T(Ie.notMoreThan(1e-6 * e.getAttachment().size, V.getMaxAttachmentSize(this.featureConfiguration)), B.Attachment.size.shouldNotBeMoreThan, this.logger, "validateAttachmentMessage()");
 	}
 	validatePostBackAction(e) {
-		w(C.isNonNullableObject(e), B.Action.shouldBeObject, this.logger, "validatePostBackAction()"), w(x.isOptionalAnd.isOneOf(e.getActionType(), [ft.POST_BACK]), B.Action.actionType.shouldBeOneOf, this.logger, "validatePostBackAction()"), w(x.isOptionalAnd.notMoreThan(e.getActionText(), bt), B.Action.text.shouldNotBeMoreThan, this.logger, "validatePostBackAction()"), w(x.isOptionalAnd.notMoreThan(e.getPayload(), xt), B.Action.payload.shouldNotBeMoreThan, this.logger, "validatePostBackAction()");
+		T(w.isNonNullableObject(e), B.Action.shouldBeObject, this.logger, "validatePostBackAction()"), T(C.isOptionalAnd.isOneOf(e.getActionType(), [mt.POST_BACK]), B.Action.actionType.shouldBeOneOf, this.logger, "validatePostBackAction()"), T(C.isOptionalAnd.notMoreThan(e.getActionText(), St), B.Action.text.shouldNotBeMoreThan, this.logger, "validatePostBackAction()"), T(C.isOptionalAnd.notMoreThan(e.getPayload(), Ct), B.Action.payload.shouldNotBeMoreThan, this.logger, "validatePostBackAction()");
 	}
 	validateReplyAction(e) {
-		w(C.isNonNullableObject(e), B.Action.shouldBeObject, this.logger, "validateReplyAction()"), w(x.isOptionalAnd.isOneOf(e.getActionType(), [ft.REPLY]), B.Action.actionType.shouldBeOneOf, this.logger, "validateReplyAction()"), w(x.isOptionalAnd.notMoreThan(e.getActionText(), bt), B.Action.text.shouldNotBeMoreThan, this.logger, "validateReplyAction()"), w(x.isOptionalAnd.notMoreThan(e.getPayload(), xt), B.Action.payload.shouldNotBeMoreThan, this.logger, "validateReplyAction()"), w(x.isOptionalAnd.notMoreThan(e.getIconUrl(), St), B.Action.iconUrl.shouldNotBeMoreThan, this.logger, "validateReplyAction()");
+		T(w.isNonNullableObject(e), B.Action.shouldBeObject, this.logger, "validateReplyAction()"), T(C.isOptionalAnd.isOneOf(e.getActionType(), [mt.REPLY]), B.Action.actionType.shouldBeOneOf, this.logger, "validateReplyAction()"), T(C.isOptionalAnd.notMoreThan(e.getActionText(), St), B.Action.text.shouldNotBeMoreThan, this.logger, "validateReplyAction()"), T(C.isOptionalAnd.notMoreThan(e.getPayload(), Ct), B.Action.payload.shouldNotBeMoreThan, this.logger, "validateReplyAction()"), T(C.isOptionalAnd.notMoreThan(e.getIconUrl(), wt), B.Action.iconUrl.shouldNotBeMoreThan, this.logger, "validateReplyAction()");
 	}
 	validateLocationMessage(e) {
-		w(C.isNonNullableObject(e), B.Location.shouldBeObject, this.logger, "validateLocationMessage()"), w(S.between(e.getLatitude(), Ct, wt), B.LocationCoordinates.shouldBeValidLatitude, this.logger, "validateLocationMessage()"), w(S.between(e.getLongitude(), Tt, Et), B.LocationCoordinates.shouldBeValidLongitude, this.logger, "validateLocationMessage()"), w(x.isOptionalAnd.notMoreThan(e.getName(), Dt), B.LocationDetails.name.shouldNotBeMoreThan, this.logger, "validateLocationMessage()"), w(x.isOptionalAnd.notMoreThan(e.getAddress(), Ot), B.LocationDetails.address.shouldNotBeMoreThan, this.logger, "validateLocationMessage()");
+		T(w.isNonNullableObject(e), B.Location.shouldBeObject, this.logger, "validateLocationMessage()"), T(Ie.between(e.getLatitude(), Tt, Et), B.LocationCoordinates.shouldBeValidLatitude, this.logger, "validateLocationMessage()"), T(Ie.between(e.getLongitude(), Dt, Ot), B.LocationCoordinates.shouldBeValidLongitude, this.logger, "validateLocationMessage()"), T(C.isOptionalAnd.notMoreThan(e.getName(), kt), B.LocationDetails.name.shouldNotBeMoreThan, this.logger, "validateLocationMessage()"), T(C.isOptionalAnd.notMoreThan(e.getAddress(), At), B.LocationDetails.address.shouldNotBeMoreThan, this.logger, "validateLocationMessage()");
 	}
 	validatePageSize(e) {
-		w(typeof e == "number", B.PageSize.shouldBeNumber, this.logger, "getMessages()"), w(S.between(e, kt, At), B.PageSize.shouldBeBetween, this.logger, "getMessages()");
+		T(typeof e == "number", B.PageSize.shouldBeNumber, this.logger, "getMessages()"), T(Ie.between(e, jt, Mt), B.PageSize.shouldBeBetween, this.logger, "getMessages()");
 	}
 	createMissingEventsCurator(e) {
-		return new Gn(this.conversationDetails.sessionId, this.conversationId, e.engagementId, this.messagingEventProcessor, this.config, this.restController, this.loggerFactory);
+		return new qn(this.conversationDetails.sessionId, this.conversationId, e.engagementId, this.messagingEventProcessor, this.config, this.restController, this.loggerFactory);
 	}
 	async createEngagement() {
 		this.messagingChannelStateController.transitionToInitiating();
@@ -4746,44 +4746,44 @@ var Hn = class {
 				integrationId: this.config.integrationId,
 				httpStatus: e.status
 			};
-			if (U.isSessionNotFoundResponse(e.status, t)) this.logger.error("createEngagement()", R.CREATE_ENGAGEMENT_FAILED, n), U.dispatchSessionErrorEvent(this.conversationDetails.sessionId, f.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger);
+			if (U.isSessionNotFoundResponse(e.status, t)) this.logger.error("createEngagement()", R.CREATE_ENGAGEMENT_FAILED, n), U.dispatchSessionErrorEvent(this.conversationDetails.sessionId, m.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger);
 			else {
-				if (Nt.isEngagementExistsResponse(e.status, t)) throw this.logger.debug("createEngagement()", "Engagement already exists, will attempt to join instead", n), new a(N.CREATION_FAILED_ENGAGEMENT_EXISTS);
-				if (V.isConversationNotFoundResponse(e.status, t)) throw this.logger.warn("createEngagement()", "Conversation no longer exists, closing messaging channel", n), new a(N.CREATION_FAILED_CONVERSATION_NOT_FOUND);
+				if (Ft.isEngagementExistsResponse(e.status, t)) throw this.logger.debug("createEngagement()", "Engagement already exists, will attempt to join instead", n), new s(N.CREATION_FAILED_ENGAGEMENT_EXISTS);
+				if (V.isConversationNotFoundResponse(e.status, t)) throw this.logger.warn("createEngagement()", "Conversation no longer exists, closing messaging channel", n), new s(N.CREATION_FAILED_CONVERSATION_NOT_FOUND);
 				this.logger.error("createEngagement()", R.CREATE_ENGAGEMENT_FAILED, n);
 			}
-			throw new a(N.CREATE_DIALOG_FAILED);
+			throw new s(N.CREATE_DIALOG_FAILED);
 		}
 		let t = await e.json();
-		this.defaultEngagement = new Qt(this.conversationDetails.sessionId, this.conversationId, t, this.restController, this.config, this.loggerFactory, zt.SELF), this.cannedMessagesController.setEngagementExists(!0), this.startListeningForEvents(this.defaultEngagement);
+		this.defaultEngagement = new en(this.conversationDetails.sessionId, this.conversationId, t, this.restController, this.config, this.loggerFactory, Vt.SELF), this.cannedMessagesController.setEngagementExists(!0), this.startListeningForEvents(this.defaultEngagement);
 	}
 	async joinEngagement(e, t, n = !1) {
-		this.messagingChannelStateController.isSilence || n ? (this.messagingChannelStateController.transitionToResuming(), this.defaultEngagement = new Qt(this.conversationDetails.sessionId, this.conversationId, t, this.restController, this.config, this.loggerFactory, e), await this.defaultEngagement.joinEngagement(), this.startListeningForEvents(this.defaultEngagement)) : this.logger.debug("joinEngagement()", "Engagement creation/join already in progress or completed. Aborting the join.", {
+		this.messagingChannelStateController.isSilence || n ? (this.messagingChannelStateController.transitionToResuming(), this.defaultEngagement = new en(this.conversationDetails.sessionId, this.conversationId, t, this.restController, this.config, this.loggerFactory, e), await this.defaultEngagement.joinEngagement(), this.startListeningForEvents(this.defaultEngagement)) : this.logger.debug("joinEngagement()", "Engagement creation/join already in progress or completed. Aborting the join.", {
 			...this.logContext,
 			engagementId: this.defaultEngagement?.engagementId
 		});
 	}
 	joinEngagementFailureCleanup(e) {
-		this.clearDefaultEngagement(), ut(e) && e.detail === N.JOIN_FAILED_CONVERSATION_NOT_FOUND.detail ? this.closeMessagingChannel() : this.transitionToSilenceAndListen();
+		this.clearDefaultEngagement(), ft(e) && e.detail === N.JOIN_FAILED_CONVERSATION_NOT_FOUND.detail ? this.closeMessagingChannel() : this.transitionToSilenceAndListen();
 	}
 	async handleEngagementExists() {
 		let e;
 		try {
 			let n = await this.restController.send({
-				methodType: E.GET,
+				methodType: D.GET,
 				url: W.GET_SESSION.path(this.config.integrationId, this.conversationDetails.sessionId),
 				isUrlFull: !1
 			});
 			if (e = n.status, !n.ok) {
 				let e = await n.json();
-				throw U.isSessionNotFoundResponse(n.status, e) && U.dispatchSessionErrorEvent(this.conversationDetails.sessionId, f.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), new a(N.GET_SESSION_FAILED);
+				throw U.isSessionNotFoundResponse(n.status, e) && U.dispatchSessionErrorEvent(this.conversationDetails.sessionId, m.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), new s(N.GET_SESSION_FAILED);
 			}
 			let r = (await n.json()).engagements?.find(((e) => e.conversationId === this.conversationId));
-			if (!r) throw new a(N.ENGAGEMENT_ABSENT_IN_CONVERSATION);
-			await this.joinEngagement(zt.REMOTE, (t = r, {
+			if (!r) throw new s(N.ENGAGEMENT_ABSENT_IN_CONVERSATION);
+			await this.joinEngagement(Vt.REMOTE, (t = r, {
 				engagementId: t.engagementId,
 				engagementParameters: t.engagementParameters,
-				dialogs: t.dialogs.map(Jt)
+				dialogs: t.dialogs.map(Xt)
 			}), !0);
 			let i = r.dialogs?.[0].participants;
 			i && this.informParticipantListUpdate(i);
@@ -4846,14 +4846,14 @@ var Hn = class {
 	handleNonCustomerMessage(e) {
 		this.latestDeliveredMessageId = e.messageId;
 		let t = e.senderParticipant?.participantType;
-		if (t === p.BOT || t === p.SYSTEM) {
-			let t = this.featureConfiguration.getRawPropertyOrDefault(gt.botname, "AI Assistant");
+		if (t === h.BOT || t === h.SYSTEM) {
+			let t = this.featureConfiguration.getRawPropertyOrDefault(vt.botname, "AI Assistant");
 			t && (e.senderParticipant.displayName = t);
 		}
 	}
 	queueDeliveryAckForMessages(e) {
 		if (!V.isDeliveryNotificationEnabled(this.featureConfiguration)) return;
-		let t = e.map(((e) => e)).filter(((e) => (e.participantType === p.AGENT || e.participantType === p.SYSTEM && !e.canned) && e.status !== mt.DELIVERED && e.status !== mt.FAILED && e.messageId)).map(((e) => e.messageId));
+		let t = e.map(((e) => e)).filter(((e) => (e.participantType === h.AGENT || e.participantType === h.SYSTEM && !e.canned) && e.status !== gt.DELIVERED && e.status !== gt.FAILED && e.messageId)).map(((e) => e.messageId));
 		this.deliveryAckQueue.add(t);
 	}
 	handleParticipantAddition(e) {
@@ -4862,7 +4862,7 @@ var Hn = class {
 			engagementId: this.defaultEngagement?.engagementId,
 			participantId: e.participant?.participantId,
 			participantType: e.participant?.participantType
-		}), e.participant.participantType === p.CUSTOMER && (this.messagingChannelStateController.transitionToActive(), this.defaultEngagement?.updateEngagementStatus(It.ACTIVE), this.defaultEngagement?.engagementId && this.defaultEngagement?.defaultDialog.dialogId && this.typingIndicators.setEngagementDetails(this.defaultEngagement.engagementId, this.defaultEngagement.defaultDialog.dialogId), this.defaultEngagement?.creationSource === zt.REMOTE && (this.logger.debug("handleParticipantAddition()", "Fetching and dispatching missing messages for remotely created engagement.", {
+		}), e.participant.participantType === h.CUSTOMER && (this.messagingChannelStateController.transitionToActive(), this.defaultEngagement?.updateEngagementStatus(Rt.ACTIVE), this.defaultEngagement?.engagementId && this.defaultEngagement?.defaultDialog.dialogId && this.typingIndicators.setEngagementDetails(this.defaultEngagement.engagementId, this.defaultEngagement.defaultDialog.dialogId), this.defaultEngagement?.creationSource === Vt.REMOTE && (this.logger.debug("handleParticipantAddition()", "Fetching and dispatching missing messages for remotely created engagement.", {
 			...this.logContext,
 			engagementId: this.defaultEngagement.engagementId
 		}), this.handleMissingMessagesForRemoteEngagement()));
@@ -4873,14 +4873,14 @@ var Hn = class {
 			engagementId: this.defaultEngagement?.engagementId,
 			participantId: e.participant?.participantId,
 			participantType: e.participant?.participantType
-		}), e.participant?.participantType === p.CUSTOMER && this.concludeEngagement();
+		}), e.participant?.participantType === h.CUSTOMER && this.concludeEngagement();
 	}
 	async handleMissingMessagesForRemoteEngagement() {
 		this.logger.debug("handleMissingMessagesForRemoteEngagement()", "Handling missing messages for remote engagement", {
 			...this.logContext,
 			engagementId: this.defaultEngagement?.engagementId
 		});
-		let e = await Ln.with(this.config, this.conversationId, this.conversationDetails.sessionId, this.defaultEngagement?.engagementId ?? "", this.restController, this.logger).fetchMessagesAsEventsUntil(this.latestDeliveredMessageId);
+		let e = await zn.with(this.config, this.conversationId, this.conversationDetails.sessionId, this.defaultEngagement?.engagementId ?? "", this.restController, this.logger).fetchMessagesAsEventsUntil(this.latestDeliveredMessageId);
 		e.reverse(), this.messagingEventProcessor.processEvents(e.map(((e) => ({
 			type: e.eventType,
 			event: e
@@ -4900,7 +4900,7 @@ var Hn = class {
 					engagementId: t.engagements[0].engagementId
 				}), this.stopListeningSessionPoll(), this.conversationDetails.engagements.push(t.engagements[0]);
 				let e = t.engagements[0].dialogs[0].participants;
-				this.joinEngagement(zt.REMOTE, t.engagements[0]).then((() => {
+				this.joinEngagement(Vt.REMOTE, t.engagements[0]).then((() => {
 					e.length > 0 && this.informParticipantListUpdate(e);
 				})).catch(((e) => {
 					this.logger.error("handleConversationSync()", "Failed to join existing engagement.", {
@@ -4916,19 +4916,19 @@ var Hn = class {
 	}
 	informParticipantListUpdate(e) {
 		let t = {
-			participants: e.map(((e) => b(e.participantId, e.participantType, y.MESSAGING, e.displayName))),
-			channel: y.MESSAGING,
+			participants: e.map(((e) => S(e.participantId, e.participantType, x.MESSAGING, e.displayName))),
+			channel: x.MESSAGING,
 			conversationId: this.conversationId,
 			eventDate: /* @__PURE__ */ new Date()
 		};
 		this.messagingEventProcessor.processEvents([{
-			type: g.PARTICIPANT_LIST_UPDATE,
+			type: y.PARTICIPANT_LIST_UPDATE,
 			event: t
 		}]);
 	}
 	async sendMessage(e) {
-		this.assertSessionValidity(), this.assertConversationActive(), this.assertMessagingChannelOpen(), w(C.isNonNullableObject(e), B.Message.shouldBeStringOrObject, this.logger, "sendMessage()"), await this.initEngagement(), await this.messagingChannelStateController.activation, this.cannedMessagesController.stopAllTimedMessages(), this.inactivityTimerController.reportIntermittentActivity(), this.typingIndicators.notifySendMessageRequest();
-		let t = O(R.BYTE_LENGTH_CORRELATION_ID);
+		this.assertSessionValidity(), this.assertConversationActive(), this.assertMessagingChannelOpen(), T(w.isNonNullableObject(e), B.Message.shouldBeStringOrObject, this.logger, "sendMessage()"), await this.initEngagement(), await this.messagingChannelStateController.activation, this.cannedMessagesController.stopAllTimedMessages(), this.inactivityTimerController.reportIntermittentActivity(), this.typingIndicators.notifySendMessageRequest();
+		let t = k(R.BYTE_LENGTH_CORRELATION_ID);
 		return e.getType() !== L.FILE && e.getType() !== L.IMAGE || !this.isAlternativeAttachmentFlowEnabled ? this.processMessage(e, t) : this.processAlternativeAttachmentMessage(e, t);
 	}
 	async prepareAttachmentMessage(e) {
@@ -4962,9 +4962,9 @@ var Hn = class {
 			case L.LOCATION:
 				n = this.getLocationMessageBody(e);
 				break;
-			default: throw new a(N.INVALID_MESSAGE_ELEMENT_TYPE);
+			default: throw new s(N.INVALID_MESSAGE_ELEMENT_TYPE);
 		}
-		if (!this.defaultEngagement) throw this.logger.warn("processMessage()", N.ENGAGEMENT_NOT_FOUND.message, this.logContext), new a(N.SEND_MESSAGE_FAILED);
+		if (!this.defaultEngagement) throw this.logger.warn("processMessage()", N.ENGAGEMENT_NOT_FOUND.message, this.logContext), new s(N.SEND_MESSAGE_FAILED);
 		try {
 			let r = await this.defaultEngagement.sendMessage(n, t, this.cannedMessagesController.transformToCannedMessage(), e.getParentMessageId());
 			return this.cannedMessagesController.clearAllMessages(), r;
@@ -4972,7 +4972,7 @@ var Hn = class {
 			throw this.logger.error("prepareAndSendMessage()", N.SEND_MESSAGE_FAILED.message, {
 				sessionId: this.conversationDetails.sessionId,
 				engagementId: this.defaultEngagement?.engagementId
-			}, e), e instanceof Error && (ut(e) && e.code === M.SESSION_ENDED && U.dispatchSessionErrorEvent(this.conversationDetails.sessionId, f.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), e.name === "AbortError") ? new a(N.OPERATION_TIMEOUT, { cause: e }) : e;
+			}, e), e instanceof Error && (ft(e) && e.code === M.SESSION_ENDED && U.dispatchSessionErrorEvent(this.conversationDetails.sessionId, m.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), e.name === "AbortError") ? new s(N.OPERATION_TIMEOUT, { cause: e }) : e;
 		}
 	}
 	processMessage(e, t) {
@@ -4982,26 +4982,26 @@ var Hn = class {
 		})), n;
 	}
 	prepareAlternativeAttachmentMessage(e) {
-		if (e.getType() !== L.FILE && e.getType() !== L.IMAGE) throw new a(N.INVALID_MESSAGE_ELEMENT_TYPE);
+		if (e.getType() !== L.FILE && e.getType() !== L.IMAGE) throw new s(N.INVALID_MESSAGE_ELEMENT_TYPE);
 		return this.validateAttachmentMessage(e), H.transformToAlternativeAttachmentBody(e);
 	}
 	async prepareAndSendAlternativeAttachmentMessage(e, t, n) {
 		try {
-			if (!this.defaultEngagement) throw this.logger.warn("prepareAndSendAlternativeAttachmentMessage()", N.ENGAGEMENT_NOT_FOUND.message, this.logContext), new a(N.SEND_MESSAGE_FAILED);
+			if (!this.defaultEngagement) throw this.logger.warn("prepareAndSendAlternativeAttachmentMessage()", N.ENGAGEMENT_NOT_FOUND.message, this.logContext), new s(N.SEND_MESSAGE_FAILED);
 			let r = this.prepareAlternativeAttachmentMessage(e);
 			await this.defaultEngagement.sendAlternativeAttachmentMessage(r, t);
 			let i = setTimeout((() => {
-				n.reject(new a(N.OPERATION_TIMEOUT)), this.logger.warn("prepareAndSendAlternativeAttachmentMessage()", "Alternative attachment message event arrival timed out", this.logContext);
+				n.reject(new s(N.OPERATION_TIMEOUT)), this.logger.warn("prepareAndSendAlternativeAttachmentMessage()", "Alternative attachment message event arrival timed out", this.logContext);
 			}), R.ALTERNATIVE_ATTACHMENT_EVENT_ARRIVAL_TIMEOUT);
 			n.promise.finally((() => {
 				clearTimeout(i);
 			}));
 		} catch (e) {
-			this.logger.error("prepareAndSendAlternativeAttachmentMessage()", "Unexpected error while sending alternative attachment message", this.logContext, e), n.reject(e), ut(e) && e.code === M.SESSION_ENDED && U.dispatchSessionErrorEvent(this.conversationDetails.sessionId, f.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger);
+			this.logger.error("prepareAndSendAlternativeAttachmentMessage()", "Unexpected error while sending alternative attachment message", this.logContext, e), n.reject(e), ft(e) && e.code === M.SESSION_ENDED && U.dispatchSessionErrorEvent(this.conversationDetails.sessionId, m.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger);
 		}
 	}
 	processAlternativeAttachmentMessage(e, t) {
-		let n = Ve();
+		let n = He();
 		return this.pendingAlternativeAttachmentMessages.set(t, n), n.promise.finally((() => {
 			this.pendingAlternativeAttachmentMessages.delete(t);
 		})), this.prepareAndSendAlternativeAttachmentMessage(e, t, n), n.promise;
@@ -5019,7 +5019,7 @@ var Hn = class {
 		this.messagingChannelStateController.transitionToSilence(), this.startListeningSessionPoll();
 	}
 	clearDefaultEngagement() {
-		this.defaultEngagement?.updateEngagementStatus(It.TERMINATED), this.lastEngagementId = this.defaultEngagement?.engagementId, this.defaultEngagement = void 0;
+		this.defaultEngagement?.updateEngagementStatus(Rt.TERMINATED), this.lastEngagementId = this.defaultEngagement?.engagementId, this.defaultEngagement = void 0;
 	}
 	handleSdkShutdown(e) {
 		this.logger.debug("handleSdkShutdown()", R.SDK_SHUTDOWN, {
@@ -5031,10 +5031,10 @@ var Hn = class {
 		}), this.unregisterCallbacks(), this.concludeEngagement(!0);
 	}
 	addMessageArrivedListener(e) {
-		return w(C.isFunction(e), "handler should be a function", this.logger, "addMessageArrivedListener()"), this.assertSessionValidity(), this.assertConversationActive(), this.assertMessagingChannelOpen(), this.eventDispatcher.addClientEventHandler(G.MESSAGE_ARRIVED, e, this.conversationId);
+		return T(w.isFunction(e), "handler should be a function", this.logger, "addMessageArrivedListener()"), this.assertSessionValidity(), this.assertConversationActive(), this.assertMessagingChannelOpen(), this.eventDispatcher.addClientEventHandler(G.MESSAGE_ARRIVED, e, this.conversationId);
 	}
 	addMessageDeliveredListener(e) {
-		return w(C.isFunction(e), "handler should be a function", this.logger, "addMessageDeliveredListener()"), this.assertSessionValidity(), this.assertConversationActive(), this.assertMessagingChannelOpen(), this.eventDispatcher.addClientEventHandler(G.MESSAGE_DELIVERED, e, this.conversationId);
+		return T(w.isFunction(e), "handler should be a function", this.logger, "addMessageDeliveredListener()"), this.assertSessionValidity(), this.assertConversationActive(), this.assertMessagingChannelOpen(), this.eventDispatcher.addClientEventHandler(G.MESSAGE_DELIVERED, e, this.conversationId);
 	}
 	removeMessageArrivedListener(e) {
 		this.eventDispatcher.removeClientEventHandler(G.MESSAGE_ARRIVED, e, this.conversationId);
@@ -5046,13 +5046,13 @@ var Hn = class {
 		this.assertSessionValidity(), this.assertConversationActive(), this.assertMessagingChannelOpen(), this.typingIndicators.notifyUserTyping();
 	}
 	addTypingStartedListener(e) {
-		return w(C.isFunction(e), "handler should be a function", this.logger, "addTypingStartedListener()"), this.assertSessionValidity(), this.assertConversationActive(), this.assertMessagingChannelOpen(), this.eventDispatcher.addClientEventHandler(G.INBOUND_TYPING_STARTED, e, this.conversationId);
+		return T(w.isFunction(e), "handler should be a function", this.logger, "addTypingStartedListener()"), this.assertSessionValidity(), this.assertConversationActive(), this.assertMessagingChannelOpen(), this.eventDispatcher.addClientEventHandler(G.INBOUND_TYPING_STARTED, e, this.conversationId);
 	}
 	removeTypingStartedListener(e) {
 		this.eventDispatcher.removeClientEventHandler(G.INBOUND_TYPING_STARTED, e, this.conversationId);
 	}
 	addTypingStoppedListener(e) {
-		return w(C.isFunction(e), "handler should be a function", this.logger, "addTypingStoppedListener()"), this.assertSessionValidity(), this.assertConversationActive(), this.assertMessagingChannelOpen(), this.eventDispatcher.addClientEventHandler(G.INBOUND_TYPING_STOPPED, e, this.conversationId);
+		return T(w.isFunction(e), "handler should be a function", this.logger, "addTypingStoppedListener()"), this.assertSessionValidity(), this.assertConversationActive(), this.assertMessagingChannelOpen(), this.eventDispatcher.addClientEventHandler(G.INBOUND_TYPING_STOPPED, e, this.conversationId);
 	}
 	removeTypingStoppedListener(e) {
 		this.eventDispatcher.removeClientEventHandler(G.INBOUND_TYPING_STOPPED, e, this.conversationId);
@@ -5071,14 +5071,14 @@ var Hn = class {
 			});
 			if (t = n.status, !n.ok) {
 				let e = await n.json();
-				throw U.isSessionNotFoundResponse(n.status, e) && U.dispatchSessionErrorEvent(this.conversationDetails.sessionId, f.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), new a(N.LIST_CONVERSATION_MESSAGES_FAILED);
+				throw U.isSessionNotFoundResponse(n.status, e) && U.dispatchSessionErrorEvent(this.conversationDetails.sessionId, m.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), new s(N.LIST_CONVERSATION_MESSAGES_FAILED);
 			}
 			let r = await n.json();
 			this.queueDeliveryAckForMessages(r.messages ?? []);
-			let i = r.messages?.map(((e) => (e.conversationId ||= this.conversationId, Zt(e))));
+			let i = r.messages?.map(((e) => (e.conversationId ||= this.conversationId, $t(e))));
 			i?.reverse(), i && i.length !== 0 ? i = this.cannedMessagesController.replaceCannedMessageIds(i) : (i ||= [], i = this.cannedMessagesController.getWelcomeMessages());
-			let o = r.links?.next;
-			return this.latestDeliveredMessageId = i?.[0]?.messageId, new qn(e, this.restController, i, o, this.conversationDetails.sessionId, this.conversationId, this.config.host, this.loggerFactory, this.queueDeliveryAckForMessages.bind(this));
+			let a = r.links?.next;
+			return this.latestDeliveredMessageId = i?.[0]?.messageId, new Yn(e, this.restController, i, a, this.conversationDetails.sessionId, this.conversationId, this.config.host, this.loggerFactory, this.queueDeliveryAckForMessages.bind(this));
 		} catch (e) {
 			throw e instanceof Error && this.logger.error("getMessages()", N.LIST_CONVERSATION_MESSAGES_FAILED.message, {
 				...this.logContext,
@@ -5096,12 +5096,12 @@ var Hn = class {
 			...this.logContext,
 			engagementId: this.defaultEngagement?.engagementId
 		});
-		let r = n.presignedUrl, i = await new Bn(this.loggerFactory, this.conversationDetails.sessionId, this.conversationId).upload(r, e, t);
+		let r = n.presignedUrl, i = await new Hn(this.loggerFactory, this.conversationDetails.sessionId, this.conversationId).upload(r, e, t);
 		if (!i.ok) throw this.logger.error("uploadAttachment()", R.UPLOAD_ATTACHMENT_FAILED, {
 			...this.logContext,
 			integrationId: this.config.integrationId,
 			httpStatus: i.status
-		}), new a(N.UPLOAD_ATTACHMENT_FAILED);
+		}), new s(N.UPLOAD_ATTACHMENT_FAILED);
 		return await i.json();
 	}
 	async generatePresignedUploadUrl(e, t, n) {
@@ -5122,7 +5122,7 @@ var Hn = class {
 				httpStatus: r.status
 			});
 			let e = await r.json();
-			throw U.isSessionNotFoundResponse(r.status, e) && U.dispatchSessionErrorEvent(this.conversationDetails.sessionId, f.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), new a(N.GENERATE_SIGNED_UPLOAD_URL_FAILED);
+			throw U.isSessionNotFoundResponse(r.status, e) && U.dispatchSessionErrorEvent(this.conversationDetails.sessionId, m.SESSION_NOT_FOUND, this.messagingEventProcessor, this.logger), new s(N.GENERATE_SIGNED_UPLOAD_URL_FAILED);
 		}
 		return await r.json();
 	}
@@ -5180,12 +5180,12 @@ var Hn = class {
 		};
 	}
 	validateMessageTranscriptAvailability() {
-		return this.conversationStatusChecker.getState() === T.CLOSED ? this.messagingChannelStateController.isActive ? N.OPERATION_ON_ACTIVE_CHANNEL : this.lastEngagementId === void 0 ? N.MESSAGING_TRANSCRIPT_UNAVAILABLE : void 0 : N.OPERATION_ON_OPEN_CONVERSATION;
+		return this.conversationStatusChecker.getState() === E.CLOSED ? this.messagingChannelStateController.isActive ? N.OPERATION_ON_ACTIVE_CHANNEL : this.lastEngagementId === void 0 ? N.MESSAGING_TRANSCRIPT_UNAVAILABLE : void 0 : N.OPERATION_ON_OPEN_CONVERSATION;
 	}
 	assertMessagingTranscriptAvailability() {
 		this.assertSessionValidity();
 		let e = this.validateMessageTranscriptAvailability();
-		if (e) throw new a(e);
+		if (e) throw new s(e);
 	}
 	get isMessagingTranscriptAvailable() {
 		return this.assertSessionValidity(), this.validateMessageTranscriptAvailability() === void 0;
@@ -5210,14 +5210,14 @@ var Hn = class {
 				requestBody: JSON.stringify(n),
 				isUrlFull: !1
 			});
-			if (t = r.status, !r.ok) throw new a(N.FAILED_TO_DOWNLOAD_TRANSCRIPT);
-			let i = await r.json(), o = i.transcript.url, s = i.transcript.fileName;
-			return this.downloadTranscriptUrlCache = o, this.downloadTranscriptFileNameCache = s, this.logger.debug("getMessagingTranscriptDetails()", "Cached transcript URL", {
+			if (t = r.status, !r.ok) throw new s(N.FAILED_TO_DOWNLOAD_TRANSCRIPT);
+			let i = await r.json(), a = i.transcript.url, o = i.transcript.fileName;
+			return this.downloadTranscriptUrlCache = a, this.downloadTranscriptFileNameCache = o, this.logger.debug("getMessagingTranscriptDetails()", "Cached transcript URL", {
 				...this.logContext,
 				engagementId: this.lastEngagementId
 			}), {
-				downloadUrl: o,
-				fileName: s
+				downloadUrl: a,
+				fileName: o
 			};
 		} catch (e) {
 			throw e instanceof Error && this.logger.error("getMessagingTranscriptDetails()", R.DOWNLOAD_TRANSCRIPT_FAILED, {
@@ -5227,7 +5227,7 @@ var Hn = class {
 			}, e), e;
 		}
 	}
-}, qn = class {
+}, Yn = class {
 	#e;
 	#t;
 	#n;
@@ -5265,26 +5265,26 @@ var Hn = class {
 		for (; this.#e.length - e < this.getPageSize() && !this.#r;) try {
 			this.#a.debug("previous()", R.FETCHING_ADDITIONAL_MESSAGES, this.#u);
 			let e = await this.getNextMessages();
-			if (!e.ok) throw new a(N.LIST_CONVERSATION_MESSAGES_FAILED, { metadata: { httpStatus: e.status } });
+			if (!e.ok) throw new s(N.LIST_CONVERSATION_MESSAGES_FAILED, { metadata: { httpStatus: e.status } });
 			let t = await e.json();
 			this.#l?.(t.messages ?? []);
-			let n = t.messages?.filter(((e) => !this.#e.some(((t) => t.messageId === e.messageId)) && !(e.messageIndex && this.#e[0]._messageIndex && e.messageIndex > this.#e[0]._messageIndex) && !(e.receivedAt && this.#e[0].receivedAt && new Date(e.receivedAt) > this.#e[0].receivedAt))).map(((e) => (e.conversationId ||= this.#c, Zt(e))));
+			let n = t.messages?.filter(((e) => !this.#e.some(((t) => t.messageId === e.messageId)) && !(e.messageIndex && this.#e[0]._messageIndex && e.messageIndex > this.#e[0]._messageIndex) && !(e.receivedAt && this.#e[0].receivedAt && new Date(e.receivedAt) > this.#e[0].receivedAt))).map(((e) => (e.conversationId ||= this.#c, $t(e))));
 			if (this.#e = [...this.#e, ...n], this.#i = t.links.next, this.#i === "") {
 				this.#r = !0, this.#a.debug("previous()", R.FETCHED_ALL_MESSAGES, this.#u);
 				break;
 			}
 		} catch (e) {
-			throw this.#a.error("previous()", N.FETCHING_ADDITIONAL_MESSAGES_FAILED.message, this.#u, e), new a(N.FETCHING_ADDITIONAL_MESSAGES_FAILED, { cause: e });
+			throw this.#a.error("previous()", N.FETCHING_ADDITIONAL_MESSAGES_FAILED.message, this.#u, e), new s(N.FETCHING_ADDITIONAL_MESSAGES_FAILED, { cause: e });
 		}
 		return this.#n + this.getPageSize() <= this.#e.length && (this.#n = e), this.items;
 	}
 	async getNextMessages() {
 		let e = await this.#t.send({
-			methodType: E.GET,
+			methodType: D.GET,
 			url: this.#o + this.#i,
 			isUrlFull: !0
 		});
-		if (!e.ok) throw new a(N.FETCHING_ADDITIONAL_MESSAGES_FAILED, { metadata: { httpStatus: e.status } });
+		if (!e.ok) throw new s(N.FETCHING_ADDITIONAL_MESSAGES_FAILED, { metadata: { httpStatus: e.status } });
 		return e;
 	}
 	hasNext() {
@@ -5293,7 +5293,7 @@ var Hn = class {
 	hasPrevious() {
 		return this.#a.debug("hasPrevious()", R.ITERATOR_HAS_PREVIOUS_CALLED, this.#u), !this.#r || this.#n + this.getPageSize() < this.#e.length;
 	}
-}, Jn = class {
+}, Xn = class {
 	#e;
 	#t;
 	constructor(e, t) {
@@ -5305,7 +5305,7 @@ var Hn = class {
 	getType() {
 		return this.#e;
 	}
-}, Yn = class extends Jn {
+}, Zn = class extends Xn {
 	#e;
 	constructor(e, t) {
 		super(L.TEXT, t), this.#e = e;
@@ -5313,7 +5313,7 @@ var Hn = class {
 	getText() {
 		return this.#e;
 	}
-}, Xn = class extends Jn {
+}, Qn = class extends Xn {
 	#e;
 	#t;
 	#n;
@@ -5329,15 +5329,15 @@ var Hn = class {
 	getPayload() {
 		return this.#e;
 	}
-}, Zn = class extends Xn {
+}, $n = class extends Qn {
 	#e;
 	constructor(e, t, n, r) {
-		super(e, L.REPLY, ft.REPLY, t, r), this.#e = n;
+		super(e, L.REPLY, mt.REPLY, t, r), this.#e = n;
 	}
 	getIconUrl() {
 		return this.#e;
 	}
-}, Qn = class extends Jn {
+}, er = class extends Xn {
 	#e;
 	#t;
 	constructor(e, t, n) {
@@ -5350,11 +5350,11 @@ var Hn = class {
 		return this.#e;
 	}
 };
-function $n(e = Be) {
+function tr(e = Ve) {
 	return class extends e {
 		#e;
 		constructor(e) {
-			super(e), this.#e = new Kn(e);
+			super(e), this.#e = new Jn(e);
 		}
 		sendMessage(e) {
 			return this.#e.sendMessage(e);
@@ -5399,7 +5399,7 @@ function $n(e = Be) {
 }
 //#endregion
 //#region src/ChatProvider.tsx
-var er = e(null), tr = class {
+var nr = e(null), rr = class {
 	fetchJwt;
 	constructor(e) {
 		this.fetchJwt = e;
@@ -5410,17 +5410,17 @@ var er = e(null), tr = class {
 	onExpire() {
 		console.warn("JWT expired. Forcing token refresh..."), this.fetchJwt().then((e) => j.setJwt(e)).catch((e) => console.error("Failed to refresh JWT on expiry:", e));
 	}
-}, nr = ({ children: e, config: t }) => {
-	let [a, o] = r(null), [s, c] = r([]), [l, d] = r(!0), [f, p] = r(null), [m, ee] = r(null), [te, ne] = r([]), [re, ie] = r(!1);
+}, ir = ({ children: e, config: t }) => {
+	let [r, o] = i(null), [s, c] = i([]), [l, u] = i(!0), [d, p] = i(null), [m, h] = i(null), [g, ee] = i([]), [te, ne] = i(!1);
 	return n(() => {
 		let e, n = !0;
 		return (async () => {
 			console.log("[ChatProvider] Starting initialization sequence...");
 			try {
-				d(!0), p(null), console.log("[ChatProvider] Fetching initial JWT...");
+				u(!0), p(null), console.log("[ChatProvider] Fetching initial JWT...");
 				let r = await t.fetchJwt();
 				console.log("[ChatProvider] JWT fetched successfully. Token length:", r?.length);
-				let i = new tr(t.fetchJwt), a = $n();
+				let i = new rr(t.fetchJwt), a = tr();
 				console.log(`[ChatProvider] Calling Avaya SDK init() on host: ${t.host}...`);
 				let s = await j.init({
 					host: t.host,
@@ -5428,7 +5428,7 @@ var er = e(null), tr = class {
 					token: r,
 					jwtProvider: i,
 					displayName: t.displayName,
-					logLevel: t.logLevel || u.WARN,
+					logLevel: t.logLevel || f.WARN,
 					idleTimeoutDuration: 3e5,
 					idleShutdownGraceTimeoutDuration: 6e4
 				}, a);
@@ -5436,57 +5436,57 @@ var er = e(null), tr = class {
 				o(e), console.log("[ChatProvider] Fetching message history...");
 				let l = await e.getMessages(15);
 				if (console.log(`[ChatProvider] History fetched. Found ${l.items.length} messages.`), !n) return;
-				ee(l), c(l.items), console.log("[ChatProvider] Attaching conversation event listeners..."), e.addMessageArrivedListener((e) => {
+				h(l), c(l.items), console.log("[ChatProvider] Attaching conversation event listeners..."), e.addMessageArrivedListener((e) => {
 					console.log("[ChatProvider] Message Arrived:", JSON.stringify(e, void 0, 4)), n && c((t) => [...t, e]);
 				}), e.addMessageDeliveredListener((e) => {
 					console.log("[ChatProvider] Message Delivered to Avaya:", JSON.stringify(e, void 0, 4));
 				}), e.addTypingStartedListener((e) => {
-					n && ne((t) => {
+					n && ee((t) => {
 						let n = e.participant.displayName;
 						return t.includes(n) ? t : [...t, n];
 					});
 				}), e.addTypingStoppedListener((e) => {
-					n && ne((t) => t.filter((t) => t !== e.participant.displayName));
-				}), console.log("[ChatProvider] Initialization complete. Connecting UI..."), n && d(!1);
+					n && ee((t) => t.filter((t) => t !== e.participant.displayName));
+				}), console.log("[ChatProvider] Initialization complete. Connecting UI..."), n && u(!1);
 			} catch (e) {
-				console.error("[ChatProvider] Initialization FAILED at step:", e), n && (p(e?.message || "Failed to initialize Avaya SDK."), d(!1));
+				console.error("[ChatProvider] Initialization FAILED at step:", e), n && (p(e?.message || "Failed to initialize Avaya SDK."), u(!1));
 			}
-			Pn.addEventStreamConnectedListener((e) => {
+			In.addEventStreamConnectedListener((e) => {
 				console.log("[ChatProvider] Stream Connected: " + JSON.stringify(e, null, 2));
-			}), Pn.addEventStreamFailedListener((e) => {
+			}), In.addEventStreamFailedListener((e) => {
 				console.log("[ChatProvider] Stream Failed: " + JSON.stringify(e, null, 2));
-			}), Pn.addEventStreamClosedListener((e) => {
-				console.log("[ChatProvider] Stream Closed: " + JSON.stringify(e, null, 2)), n && ie(!0);
+			}), In.addEventStreamClosedListener((e) => {
+				console.log("[ChatProvider] Stream Closed: " + JSON.stringify(e, null, 2)), n && ne(!0);
 			});
 		})(), () => {
 			console.log("[ChatProvider] Component unmounting. Terminating session..."), n = !1, e && typeof e.end == "function" && (console.log("[ChatProvider] Sending 'End Conversation' signal to Avaya Cloud..."), e.end().catch((e) => {
 				e?.message && e.message.includes("Conversation is closed") ? console.log("[ChatProvider] Conversation was already closed by the agent. Clean exit.") : console.error("Failed to end conversation:", e);
 			})), j.shutdown().catch((e) => console.error("[ChatProvider] Shutdown error:", e));
 		};
-	}, [t]), /* @__PURE__ */ i(er.Provider, {
+	}, [t]), /* @__PURE__ */ a(nr.Provider, {
 		value: {
 			messages: s,
 			isConnecting: l,
-			connectionError: f,
-			typingParticipants: te,
-			isChatClosed: re,
+			connectionError: d,
+			typingParticipants: g,
+			isChatClosed: te,
 			sendMessage: async (e) => {
-				if (!a) return;
-				let t = await a.sendMessage(new Yn(e));
+				if (!r) return;
+				let t = await r.sendMessage(new Zn(e));
 				c((e) => [...e, t]), j.resetIdleTimeout();
 			},
 			sendAttachment: async (e, t = "") => {
-				if (!a) return;
-				let n = await a.sendMessage(new Qn(e, t));
+				if (!r) return;
+				let n = await r.sendMessage(new er(e, t));
 				c((e) => [...e, n]), j.resetIdleTimeout();
 			},
 			sendReply: async (e, t) => {
-				if (!a) return;
-				let n = await a.sendMessage(new Zn(e, t));
+				if (!r) return;
+				let n = await r.sendMessage(new $n(e, t));
 				c((e) => [...e, n]), j.resetIdleTimeout();
 			},
 			notifyTyping: () => {
-				a?.notifyUserTyping(), j.resetIdleTimeout();
+				r?.notifyUserTyping(), j.resetIdleTimeout();
 			},
 			loadMoreHistory: async () => {
 				if (m && m.hasPrevious()) {
@@ -5497,10 +5497,505 @@ var er = e(null), tr = class {
 		},
 		children: e
 	});
-}, rr = () => {
-	let e = t(er);
+}, ar = () => {
+	let e = t(nr);
 	if (!e) throw Error("useChat must be used within a ChatProvider");
 	return e;
+}, or = "#0033A0", sr = "#D9E2EC", cr = "#102A43", lr = (e) => {
+	let t = /(https?\\?:\/\/[^\s]+)/g;
+	return e.split(t).map((e, n) => {
+		if (e.match(t)) {
+			let t = e.replace(/\\/g, "");
+			return /* @__PURE__ */ a("a", {
+				href: t,
+				target: "_blank",
+				rel: "noopener noreferrer",
+				style: {
+					color: "inherit",
+					textDecoration: "underline",
+					fontWeight: "500"
+				},
+				children: t
+			}, n);
+		}
+		return e;
+	});
+}, ur = ({ payload: e, onAction: t, theme: n }) => {
+	if (!e.startsWith("RICH! ")) return /* @__PURE__ */ a("div", { children: e });
+	let r = e.replace("RICH! ", "").split("|"), i = n?.bubbles?.userBackground || or;
+	return /* @__PURE__ */ a("div", {
+		style: {
+			backgroundColor: "#fff",
+			padding: "14px",
+			borderRadius: "4px",
+			maxWidth: "100%",
+			boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+			border: `1px solid ${sr}`
+		},
+		children: r.map((e, n) => {
+			if (e.startsWith("text:")) return /* @__PURE__ */ a("p", {
+				style: {
+					margin: "0 0 10px 0",
+					fontSize: "13px",
+					color: "#111",
+					lineHeight: "1.4"
+				},
+				children: e.replace("text:", "").trim().replace(/^'|'$/g, "")
+			}, n);
+			if (e.startsWith("address:")) {
+				let t = e.replace("address:", "").trim().split(",");
+				return /* @__PURE__ */ a("table", {
+					style: {
+						width: "100%",
+						fontSize: "12px",
+						marginBottom: "12px"
+					},
+					children: /* @__PURE__ */ a("tbody", { children: t.map((e, t) => {
+						let [n, r] = e.split(":");
+						return /* @__PURE__ */ o("tr", { children: [/* @__PURE__ */ o("td", {
+							style: {
+								padding: "3px 0",
+								fontWeight: "600",
+								color: "#666",
+								width: "80px"
+							},
+							children: [n.trim(), ":"]
+						}), /* @__PURE__ */ a("td", {
+							style: {
+								padding: "3px 0",
+								color: "#111"
+							},
+							children: r.trim().replace(/^'|'$/g, "")
+						})] }, t);
+					}) })
+				}, n);
+			}
+			if (e.startsWith("responseBox:")) {
+				let r = e.match(/\[(.*?)\]/);
+				return r ? /* @__PURE__ */ a("div", {
+					style: {
+						display: "flex",
+						gap: "8px"
+					},
+					children: r[1].split(";").map((e, n) => {
+						let r = e.match(/label:\s*'(.*?)'/), o = e.match(/tag:\s*'(.*?)'/);
+						return !r || !o ? null : /* @__PURE__ */ a("button", {
+							onClick: () => t(o[1]),
+							style: {
+								flex: 1,
+								padding: "10px",
+								backgroundColor: i,
+								color: "white",
+								border: "none",
+								borderRadius: "4px",
+								fontSize: "12px",
+								fontWeight: "bold",
+								cursor: "pointer"
+							},
+							children: r[1]
+						}, n);
+					})
+				}, n) : null;
+			}
+			return null;
+		})
+	});
+};
+function dr({ closeChat: e, theme: t }) {
+	let { messages: s, isConnecting: c, connectionError: l, sendMessage: u, notifyTyping: d, sendAttachment: f, isChatClosed: p, sendReply: m, typingParticipants: h } = ar(), g = t?.header?.backgroundColor || or, ee = t?.header?.textColor || "white", te = t?.header?.title || "Altamino Assistant", ne = t?.header?.logoText || "ALT", re = t?.bubbles?.userBackground || or, ie = t?.bubbles?.userText || "white", ae = t?.bubbles?.agentBackground || "#fff", oe = t?.bubbles?.agentText || cr, se = t?.bubbles?.richMediaBackground || "#e8eaf6", ce = t?.bubbles?.richMediaButtonColor || "#958fd6", le = t?.input?.placeholderText || "Type message to Altamino...", ue = t?.input?.sendButtonBackground || or, de = t?.input?.sendButtonText || "white", [_, v] = i(""), fe = r(null), y = r(null), pe = async (e) => {
+		let t = e.target.files?.[0];
+		if (t) try {
+			await f(t);
+		} catch (e) {
+			console.error("Failed to send file:", e);
+		} finally {
+			y.current && (y.current.value = "");
+		}
+	};
+	n(() => {
+		fe.current?.scrollIntoView({ behavior: "smooth" });
+	}, [s]);
+	let me = (e) => {
+		let t = e || _;
+		t.trim() && (u(t), e || v(""));
+	};
+	return /* @__PURE__ */ o("div", {
+		style: {
+			display: "flex",
+			flexDirection: "column",
+			height: "100%",
+			backgroundColor: "#F8FAFC"
+		},
+		children: [
+			/* @__PURE__ */ o("div", {
+				style: {
+					padding: "16px",
+					background: g,
+					color: ee,
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "space-between"
+				},
+				children: [/* @__PURE__ */ o("div", {
+					style: {
+						display: "flex",
+						alignItems: "center",
+						gap: "10px"
+					},
+					children: [/* @__PURE__ */ a("div", {
+						style: {
+							width: "32px",
+							height: "32px",
+							borderRadius: "4px",
+							background: ee,
+							color: g,
+							fontWeight: "bold",
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+							fontSize: "14px"
+						},
+						children: ne
+					}), /* @__PURE__ */ o("div", { children: [/* @__PURE__ */ a("div", {
+						style: {
+							fontWeight: "bold",
+							fontSize: "13px"
+						},
+						children: te
+					}), /* @__PURE__ */ o("div", {
+						style: {
+							fontSize: "11px",
+							opacity: .9,
+							display: "flex",
+							alignItems: "center",
+							gap: "4px"
+						},
+						children: [/* @__PURE__ */ a("span", { style: {
+							width: "6px",
+							height: "6px",
+							borderRadius: "50%",
+							backgroundColor: c ? "#ccc" : "#10B981"
+						} }), c ? "Connecting..." : l ? "Error" : "Online"]
+					})] })]
+				}), /* @__PURE__ */ a("button", {
+					onClick: e,
+					style: {
+						background: "none",
+						border: "none",
+						color: ee,
+						fontSize: "24px",
+						cursor: "pointer",
+						lineHeight: "1"
+					},
+					children: "×"
+				})]
+			}),
+			/* @__PURE__ */ o("div", {
+				style: {
+					flex: 1,
+					overflowY: "auto",
+					padding: "15px",
+					display: "flex",
+					flexDirection: "column",
+					gap: "12px"
+				},
+				children: [
+					l && /* @__PURE__ */ a("div", {
+						style: {
+							color: "red",
+							fontSize: "12px",
+							textAlign: "center"
+						},
+						children: l
+					}),
+					s.map((e, n) => {
+						let r = e.body?.elementText?.text || e.text || "", i = e.attachments || [], s = e.body?.richMediaPayload?.actions || [], c = typeof r == "string" && r.startsWith("RICH! "), l = e.senderParticipant?.participantType === "CUSTOMER" || e.isLocal, u = s.length > 0;
+						return /* @__PURE__ */ o("div", {
+							style: {
+								alignSelf: l ? "flex-end" : "flex-start",
+								maxWidth: "85%",
+								display: "flex",
+								flexDirection: "column",
+								alignItems: l ? "flex-end" : "flex-start",
+								marginBottom: "12px"
+							},
+							children: [i.map((e) => /* @__PURE__ */ a("div", {
+								style: { marginBottom: r || u ? "6px" : "0" },
+								children: e.contentType?.startsWith("image/") ? /* @__PURE__ */ a("img", {
+									src: e.attachmentUrl,
+									alt: e.attachmentName,
+									style: {
+										maxWidth: "100%",
+										maxHeight: "250px",
+										borderRadius: "6px",
+										objectFit: "contain",
+										border: l ? "none" : `1px solid ${sr}`
+									}
+								}) : /* @__PURE__ */ o("a", {
+									href: e.attachmentUrl,
+									target: "_blank",
+									rel: "noopener noreferrer",
+									style: {
+										display: "inline-block",
+										padding: "8px",
+										backgroundColor: l ? "rgba(255,255,255,0.2)" : "#f0f0f0",
+										borderRadius: "6px",
+										color: l ? ie : "#0056b3",
+										textDecoration: "none",
+										fontSize: "13px",
+										border: l ? "none" : `1px solid ${sr}`
+									},
+									children: ["📎 ", e.attachmentName]
+								})
+							}, e.attachmentId)), (r || u) && /* @__PURE__ */ o("div", {
+								style: {
+									backgroundColor: l ? re : u ? se : ae,
+									color: l ? ie : oe,
+									padding: "12px",
+									borderRadius: "6px",
+									fontSize: "13px",
+									boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
+									border: l ? "none" : `1px solid ${sr}`,
+									lineHeight: "1.45",
+									minWidth: u ? "200px" : "auto"
+								},
+								children: [
+									r && !c && /* @__PURE__ */ a("div", {
+										style: { marginBottom: u ? "12px" : "0" },
+										children: lr(r)
+									}),
+									r && c && /* @__PURE__ */ a(ur, {
+										payload: r,
+										onAction: (e) => me(e),
+										theme: t
+									}),
+									u && /* @__PURE__ */ a("div", {
+										style: {
+											display: "flex",
+											flexDirection: "column",
+											gap: "8px"
+										},
+										children: s.map((e, t) => /* @__PURE__ */ a("button", {
+											onClick: () => m(e.payload, e.text),
+											disabled: p,
+											style: {
+												backgroundColor: ce,
+												color: "white",
+												border: "none",
+												borderRadius: "4px",
+												padding: "10px 16px",
+												cursor: p ? "not-allowed" : "pointer",
+												fontWeight: "500",
+												width: "100%",
+												transition: "opacity 0.2s"
+											},
+											onMouseOver: (e) => e.currentTarget.style.opacity = "0.8",
+											onMouseOut: (e) => e.currentTarget.style.opacity = "1",
+											children: e.text
+										}, t))
+									})
+								]
+							})]
+						}, e.messageId || n);
+					}),
+					/* @__PURE__ */ a("div", { ref: fe })
+				]
+			}),
+			h.length > 0 && !p && /* @__PURE__ */ o("div", {
+				style: {
+					padding: "8px 16px",
+					fontSize: "12px",
+					color: "#888",
+					fontStyle: "italic",
+					backgroundColor: "#f9f9f9",
+					borderTop: `1px solid ${sr}`
+				},
+				children: [
+					h.join(", "),
+					" ",
+					h.length > 1 ? "are" : "is",
+					" typing..."
+				]
+			}),
+			p && /* @__PURE__ */ a("div", {
+				style: {
+					padding: "10px",
+					textAlign: "center",
+					backgroundColor: "#f8f9fa",
+					color: "#6c757d",
+					fontSize: "12px",
+					borderTop: `1px solid ${sr}`
+				},
+				children: "Chat ended by agent."
+			}),
+			/* @__PURE__ */ o("div", {
+				style: {
+					display: "flex",
+					padding: "12px",
+					borderTop: p ? "none" : `1px solid ${sr}`,
+					backgroundColor: p ? "#f8f9fa" : "#fff",
+					alignItems: "center"
+				},
+				children: [
+					/* @__PURE__ */ a("input", {
+						type: "file",
+						ref: y,
+						onChange: pe,
+						style: { display: "none" },
+						disabled: p
+					}),
+					/* @__PURE__ */ a("button", {
+						onClick: () => y.current?.click(),
+						disabled: c || p,
+						style: {
+							background: "none",
+							border: "none",
+							cursor: c || p ? "not-allowed" : "pointer",
+							padding: "8px 12px",
+							fontSize: "18px",
+							color: c || p ? "#ccc" : ue
+						},
+						title: "Attach a file",
+						children: "📎"
+					}),
+					/* @__PURE__ */ a("input", {
+						type: "text",
+						value: _,
+						onChange: (e) => {
+							v(e.target.value), d();
+						},
+						onKeyDown: (e) => {
+							e.key === "Enter" && me();
+						},
+						placeholder: p ? "Chat has ended" : le,
+						disabled: c || p,
+						style: {
+							flex: 1,
+							padding: "10px",
+							border: `1px solid ${sr}`,
+							borderRadius: "4px",
+							outline: "none",
+							fontSize: "14px",
+							backgroundColor: p ? "#e9ecef" : "#fff",
+							fontFamily: "inherit"
+						}
+					}),
+					/* @__PURE__ */ a("button", {
+						onClick: () => me(),
+						disabled: !_.trim() || c || p,
+						style: {
+							marginLeft: "12px",
+							padding: "10px 16px",
+							border: "none",
+							borderRadius: "4px",
+							fontWeight: "bold",
+							fontFamily: "inherit",
+							cursor: c || p || !_.trim() ? "not-allowed" : "pointer",
+							backgroundColor: c || p || !_.trim() ? "#ccc" : ue,
+							color: de
+						},
+						children: "SEND"
+					})
+				]
+			})
+		]
+	});
+}
+//#endregion
+//#region src/components/ChatBubble.tsx
+var fr = ({ onClick: e, theme: t }) => /* @__PURE__ */ a("button", {
+	onClick: e,
+	style: {
+		width: "60px",
+		height: "60px",
+		borderRadius: "50%",
+		backgroundColor: t?.header?.backgroundColor || "#0033a0",
+		color: "#fff",
+		border: "none",
+		boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+		cursor: "pointer",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		transition: "transform 0.2s"
+	},
+	onMouseOver: (e) => e.currentTarget.style.transform = "scale(1.05)",
+	onMouseOut: (e) => e.currentTarget.style.transform = "scale(1)",
+	children: /* @__PURE__ */ a("svg", {
+		width: "28",
+		height: "28",
+		viewBox: "0 0 24 24",
+		fill: "none",
+		stroke: "currentColor",
+		strokeWidth: "2",
+		strokeLinecap: "round",
+		strokeLinejoin: "round",
+		children: /* @__PURE__ */ a("path", { d: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" })
+	})
+}), pr = {
+	header: {
+		title: "Altamino Assistant",
+		logoText: "ALT",
+		backgroundColor: "#0033a0",
+		textColor: "#ffffff"
+	},
+	bubbles: {
+		userBackground: "#0033a0",
+		userText: "#ffffff",
+		agentBackground: "#ffffff",
+		agentText: "#333333",
+		richMediaBackground: "#e8eaf6",
+		richMediaButtonColor: "#958fd6"
+	},
+	input: {
+		placeholderText: "Type message...",
+		sendButtonBackground: "#0033a0",
+		sendButtonText: "#ffffff"
+	},
+	typography: {
+		fontFamily: "inherit",
+		baseFontSize: "14px"
+	}
+}, mr = ({ config: e, theme: t }) => {
+	let n = {
+		...pr,
+		...t,
+		header: {
+			...pr.header,
+			...t?.header
+		},
+		bubbles: {
+			...pr.bubbles,
+			...t?.bubbles
+		},
+		input: {
+			...pr.input,
+			...t?.input
+		},
+		typography: {
+			...pr.typography,
+			...t?.typography
+		}
+	}, [r, o] = i(!1);
+	return /* @__PURE__ */ a(ir, {
+		config: e,
+		children: /* @__PURE__ */ a("div", {
+			style: {
+				position: "fixed",
+				bottom: "20px",
+				right: "20px",
+				zIndex: 9999,
+				fontFamily: n.typography.fontFamily
+			},
+			children: r ? /* @__PURE__ */ a(dr, {
+				closeChat: () => o(!1),
+				theme: n
+			}) : /* @__PURE__ */ a(fr, {
+				onClick: () => o(!0),
+				theme: n
+			})
+		})
+	});
 };
 //#endregion
-export { nr as ChatProvider, rr as useChat };
+export { mr as AvayaChatWidget, fr as ChatBubble, ir as ChatProvider, dr as ChatWindow, ar as useChat };
