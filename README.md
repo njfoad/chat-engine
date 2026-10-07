@@ -1,68 +1,152 @@
-# Omni Chat Headless SDK
+# Avaya Omni Chat Engine
 
-A reusable, headless React context engine that abstracts the Avaya Infinity Omni SDK. It manages real-time network events, the JWT authentication lifecycle, session timeouts, and message history, exposing pure state and methods for completely custom UI development.
+A headless, highly themeable, and lazy-loaded React library for integrating Avaya Infinity Omni chat into modern web applications. 
+
+This engine abstracts away complex Avaya SDK initialization, JWT lifecycle management, and WebSocket message parsing so web developers can focus purely on the customer experience. It offers two modes: a drop-in **All-in-One Widget** and a fully **Headless SDK** for building completely custom chat interfaces.
 
 ## Installation
 
-Because this package is hosted privately via Git, install it directly from the repository.
+Install the package directly from the repository:
 
 ```bash
-npm install git+[https://github.com/njfoad/chat-engine.git](https://github.com/njfoad/chat-engine.git)
+npm install git+[https://github.com/njfoad/chat-engine.git#main](https://github.com/njfoad/chat-engine.git#main)
 ```
 
-## Quick Start
+## Quick Start (Widget Mode)
 
-Wrap your chat interface in the `<ChatProvider>` and pass it your Avaya configuration, including an asynchronous function to fetch a secure JWT from your backend.
+The simplest way to integrate chat is using the `AvayaChatWidget`. It handles the floating launch icon, the chat window rendering, and lazy-loads the Avaya network connection only when the customer opens the chat.
 
 ```tsx
-import { ChatProvider } from 'chat-engine';
-import { ChatInterface } from './ChatInterface';
-
-const config = {
-  host: "example.avaya-infinity.com",
-  integrationId: "abc-123",
-  displayName: "Guest User",
-  fetchJwt: async () => {
-    // Proxy through your secure backend to protect the Avaya client_secret
-    const res = await fetch('/api/token', { headers: { 'x-api-key': 'your-key' } });
-    const data = await res.json();
-    return data.access_token;
-  }
-};
+import { useState } from 'react';
+import { AvayaChatWidget } from 'chat-engine';
 
 export default function App() {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const chatConfig = {
+    host: "core.showmeavayacom.ec.avayacloud.com",
+    integrationId: "YOUR_INTEGRATION_ID",
+    displayName: "Jane Doe",
+    attributes: {
+      launchSource: "website_floating_icon",
+      previousTranscript: "" // Pass empty string if null
+    },
+    // The engine automatically fetches and refreshes the JWT using this block
+    auth: {
+      apiKey: "YOUR_API_KEY",
+      userId: "jane.doe@email.com",
+      userName: "Jane Doe"
+    }
+  };
+
   return (
-    <ChatProvider config="{config}">
-      <ChatInterface/>
-    </ChatProvider>
+    <div>
+      {/* Your Website Content Here */}
+
+      <AvayaChatWidget config="{chatConfig}" isOpen="{isChatOpen}" onOpen="{()"> setIsChatOpen(true)}
+        onClose={() => setIsChatOpen(false)}
+        showBubble={true} 
+      />
+    </div>
   );
 }
 ```
 
-## API Reference
+## Component API: `AvayaChatWidget`
 
-### 1. `ChatProvider` Config Interface
+| Prop | Type | Description |
+|---|---|---|
+| `config` | `ChatEngineConfig` | **Required.** Connection and user details (see Configuration below). |
+| `theme` | `Partial<ChatUITheme>` | *Optional.* Overrides default colors, fonts, and branding. |
+| `isOpen` | `boolean` | *Optional.* Programmatically forces the chat window open or closed (great for proactive popups). |
+| `onOpen` | `() => void` | *Optional.* Callback fired when the user clicks the chat bubble. |
+| `onClose` | `() => void` | *Optional.* Callback fired when the user clicks the close `×` button. |
+| `showBubble` | `boolean` | *Optional.* Defaults to `true`. Set to `false` to hide the launcher icon entirely. |
 
-| Property | Type | Required | Description |
-| :--- | :--- | :---: | :--- |
-| **`host`** | `string` | Yes | The base URL of your Avaya Infinity platform instance. |
-| **`integrationId`** | `string` | Yes | The unique identifier of the Web Chat Integration configured in Avaya. |
-| **`displayName`** | `string` | Yes | The name of the user as it should appear to the Contact Center agent. |
-| **`fetchJwt`** | `() => Promise<string>` | Yes | Async function returning a valid JWT. Called on initialization and 3 minutes before token expiry. |
-| **`logLevel`** | `LogLevel` | No | Overrides the default internal logging verbosity (`LogLevel.WARN`). |
+---
 
-### 2. `useChat` Hook State & Methods
+## Configuration: `ChatEngineConfig`
 
-Call `useChat()` inside any component wrapped by `ChatProvider` to build your UI.
+The engine requires a configuration object to connect to your Avaya environment.
 
-**State**
-*   `messages` (`any[]`): Chronological array of chat messages.
-*   `isConnecting` (`boolean`): `true` when initializing or establishing the Avaya event stream.
-*   `connectionError` (`string | null`): Network or initialization error details.
-*   `typingParticipants` (`string[]`): Array of remote agent display names currently typing.
+```typescript
+interface ChatEngineConfig {
+  host: string;
+  integrationId: string;
+  displayName?: string;
+  attributes?: Record<string, string>; // Context data sent to the agent
+  logLevel?: any;
+  
+  // OPTION 1: Easy Auth
+  auth?: {
+    apiKey: string; 
+    userId: string;
+    userName: string;
+  };
 
-**Methods**
-*   `sendMessage(text: string): Promise<void>`: Sends a plain text message.
-*   `sendAttachment(file: File, text?: string): Promise<void>`: Uploads a file attachment.
-*   `notifyTyping(): void`: Broadcasts a typing indicator beacon to the remote agent.
-*   `loadMoreHistory(): Promise<void>`: Fetches and prepends the previous page of historical messages.
+  // OPTION 2: Custom Auth (Overrides 'auth' if provided)
+  fetchJwt?: () => Promise<string>; 
+}
+```
+
+### Authentication Strategies
+*   **Easy Mode (`auth`):** Provide your API key and user details. The engine will securely query the default Avaya NJF endpoint under the hood.
+*   **Power User (`fetchJwt`):** If you route authentication through your own custom proxy backend, omit `auth` and pass a custom async function returning a JWT string to `fetchJwt`.
+
+---
+
+## Theming the UI
+
+The widget is fully customizable. Pass a `theme` object to match your brand guidelines. Any omitted properties will fall back to default styling.
+
+```tsx
+const customTheme = {
+  header: {
+    backgroundColor: '#0033A0',
+    textColor: '#FFFFFF',
+    title: 'Altamino Assistant',
+    logoText: 'ALT'
+  },
+  bubbles: {
+    userBackground: '#0033A0',
+    userText: '#FFFFFF',
+    agentBackground: '#FFFFFF',
+    agentText: '#102A43',
+    richMediaBackground: '#e8eaf6',
+    richMediaButtonColor: '#958fd6'
+  },
+  input: {
+    placeholderText: 'Type message to Altamino...',
+    sendButtonBackground: '#0033A0',
+    sendButtonText: '#FFFFFF'
+  },
+  typography: {
+    fontFamily: 'system-ui, sans-serif'
+  }
+};
+
+// <AvayaChatWidget config="{config}" theme="{customTheme}"/>
+```
+
+---
+
+## Advanced: Headless Mode
+
+If you need to completely replace the chat UI, bypass `AvayaChatWidget` and use `ChatProvider` combined with the `useChat` hook. This exposes raw SDK methods and reactive message arrays while handling the background socket connections.
+
+```tsx
+import { ChatProvider, useChat } from 'chat-engine';
+
+function MyCustomUI() {
+  const { messages, sendMessage, isConnecting } = useChat();
+  return ( /* Build your own UI rendering the messages array */ );
+}
+
+function App() {
+  return (
+    <ChatProvider config="{chatConfig}">
+      <MyCustomUI/>
+    </ChatProvider>
+  );
+}
+```
