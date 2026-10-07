@@ -20,11 +20,34 @@ const defaultTheme: ChatUITheme = {
 
 export interface ChatWidgetProps {
   config: ChatEngineConfig;
-  theme?: Partial<ChatUITheme>; // Allows partial overrides
+  theme?: Partial<ChatUITheme>; 
+  isOpen?: boolean;
+  onOpen?: () => void;
+  onClose?: () => void;
+  showBubble?: boolean;
 }
 
-export const AvayaChatWidget: React.FC<ChatWidgetProps> = ({ config, theme }) => {
-  // Merge defaults with whatever the client provides
+export const AvayaChatWidget: React.FC<ChatWidgetProps> = ({ 
+  config, 
+  theme, 
+  isOpen: externalIsOpen, 
+  onOpen, 
+  onClose,
+  showBubble = true // <-- Default to true
+}) => {
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const isChatOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
+
+  const handleOpen = () => {
+    setInternalIsOpen(true);
+    if (onOpen) onOpen();
+  };
+
+  const handleClose = () => {
+    setInternalIsOpen(false);
+    if (onClose) onClose();
+  };
+
   const activeTheme = { 
     ...defaultTheme, 
     ...theme,
@@ -34,17 +57,18 @@ export const AvayaChatWidget: React.FC<ChatWidgetProps> = ({ config, theme }) =>
     typography: { ...defaultTheme.typography, ...theme?.typography }
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <ChatProvider config={config}>
-      <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 9999, fontFamily: activeTheme.typography.fontFamily }}>
-        {isOpen ? (
-          <ChatWindow closeChat={() => setIsOpen(false)} theme={activeTheme} />
-        ) : (
-          <ChatBubble onClick={() => setIsOpen(true)} theme={activeTheme} />
-        )}
-      </div>
-    </ChatProvider>
+    <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 9999, fontFamily: activeTheme.typography.fontFamily }}>
+      {isChatOpen ? (
+        <div style={{ width: '400px', height: '600px', display: 'flex', flexDirection: 'column', boxShadow: '0 12px 32px rgba(0,0,0,0.18)', borderRadius: '8px', overflow: 'hidden', backgroundColor: '#fff', border: `1px solid ${activeTheme.header.backgroundColor}` }}>
+          <ChatProvider config={config}>
+            <ChatWindow closeChat={handleClose} theme={activeTheme} />
+          </ChatProvider>
+        </div>
+      ) : (
+        // Only render the bubble if showBubble is true
+        showBubble && <ChatBubble onClick={handleOpen} theme={activeTheme} />
+      )}
+    </div>
   );
 };

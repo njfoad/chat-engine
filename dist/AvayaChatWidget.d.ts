@@ -29,5 +29,9 @@ export interface ChatUITheme {
 export interface ChatWidgetProps {
     config: ChatEngineConfig;
     theme?: Partial<ChatUITheme>;
+    isOpen?: boolean;
+    onOpen?: () => void;
+    onClose?: () => void;
+    showBubble?: boolean;
 }
 export declare const AvayaChatWidget: React.FC<ChatWidgetProps>;

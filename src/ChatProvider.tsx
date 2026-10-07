@@ -8,9 +8,15 @@ import { MessagingConversation, AvayaInfinityMessaging , TextMessage, Attachment
 export interface ChatEngineConfig {
   host: string;
   integrationId: string;
-  displayName: string;
-  fetchJwt: () => Promise<string>; 
-  logLevel?: LogLevel;
+  displayName?: string;
+  attributes?: Record<string, string>;
+  logLevel?: any;
+  fetchJwt?: () => Promise<string>; 
+  auth?: {
+    apiKey: string; // Just the key and the user!
+    userId: string;
+    userName: string;
+  };
 }
 
 export interface ChatContextState {
@@ -69,18 +75,49 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
     let activeConversation: any;
     let isMounted = true; 
 
-    const initChat = async () => {
+const initChat = async () => {
       console.log("[ChatProvider] Starting initialization sequence...");
       
       try {
         setIsConnecting(true);
         setConnectionError(null);
         
+        // 1. Determine which JWT strategy to use
+        let activeFetchJwt = config.fetchJwt;
+
+        // 2. If the user provided the simple auth object, use the default NJF service
+        if (!activeFetchJwt && config.auth) {
+          activeFetchJwt = async () => {
+            const res = await fetch('https://app1.showme.avaya.com/njf-api/iChatJWT', {
+              method: 'POST',
+              headers: { 
+                'Content-Type': 'application/json', 
+                'x-nicknode-access': config.auth!.apiKey 
+              },
+              body: JSON.stringify({
+                userId: config.auth!.userId,
+                userName: config.auth!.userName,
+                integrationId: config.integrationId,
+                userIdentifiers: { emailAddresses: [config.auth!.userId] },
+              })
+            });
+            const data = await res.json();
+            return data.jwtToken;
+          };
+        }
+
+        // 3. Safety Check
+        if (!activeFetchJwt) {
+          throw new Error("ChatEngine requires either a fetchJwt function or an auth configuration block.");
+        }
+
         console.log("[ChatProvider] Fetching initial JWT...");
-        const initialToken = await config.fetchJwt();
+        // Use the resolved activeFetchJwt here!
+        const initialToken = await activeFetchJwt(); 
         console.log("[ChatProvider] JWT fetched successfully. Token length:", initialToken?.length);
         
-        const jwtLifecycleManager = new AutoRefreshJwtProvider(config.fetchJwt);
+        // Pass the resolved activeFetchJwt here!
+        const jwtLifecycleManager = new AutoRefreshJwtProvider(activeFetchJwt); 
         const EnhancedConversationClass = MessagingConversation();
         
         console.log(`[ChatProvider] Calling Avaya SDK init() on host: ${config.host}...`);
@@ -95,7 +132,6 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
           idleShutdownGraceTimeoutDuration: 1 * 60 * 1000,
         }, EnhancedConversationClass);
         console.log("[ChatProvider] SDK Init successful! User session created.");
-
         console.log("[ChatProvider] Resolving active conversation...");
         activeConversation = userSession.conversations[0] || await AvayaInfinityOmniSdk.createConversation(EnhancedConversationClass);
         console.log("[ChatProvider] Active conversation ready. ID:", activeConversation.id);

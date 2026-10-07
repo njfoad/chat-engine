@@ -5417,26 +5417,41 @@ var nr = e(null), rr = class {
 		return (async () => {
 			console.log("[ChatProvider] Starting initialization sequence...");
 			try {
-				u(!0), p(null), console.log("[ChatProvider] Fetching initial JWT...");
-				let r = await t.fetchJwt();
-				console.log("[ChatProvider] JWT fetched successfully. Token length:", r?.length);
-				let i = new rr(t.fetchJwt), a = tr();
+				u(!0), p(null);
+				let r = t.fetchJwt;
+				if (!r && t.auth && (r = async () => (await (await fetch("https://app1.showme.avaya.com/njf-api/iChatJWT", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"x-nicknode-access": t.auth.apiKey
+					},
+					body: JSON.stringify({
+						userId: t.auth.userId,
+						userName: t.auth.userName,
+						integrationId: t.integrationId,
+						userIdentifiers: { emailAddresses: [t.auth.userId] }
+					})
+				})).json()).jwtToken), !r) throw Error("ChatEngine requires either a fetchJwt function or an auth configuration block.");
+				console.log("[ChatProvider] Fetching initial JWT...");
+				let i = await r();
+				console.log("[ChatProvider] JWT fetched successfully. Token length:", i?.length);
+				let a = new rr(r), s = tr();
 				console.log(`[ChatProvider] Calling Avaya SDK init() on host: ${t.host}...`);
-				let s = await j.init({
+				let l = await j.init({
 					host: t.host,
 					integrationId: t.integrationId,
-					token: r,
-					jwtProvider: i,
+					token: i,
+					jwtProvider: a,
 					displayName: t.displayName,
 					logLevel: t.logLevel || f.WARN,
 					idleTimeoutDuration: 3e5,
 					idleShutdownGraceTimeoutDuration: 6e4
-				}, a);
-				if (console.log("[ChatProvider] SDK Init successful! User session created."), console.log("[ChatProvider] Resolving active conversation..."), e = s.conversations[0] || await j.createConversation(a), console.log("[ChatProvider] Active conversation ready. ID:", e.id), !n) return;
+				}, s);
+				if (console.log("[ChatProvider] SDK Init successful! User session created."), console.log("[ChatProvider] Resolving active conversation..."), e = l.conversations[0] || await j.createConversation(s), console.log("[ChatProvider] Active conversation ready. ID:", e.id), !n) return;
 				o(e), console.log("[ChatProvider] Fetching message history...");
-				let l = await e.getMessages(15);
-				if (console.log(`[ChatProvider] History fetched. Found ${l.items.length} messages.`), !n) return;
-				h(l), c(l.items), console.log("[ChatProvider] Attaching conversation event listeners..."), e.addMessageArrivedListener((e) => {
+				let d = await e.getMessages(15);
+				if (console.log(`[ChatProvider] History fetched. Found ${d.items.length} messages.`), !n) return;
+				h(d), c(d.items), console.log("[ChatProvider] Attaching conversation event listeners..."), e.addMessageArrivedListener((e) => {
 					console.log("[ChatProvider] Message Arrived:", JSON.stringify(e, void 0, 4)), n && c((t) => [...t, e]);
 				}), e.addMessageDeliveredListener((e) => {
 					console.log("[ChatProvider] Message Delivered to Avaya:", JSON.stringify(e, void 0, 4));
@@ -5956,8 +5971,12 @@ var fr = ({ onClick: e, theme: t }) => /* @__PURE__ */ a("button", {
 		fontFamily: "inherit",
 		baseFontSize: "14px"
 	}
-}, mr = ({ config: e, theme: t }) => {
-	let n = {
+}, mr = ({ config: e, theme: t, isOpen: n, onOpen: r, onClose: o, showBubble: s = !0 }) => {
+	let [c, l] = i(!1), u = n === void 0 ? c : n, d = () => {
+		l(!0), r && r();
+	}, f = () => {
+		l(!1), o && o();
+	}, p = {
 		...pr,
 		...t,
 		header: {
@@ -5976,24 +5995,37 @@ var fr = ({ onClick: e, theme: t }) => /* @__PURE__ */ a("button", {
 			...pr.typography,
 			...t?.typography
 		}
-	}, [r, o] = i(!1);
-	return /* @__PURE__ */ a(ir, {
-		config: e,
-		children: /* @__PURE__ */ a("div", {
+	};
+	return /* @__PURE__ */ a("div", {
+		style: {
+			position: "fixed",
+			bottom: "20px",
+			right: "20px",
+			zIndex: 9999,
+			fontFamily: p.typography.fontFamily
+		},
+		children: u ? /* @__PURE__ */ a("div", {
 			style: {
-				position: "fixed",
-				bottom: "20px",
-				right: "20px",
-				zIndex: 9999,
-				fontFamily: n.typography.fontFamily
+				width: "400px",
+				height: "600px",
+				display: "flex",
+				flexDirection: "column",
+				boxShadow: "0 12px 32px rgba(0,0,0,0.18)",
+				borderRadius: "8px",
+				overflow: "hidden",
+				backgroundColor: "#fff",
+				border: `1px solid ${p.header.backgroundColor}`
 			},
-			children: r ? /* @__PURE__ */ a(dr, {
-				closeChat: () => o(!1),
-				theme: n
-			}) : /* @__PURE__ */ a(fr, {
-				onClick: () => o(!0),
-				theme: n
+			children: /* @__PURE__ */ a(ir, {
+				config: e,
+				children: /* @__PURE__ */ a(dr, {
+					closeChat: f,
+					theme: p
+				})
 			})
+		}) : s && /* @__PURE__ */ a(fr, {
+			onClick: d,
+			theme: p
 		})
 	});
 };

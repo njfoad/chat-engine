@@ -1,11 +1,16 @@
 import React from 'react';
-import { LogLevel } from '@avaya/infinity-omni-sdk-core';
 export interface ChatEngineConfig {
     host: string;
     integrationId: string;
-    displayName: string;
-    fetchJwt: () => Promise<string>;
-    logLevel?: LogLevel;
+    displayName?: string;
+    attributes?: Record<string, string>;
+    logLevel?: any;
+    fetchJwt?: () => Promise<string>;
+    auth?: {
+        apiKey: string;
+        userId: string;
+        userName: string;
+    };
 }
 export interface ChatContextState {
     messages: any[];
