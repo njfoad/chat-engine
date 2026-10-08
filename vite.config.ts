@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       react(),
-      dts({ insertTypesEntry: true }) // Generates .d.ts type files
+      dts({ tsconfigPath: './tsconfig.app.json', insertTypesEntry: true }) // Generates .d.ts type files
     ],
     build: {
       lib: {
