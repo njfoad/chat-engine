@@ -62,6 +62,7 @@ export default function App() {
 | `onOpen` | `() => void` | *Optional.* Callback fired when the user clicks the chat bubble. |
 | `onClose` | `() => void` | *Optional.* Callback fired when the user clicks the close `×` button. |
 | `showBubble` | `boolean` | *Optional.* Defaults to `true`. Set to `false` to hide the launcher icon entirely. |
+| `children` | `ReactNode` | *Optional.* Rendered inside `<ChatProvider>`. Used for injecting context observers like `ChatBridge`. |
 
 ---
 
@@ -90,8 +91,8 @@ interface ChatEngineConfig {
 ```
 
 ### Authentication Strategies
-*   **Easy Mode (`auth`):** Provide your API key and user details. The engine will securely query the default Avaya NJF endpoint under the hood.
-*   **Power User (`fetchJwt`):** If you route authentication through your own custom proxy backend, omit `auth` and pass a custom async function returning a JWT string to `fetchJwt`.
+- **Easy Mode (`auth`):** Provide your API key and user details. The engine will securely query the default Avaya NJF endpoint under the hood.
+- **Power User (`fetchJwt`):** If you route authentication through your own custom proxy backend, omit `auth` and pass a custom async function returning a JWT string to `fetchJwt`.
 
 ---
 
@@ -130,9 +131,131 @@ const customTheme = {
 
 ---
 
-## Advanced: Headless Mode
+## Extensibility & The ChatBridge Pattern
 
-If you need to completely replace the chat UI, bypass `AvayaChatWidget` and use `ChatProvider` combined with the `useChat` hook. This exposes raw SDK methods and reactive message arrays while handling the background socket connections.
+The `<AvayaChatWidget>` accepts React `children`, which are rendered directly inside the internal `<ChatProvider>` context tree. This architecture allows parent applications to hook into internal chat engine capabilities—monitoring real-time events, eavesdropping on agent messages, detecting typing status, and programmatically executing out-of-band actions (sending text or uploading attachments) without modifying the core widget UI.
+
+### Key Capabilities Exposed
+
+| Capability | Hook Method / Property | Description |
+| :--- | :--- | :--- |
+| **Out-of-Band Text** | `sendMessage(text)` | Programmatically send chat messages from external portal buttons or modals. |
+| **Out-of-Band File Upload** | `sendAttachment(file)` | Trigger file attachments directly from custom UI file pickers. |
+| **Agent Message Eavesdropping** | `messages` array | Intercept and react to incoming agent messages in real time for analytics or portal banners. |
+| **Agent Typing Indicator** | `typingParticipants` | Detect when an agent starts or stops typing. |
+| **Session State Tracking** | `isChatClosed` | Monitor session status to dynamically show or hide floating toolbars. |
+
+### Implementation Guide
+
+#### 1. Define the `ChatBridge` Observer
+
+Create a bridge component in your application that sits inside `<AvayaChatWidget>`. It accesses `useChat()` and proxies internal state and methods back to the parent application using a React `ref` and optional callbacks.
+
+```tsx
+import { useEffect, MutableRefObject } from 'react';
+import { useChat } from 'chat-engine';
+
+export interface ChatBridgeProps {
+  chatRef: MutableRefObject<ReturnType<typeof useChat> | null>;
+  customerName?: string;
+  onMessage?: (latestMessage: any) => void;
+  onTypingChange?: (isAgentTyping: boolean, participants: string[]) => void;
+}
+
+export const ChatBridge = ({
+  chatRef,
+  customerName,
+  onMessage,
+  onTypingChange
+}: ChatBridgeProps) => {
+  const chat = useChat();
+
+  // 1. Sync internal hook state and methods to the parent ref
+  useEffect(() => {
+    chatRef.current = chat;
+  }, [chat, chatRef]);
+
+  // 2. Reactively notify parent when a new message arrives
+  useEffect(() => {
+    if (chat.messages.length === 0) return;
+    const latestMessage = chat.messages[chat.messages.length - 1];
+
+    if (onMessage) {
+      onMessage(latestMessage);
+    }
+  }, [chat.messages, onMessage]);
+
+  // 3. Reactively notify parent when typing state changes
+  useEffect(() => {
+    if (!onTypingChange) return;
+
+    const names: string[] = chat.typingParticipants || [];
+    const isAgentTyping = names.some((name) => name !== customerName);
+
+    onTypingChange(isAgentTyping, names);
+  }, [chat.typingParticipants, customerName, onTypingChange]);
+
+  return null; // Invisible component
+};
+```
+
+#### 2. Connect `ChatBridge` in the Parent Application
+
+Instantiate a `chatRef` in `App.tsx` and nest `<ChatBridge/>` inside `<AvayaChatWidget/>`:
+
+```tsx
+import { useState, useRef } from 'react';
+import { AvayaChatWidget, useChat } from 'chat-engine';
+import { ChatBridge } from './ChatBridge';
+
+export default function App() {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const chatRef = useRef<ReturnType<typeof useChat> | null>(null);
+
+  // Helper function to programmatically open chat and send a message
+  const sendMessage = (text: string) => {
+    setIsChatOpen(true);
+    setTimeout(() => {
+      chatRef.current?.sendMessage(text);
+    }, 200);
+  };
+
+  // Callback for monitoring agent messages
+  const handleIncomingMessage = (latestMessage: any) => {
+    const isAgent = latestMessage?.senderParticipant?.participantType === 'AGENT';
+    if (isAgent) {
+      console.log('Analytics Event - Agent response:', latestMessage?.body?.elementText?.text);
+    }
+  };
+
+  // Callback for typing status
+  const handleTypingChange = (isAgentTyping: boolean, participants: string[]) => {
+    console.log('Agent is typing:', isAgentTyping, participants);
+  };
+
+  return (
+    <div>
+      {/* External Portal Action Button */}
+      <button onClick={() => sendMessage("I would like to upgrade my monthly data tier.")}>
+        Upgrade Tier
+      </button>
+
+      {/* Widget with embedded ChatBridge */}
+      <AvayaChatWidget config="{chatConfig}" isOpen="{isChatOpen}" onOpen="{()"> setIsChatOpen(true)}
+        onClose={() => setIsChatOpen(false)}
+      >
+        <ChatBridge chatRef="{chatRef}" customerName="Jackson Smith" onMessage="{handleIncomingMessage}" onTypingChange="{handleTypingChange}"/>
+      </AvayaChatWidget>
+    </div>
+  );
+}
+```
+
+---
+
+## Advanced: Pure Headless Mode
+
+If you need to completely replace the chat UI, bypass `AvayaChatWidget` and use `ChatProvider` combined with the `useChat` hook. This exposes raw SDK methods and reactive message arrays while handling background socket connections.
 
 ```tsx
 import { ChatProvider, useChat } from 'chat-engine';
