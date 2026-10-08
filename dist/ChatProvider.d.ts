@@ -7,7 +7,6 @@ export interface ChatEngineConfig {
     logLevel?: any;
     fetchJwt?: () => Promise<string>;
     auth?: {
-        apiKey: string;
         userId: string;
         userName: string;
     };

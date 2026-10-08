@@ -5423,7 +5423,7 @@ var rr = e(null), ir = class {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
-						"x-nicknode-access": t.auth.apiKey
+						"x-nicknode-access": "e67a08d9-6449-4369-8e51-4423d8e6be0f"
 					},
 					body: JSON.stringify({
 						userId: t.auth.userId,
@@ -5516,7 +5516,24 @@ var rr = e(null), ir = class {
 	let e = t(rr);
 	if (!e) throw Error("useChat must be used within a ChatProvider");
 	return e;
-}, sr = "#0033A0", $ = "#D9E2EC", cr = "#102A43", lr = (e) => {
+}, sr = ({ chatRef: e, customerName: t, onMessage: r, onTypingChange: i }) => {
+	let a = or();
+	return n(() => {
+		e.current = a;
+	}, [a, e]), n(() => {
+		if (a.messages.length === 0) return;
+		let e = a.messages[a.messages.length - 1];
+		r && r(e);
+	}, [a.messages, r]), n(() => {
+		if (!i) return;
+		let e = a.typingParticipants || [];
+		i(e.some((e) => e !== t), e);
+	}, [
+		a.typingParticipants,
+		t,
+		i
+	]), null;
+}, cr = "#0033A0", $ = "#D9E2EC", lr = "#102A43", ur = (e) => {
 	let t = /(https?\\?:\/\/[^\s]+)/g;
 	return e.split(t).map((e, n) => {
 		if (e.match(t)) {
@@ -5535,9 +5552,9 @@ var rr = e(null), ir = class {
 		}
 		return e;
 	});
-}, ur = ({ payload: e, onAction: t, theme: n }) => {
+}, dr = ({ payload: e, onAction: t, theme: n }) => {
 	if (!e.startsWith("RICH! ")) return /* @__PURE__ */ a("div", { children: e });
-	let r = e.replace("RICH! ", "").split("|"), i = n?.bubbles?.userBackground || sr;
+	let r = e.replace("RICH! ", "").split("|"), i = n?.bubbles?.userBackground || cr;
 	return /* @__PURE__ */ a("div", {
 		style: {
 			backgroundColor: "#fff",
@@ -5616,8 +5633,8 @@ var rr = e(null), ir = class {
 		})
 	});
 };
-function dr({ closeChat: e, theme: t, autoStartMessage: s }) {
-	let { messages: c, isConnecting: l, connectionError: u, sendMessage: d, notifyTyping: f, sendAttachment: p, isChatClosed: m, sendReply: h, typingParticipants: g } = or(), ee = t?.header?.backgroundColor || sr, te = t?.header?.textColor || "white", ne = t?.header?.title || "Altamino Assistant", re = t?.header?.logoText || "ALT", ie = t?.bubbles?.userBackground || sr, ae = t?.bubbles?.userText || "white", oe = t?.bubbles?.agentBackground || "#fff", se = t?.bubbles?.agentText || cr, ce = t?.bubbles?.richMediaBackground || "#e8eaf6", le = t?.bubbles?.richMediaButtonColor || "#958fd6", ue = t?.input?.placeholderText || "Type message to Altamino...", de = t?.input?.sendButtonBackground || sr, fe = t?.input?.sendButtonText || "white", [_, v] = i(""), y = r(null), b = r(null), pe = r(!1);
+function fr({ closeChat: e, theme: t, autoStartMessage: s }) {
+	let { messages: c, isConnecting: l, connectionError: u, sendMessage: d, notifyTyping: f, sendAttachment: p, isChatClosed: m, sendReply: h, typingParticipants: g } = or(), ee = t?.header?.backgroundColor || cr, te = t?.header?.textColor || "white", ne = t?.header?.title || "Altamino Assistant", re = t?.header?.logoText || "ALT", ie = t?.bubbles?.userBackground || cr, ae = t?.bubbles?.userText || "white", oe = t?.bubbles?.agentBackground || "#fff", se = t?.bubbles?.agentText || lr, ce = t?.bubbles?.richMediaBackground || "#e8eaf6", le = t?.bubbles?.richMediaButtonColor || "#958fd6", ue = t?.input?.placeholderText || "Type message to Altamino...", de = t?.input?.sendButtonBackground || cr, fe = t?.input?.sendButtonText || "white", [_, v] = i(""), y = r(null), b = r(null), pe = r(!1);
 	n(() => {
 		!l && !pe.current && s && (c.length === 0 && (console.log("[ChatWindow] Auto-starting workflow with:", s), d(s)), pe.current = !0);
 	}, [
@@ -5786,9 +5803,9 @@ function dr({ closeChat: e, theme: t, autoStartMessage: s }) {
 								children: [
 									r && !c && /* @__PURE__ */ a("div", {
 										style: { marginBottom: u ? "12px" : "0" },
-										children: lr(r)
+										children: ur(r)
 									}),
-									r && c && /* @__PURE__ */ a(ur, {
+									r && c && /* @__PURE__ */ a(dr, {
 										payload: r,
 										onAction: (e) => he(e),
 										theme: t
@@ -5927,7 +5944,7 @@ function dr({ closeChat: e, theme: t, autoStartMessage: s }) {
 }
 //#endregion
 //#region src/components/ChatBubble.tsx
-var fr = ({ onClick: e, theme: t }) => /* @__PURE__ */ a("button", {
+var pr = ({ onClick: e, theme: t }) => /* @__PURE__ */ a("button", {
 	onClick: e,
 	style: {
 		width: "60px",
@@ -5956,7 +5973,7 @@ var fr = ({ onClick: e, theme: t }) => /* @__PURE__ */ a("button", {
 		strokeLinejoin: "round",
 		children: /* @__PURE__ */ a("path", { d: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" })
 	})
-}), pr = {
+}), mr = {
 	header: {
 		title: "Altamino Assistant",
 		logoText: "ALT",
@@ -5980,28 +5997,28 @@ var fr = ({ onClick: e, theme: t }) => /* @__PURE__ */ a("button", {
 		fontFamily: "inherit",
 		baseFontSize: "14px"
 	}
-}, mr = ({ config: e, theme: t, isOpen: n, onOpen: r, onClose: s, showBubble: c = !0, children: l }) => {
+}, hr = ({ config: e, theme: t, isOpen: n, onOpen: r, onClose: s, showBubble: c = !0, children: l }) => {
 	let [u, d] = i(!1), f = n === void 0 ? u : n, p = () => {
 		d(!0), r && r();
 	}, m = () => {
 		d(!1), s && s();
 	}, h = {
-		...pr,
+		...mr,
 		...t,
 		header: {
-			...pr.header,
+			...mr.header,
 			...t?.header
 		},
 		bubbles: {
-			...pr.bubbles,
+			...mr.bubbles,
 			...t?.bubbles
 		},
 		input: {
-			...pr.input,
+			...mr.input,
 			...t?.input
 		},
 		typography: {
-			...pr.typography,
+			...mr.typography,
 			...t?.typography
 		}
 	};
@@ -6027,17 +6044,17 @@ var fr = ({ onClick: e, theme: t }) => /* @__PURE__ */ a("button", {
 			},
 			children: /* @__PURE__ */ o(ar, {
 				config: e,
-				children: [/* @__PURE__ */ a(dr, {
+				children: [/* @__PURE__ */ a(fr, {
 					closeChat: m,
 					theme: h,
 					autoStartMessage: e.autoStartMessage
 				}), l]
 			})
-		}) : c && /* @__PURE__ */ a(fr, {
+		}) : c && /* @__PURE__ */ a(pr, {
 			onClick: p,
 			theme: h
 		})
 	});
 };
 //#endregion
-export { mr as AvayaChatWidget, fr as ChatBubble, ar as ChatProvider, dr as ChatWindow, or as useChat };
+export { hr as AvayaChatWidget, sr as ChatBridge, pr as ChatBubble, ar as ChatProvider, fr as ChatWindow, or as useChat };

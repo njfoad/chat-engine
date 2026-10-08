@@ -1,4 +1,5 @@
 export { ChatProvider, useChat } from './ChatProvider';
+export { ChatBridge, type ChatBridgeProps } from './ChatBridge';
 export type { ChatEngineConfig, ChatContextState } from './ChatProvider';
 export { ChatWindow } from './components/ChatWindow';
 export { ChatBubble } from './components/ChatBubble';

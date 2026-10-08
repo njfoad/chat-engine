@@ -13,7 +13,6 @@ export interface ChatEngineConfig {
   logLevel?: any;
   fetchJwt?: () => Promise<string>; 
   auth?: {
-    apiKey: string; // Just the key and the user!
     userId: string;
     userName: string;
   };
@@ -93,7 +92,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
               method: 'POST',
               headers: { 
                 'Content-Type': 'application/json', 
-                'x-nicknode-access': config.auth!.apiKey 
+                'x-nicknode-access': import.meta.env.VITE_NICKNODE_API_KEY 
               },
               body: JSON.stringify({
                 userId: config.auth!.userId,

@@ -2,6 +2,7 @@
 
 // 1. The Headless Engine (Logic Only)
 export { ChatProvider, useChat } from './ChatProvider';
+export { ChatBridge, type ChatBridgeProps } from './ChatBridge';
 export type { ChatEngineConfig, ChatContextState } from './ChatProvider';
 
 // 2. The Presentation Layer (UI Only)
