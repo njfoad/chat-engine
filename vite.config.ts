@@ -8,6 +8,10 @@ export default defineConfig(({ mode }) => {
   if (mode === 'standalone') {
     return {
       plugins: [react()],
+      define: {
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env': {}
+    },
       build: {
         emptyOutDir: false, // Don't wipe dist folder
         lib: {

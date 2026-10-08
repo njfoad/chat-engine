@@ -273,3 +273,85 @@ function App() {
   );
 }
 ```
+
+## Vanilla JavaScript Usage (Standalone IIFE Bundle)
+
+For non-React web applications, legacy CMS setups, or static HTML pages, `chat-engine` provides a standalone IIFE bundle that includes all necessary dependencies (including React runtime) in a single script.
+
+### Quick Start Example
+
+Add a target container element, include the script tag, and initialize `AvayaChatEngine` when the DOM is ready:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Engine Test</title>
+</head>
+<body>
+  <!-- 1. HTML Mount Point -->
+  <div id="avaya-chat-root"></div>
+
+  <!-- 2. Avaya Chat Engine Standalone Script -->
+  <script src="[https://app1.showme.avaya.com/njfoad/lib/avaya-chat-engine.min.js](https://app1.showme.avaya.com/njfoad/lib/avaya-chat-engine.min.js)"></script>
+
+  <!-- 3. Initialize Widget -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof window.AvayaChatEngine !== 'undefined') {
+        window.AvayaChatEngine.init({
+          containerId: 'avaya-chat-root',
+          config: {
+            host: 'core.showmeavayacom.ec.avayacloud.com',
+            integrationId: 'YOUR_INTEGRATION_ID',
+            displayName: 'Customer Name',
+            attributes: {
+              launchSource: 'VanillaHTMLPage',
+              previousTranscript: ''
+            },
+            auth: {
+              userId: 'user@example.com',
+              userName: 'Customer Name'
+              // apiKey: 'OPTIONAL_API_KEY_OVERRIDE'
+            }
+          },
+          // Optional Event Listeners (ChatBridge Callbacks)
+          onMessage: (message) => {
+            console.log('[Chat Engine] Received message:', message);
+          },
+          onTypingChange: (isAgentTyping, participants) => {
+            console.log('[Chat Engine] Agent typing status:', isAgentTyping);
+          }
+        });
+      } else {
+        console.error('AvayaChatEngine failed to load.');
+      }
+    });
+  </script>
+</body>
+</html>
+```
+
+### API Reference
+
+#### `AvayaChatEngine.init(options)`
+
+| Parameter | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `containerId` | `string` | **Yes** | The HTML `id` of the element where the widget should mount. |
+| `config` | `object` | **Yes** | Core configuration object for the chat engine. |
+| `onMessage` | `function` | No | Callback invoked whenever a new message is received. |
+| `onTypingChange` | `function` | No | Callback invoked when an agent starts or stops typing. |
+
+#### `config` Object Properties
+
+| Property | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `host` | `string` | **Yes** | Avaya Cloud core host URL. |
+| `integrationId` | `string` | **Yes** | Your Avaya integration identifier. |
+| `auth.userId` | `string` | **Yes** | Unique identifier for the user or customer session. |
+| `auth.userName` | `string` | **Yes** | Display name for the user. |
+| `auth.apiKey` | `string` | No | Optional override for the internal default API key. |
+| `displayName` | `string` | No | Alternate display name fallback. |
+| `attributes` | `object` | No | Key-value pairs passed as initial metadata to the chat workflow. |
