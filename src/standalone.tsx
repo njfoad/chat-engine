@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import { createRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AvayaChatWidget } from './AvayaChatWidget';
 import { ChatBridge } from './ChatBridge';
