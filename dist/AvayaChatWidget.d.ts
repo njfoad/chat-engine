@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import { type ChatEngineConfig } from './ChatProvider';
 export interface ChatUITheme {
     header: {
@@ -33,5 +33,6 @@ export interface ChatWidgetProps {
     onOpen?: () => void;
     onClose?: () => void;
     showBubble?: boolean;
+    children?: ReactNode;
 }
 export declare const AvayaChatWidget: React.FC<ChatWidgetProps>;

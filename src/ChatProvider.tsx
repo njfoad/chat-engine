@@ -76,7 +76,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode, config: ChatEng
     let activeConversation: any;
     let isMounted = true; 
 
-const initChat = async () => {
+    const initChat = async () => {
       console.log("[ChatProvider] Starting initialization sequence...");
       
       try {

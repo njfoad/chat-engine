@@ -1,5 +1,5 @@
 // src/AvayaChatWidget.tsx
-import React, { useState } from 'react';
+import React, { useState, type ReactNode } from 'react';
 import { ChatProvider, type ChatEngineConfig } from './ChatProvider';
 import { ChatWindow } from './components/ChatWindow';
 import { ChatBubble } from './components/ChatBubble';
@@ -25,6 +25,7 @@ export interface ChatWidgetProps {
   onOpen?: () => void;
   onClose?: () => void;
   showBubble?: boolean;
+  children?: ReactNode;
 }
 
 export const AvayaChatWidget: React.FC<ChatWidgetProps> = ({ 
@@ -33,7 +34,8 @@ export const AvayaChatWidget: React.FC<ChatWidgetProps> = ({
   isOpen: externalIsOpen, 
   onOpen, 
   onClose,
-  showBubble = true // <-- Default to true
+  showBubble = true,
+  children
 }) => {
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const isChatOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
@@ -67,6 +69,7 @@ export const AvayaChatWidget: React.FC<ChatWidgetProps> = ({
               theme={activeTheme} 
               autoStartMessage={config.autoStartMessage} 
             />
+            {children}
           </ChatProvider>
         </div>
       ) : (

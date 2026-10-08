@@ -5980,12 +5980,12 @@ var fr = ({ onClick: e, theme: t }) => /* @__PURE__ */ a("button", {
 		fontFamily: "inherit",
 		baseFontSize: "14px"
 	}
-}, mr = ({ config: e, theme: t, isOpen: n, onOpen: r, onClose: o, showBubble: s = !0 }) => {
-	let [c, l] = i(!1), u = n === void 0 ? c : n, d = () => {
-		l(!0), r && r();
-	}, f = () => {
-		l(!1), o && o();
-	}, p = {
+}, mr = ({ config: e, theme: t, isOpen: n, onOpen: r, onClose: s, showBubble: c = !0, children: l }) => {
+	let [u, d] = i(!1), f = n === void 0 ? u : n, p = () => {
+		d(!0), r && r();
+	}, m = () => {
+		d(!1), s && s();
+	}, h = {
 		...pr,
 		...t,
 		header: {
@@ -6011,9 +6011,9 @@ var fr = ({ onClick: e, theme: t }) => /* @__PURE__ */ a("button", {
 			bottom: "20px",
 			right: "20px",
 			zIndex: 9999,
-			fontFamily: p.typography.fontFamily
+			fontFamily: h.typography.fontFamily
 		},
-		children: u ? /* @__PURE__ */ a("div", {
+		children: f ? /* @__PURE__ */ a("div", {
 			style: {
 				width: "400px",
 				height: "600px",
@@ -6023,19 +6023,19 @@ var fr = ({ onClick: e, theme: t }) => /* @__PURE__ */ a("button", {
 				borderRadius: "8px",
 				overflow: "hidden",
 				backgroundColor: "#fff",
-				border: `1px solid ${p.header.backgroundColor}`
+				border: `1px solid ${h.header.backgroundColor}`
 			},
-			children: /* @__PURE__ */ a(ar, {
+			children: /* @__PURE__ */ o(ar, {
 				config: e,
-				children: /* @__PURE__ */ a(dr, {
-					closeChat: f,
-					theme: p,
+				children: [/* @__PURE__ */ a(dr, {
+					closeChat: m,
+					theme: h,
 					autoStartMessage: e.autoStartMessage
-				})
+				}), l]
 			})
-		}) : s && /* @__PURE__ */ a(fr, {
-			onClick: d,
-			theme: p
+		}) : c && /* @__PURE__ */ a(fr, {
+			onClick: p,
+			theme: h
 		})
 	});
 };
