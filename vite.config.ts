@@ -9,9 +9,9 @@ export default defineConfig(({ mode }) => {
     return {
       plugins: [react()],
       define: {
-      'process.env.NODE_ENV': JSON.stringify('production'),
-      'process.env': {}
-    },
+        'process.env.NODE_ENV': JSON.stringify('production'),
+        'process.env': {}
+      },
       build: {
         emptyOutDir: false, // Don't wipe dist folder
         lib: {

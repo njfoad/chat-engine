@@ -306,23 +306,11 @@ Add a target container element, include the script tag, and initialize `AvayaCha
             host: 'core.showmeavayacom.ec.avayacloud.com',
             integrationId: 'YOUR_INTEGRATION_ID',
             displayName: 'Customer Name',
-            attributes: {
-              launchSource: 'VanillaHTMLPage',
-              previousTranscript: ''
-            },
             auth: {
               userId: 'user@example.com',
               userName: 'Customer Name'
-              // apiKey: 'OPTIONAL_API_KEY_OVERRIDE'
             }
           },
-          // Optional Event Listeners (ChatBridge Callbacks)
-          onMessage: (message) => {
-            console.log('[Chat Engine] Received message:', message);
-          },
-          onTypingChange: (isAgentTyping, participants) => {
-            console.log('[Chat Engine] Agent typing status:', isAgentTyping);
-          }
         });
       } else {
         console.error('AvayaChatEngine failed to load.');
@@ -331,6 +319,96 @@ Add a target container element, include the script tag, and initialize `AvayaCha
   </script>
 </body>
 </html>
+```
+
+### Initialize with custom attributes, styling and event handlers
+
+You can pass custom data to your infinity workflow using an attributes property.  Pass in callback functions for message and typing events by adding onMessage and onTypingChance properties. You can customize the UI by passing a theme property:
+
+```javascript
+const chat = window.AvayaChatEngine.init({
+  containerId: 'avaya-chat-root', // Optional: defaults to 'avaya-chat-widget-root'
+  
+  config: {
+    host: 'core.showmeavayacom.ec.avayacloud.com',
+    integrationId: 'YOUR_INTEGRATION_ID',
+    attributes: {
+      launchSource: 'VanillaHTMLPage',
+      previousTranscript: ''
+    },
+    auth: {
+      userId: 'user@example.com',
+      userName: 'John Doe'
+    }
+  },
+  theme: {
+    header: {
+      title: "Altamino Assistant",
+      logoText: "ALT",
+      backgroundColor: "#0033a0",
+      textColor: "#ffffff"
+    },
+    bubbles: {
+      userBackground: "#0033a0",
+      userText: "#ffffff",
+      agentBackground: "#ffffff",
+      agentText: "#333333",
+      richMediaBackground: "#e8eaf6",
+      richMediaButtonColor: "#958fd6"
+    },
+    input: {
+      placeholderText: "Type message...",
+      sendButtonBackground: "#0033a0",
+      sendButtonText: "#ffffff"
+    },
+    typography: {
+      fontFamily: "system-ui, -apple-system, sans-serif",
+      baseFontSize: "14px"
+    }
+  },
+
+  onMessage: (msg) => {
+    console.log('New message received:', msg);
+  },
+
+  onTypingChange: (isAgentTyping, participants) => {
+    console.log('Agent typing status:', isAgentTyping);
+  }
+});
+```
+
+### Controlling the Widget
+
+You can control visibility, messaging, and unmounting either globally through `window.AvayaChatEngine` or via the instance handle returned by `init()`.
+
+#### Global API Methods (`window.AvayaChatEngine`)
+
+```javascript
+// Hide the chat bubble and window
+window.AvayaChatEngine.hide();
+
+// Show the chat bubble and window
+window.AvayaChatEngine.show();
+
+// Unmount the widget and clean up DOM references
+window.AvayaChatEngine.destroy();
+```
+
+#### Instance Handle Methods (`chat`)
+
+```javascript
+const chat = window.AvayaChatEngine.init({ ... });
+
+// Programmatically send text or attachments
+chat.sendMessage('Hello from JavaScript!');
+chat.sendAttachment(fileObject);
+
+// Control visibility
+chat.hide();
+chat.show();
+
+// Unmount and destroy the instance
+chat.destroy();
 ```
 
 ### API Reference
@@ -355,3 +433,65 @@ Add a target container element, include the script tag, and initialize `AvayaCha
 | `auth.apiKey` | `string` | No | Optional override for the internal default API key. |
 | `displayName` | `string` | No | Alternate display name fallback. |
 | `attributes` | `object` | No | Key-value pairs passed as initial metadata to the chat workflow. |
+
+#### `theme` property specification
+
+#### `header` Options
+| Property | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `title` | `string` | `"Chat Support"` | Main title in the header bar. |
+| `subtitle` | `string` | `"We typically reply in a few minutes"` | Secondary status or subtitle text. |
+| `logoText` | `string` | `"AV"` | Initials displayed in avatar placeholder if no image URL is supplied. |
+| `logoUrl` | `string` | `undefined` | Image URL for header logo/avatar. |
+| `backgroundColor` | `string` | `"#0033a0"` | Background color for the header bar. |
+| `textColor` | `string` | `"#ffffff"` | Text color for header title and subtitle. |
+| `closeButtonColor` | `string` | `"#ffffff"` | Icon color for the minimize/close button. |
+
+#### `bubbles` Options
+| Property | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `userBackground` | `string` | `"#0033a0"` | Background color for end-user message bubbles. |
+| `userText` | `string` | `"#ffffff"` | Text color for end-user message bubbles. |
+| `agentBackground` | `string` | `"#f0f2f5"` | Background color for agent and bot message bubbles. |
+| `agentText` | `string` | `"#1c1e21"` | Text color for agent and bot message bubbles. |
+| `systemMessageColor` | `string` | `"#65676b"` | Text color for system status messages (e.g. "Agent connected"). |
+| `richMediaBackground` | `string` | `"#ffffff"` | Background color for rich cards, carousels, and quick replies. |
+| `richMediaButtonColor` | `string` | `"#0033a0"` | Accent/fill color for interactive card buttons and quick reply pills. |
+| `richMediaButtonTextColor`| `string` | `"#ffffff"` | Text color for interactive card buttons and quick reply pills. |
+| `timestampColor` | `string` | `"#8a8d91"` | Text color for message timestamps. |
+
+#### `input` Options
+| Property | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `placeholderText` | `string` | `"Type a message..."` | Placeholder text inside the message textarea. |
+| `backgroundColor` | `string` | `"#ffffff"` | Background color of the footer/input section. |
+| `textColor` | `string` | `"#1c1e21"` | Text color inside the message input field. |
+| `borderColor` | `string` | `"#e4e6eb"` | Border color around the input field. |
+| `sendButtonBackground` | `string` | `"#0033a0"` | Background color of the send button. |
+| `sendButtonText` | `string` | `"#ffffff"` | Icon/text color of the send button. |
+| `attachmentButtonColor` | `string` | `"#65676b"` | Icon color for file upload attachment button. |
+
+#### `launcher` Options
+| Property | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `buttonBackground` | `string` | `"#0033a0"` | Background color of the floating launcher bubble. |
+| `iconColor` | `string` | `"#ffffff"` | Icon color inside the floating launcher bubble. |
+| `badgeBackground` | `string` | `"#e41e3f"` | Background color for the unread message counter badge. |
+| `badgeTextColor` | `string` | `"#ffffff"` | Text color for the unread message counter badge. |
+
+#### `typography` Options
+| Property | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `fontFamily` | `string` | `"system-ui, -apple-system, sans-serif"` | CSS font family stack. |
+| `baseFontSize` | `string` | `"14px"` | Base font size for message content. |
+| `headingFontSize` | `string` | `"16px"` | Font size for header titles. |
+| `borderRadius` | `string` | `"12px"` | Border radius for message bubbles and input containers. |
+
+#### `layout` Options
+| Property | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `width` | `string` | `"380px"` | Fixed width of the expanded chat window. |
+| `height` | `string` | `"600px"` | Fixed height of the expanded chat window. |
+| `position` | `string` | `"bottom-right"` | Screen corner alignment (`'bottom-right'` or `'bottom-left'`). |
+| `zIndex` | `number` | `99999` | CSS z-index stacking order for the launcher and widget. |
+| `boxShadow` | `string` | `"0 8px 24px rgba(0, 0, 0, 0.15)"` | CSS box-shadow string for the open chat window. |
