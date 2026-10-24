@@ -6,11 +6,10 @@ This engine abstracts away complex Avaya SDK initialization, JWT lifecycle manag
 
 ## Installation & Project Setup
 
-Since the engine requires environment variables baked in at build time, it is distributed as a compiled tarball (`.tgz`) rather than pulled directly from Git. 
+Since the engine requires environment variables baked in at build time, it is distributed as a compiled tarball (`.tgz`) rather than pulled directly from Git. Login to app1.showme.avaya.com, then
 
 1. **Create and initialize the React app:**
    ```bash
-   cd ~/reactProjects
    npm create vite@latest my-react-app -- --template react-ts
    cd my-react-app
    npm install
@@ -19,7 +18,7 @@ Since the engine requires environment variables baked in at build time, it is di
 2. **Install the local Chat Engine package:**
    Obtain the `chat-engine-1.0.0.tgz` file (generated via `npm pack` in the engine repo) and install it directly from your local filesystem:
    ```bash
-   npm install /path/to/chat-engine-1.0.0.tgz
+   npm install ~njfoad/chat-engine/chat-engine-1.0.0.tgz
    ```
 
 3. **Configure Vite for deployment:**
@@ -30,15 +29,15 @@ Since the engine requires environment variables baked in at build time, it is di
 
    export default defineConfig({
      plugins: [react()],
-     base: '/foad/asrTrace/', // Update to match your deployment directory
+     base: '/your_id/my-react-app/', // Update to match your deployment directory
    });
    ```
 
 4. **Build and Deploy:**
    ```bash
-   mkdir -p ~/www/asrTrace
+   mkdir -p ~/www/my-react-app
    npm run build
-   cp -r dist/* ~/www/asrTrace/
+   cp -r dist/* ~/www/my-react-app/
    ```
 
 ## Quick Start (Widget Mode)
