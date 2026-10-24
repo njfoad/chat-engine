@@ -21,9 +21,13 @@ export const ChatBubble = ({ onClick, theme }: { onClick: () => void, theme?: an
       onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
       onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
     >
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-      </svg>
+      {theme?.bubbleIcon ? (
+        theme.bubbleIcon
+      ) : (
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+      )}
     </button>
   );
 };

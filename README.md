@@ -151,7 +151,18 @@ const customTheme = {
   },
   typography: {
     fontFamily: 'system-ui, sans-serif'
-  }
+  },
+  bubbleIcon: (
+    <svg 
+      width="30" 
+      height="30" 
+      viewBox="0 0 100 100" 
+      fill="currentColor" 
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M 28 89 A 44 44 0 1 1 72 89 L 57 74 A 22 22 0 1 0 30 50 L 30 89 Z" />
+    </svg>
+  )
 };
 
 // <AvayaChatWidget config="{config}" theme="{customTheme}"/>
