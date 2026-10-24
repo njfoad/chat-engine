@@ -4,13 +4,42 @@ A headless, highly themeable, and lazy-loaded React library for integrating Avay
 
 This engine abstracts away complex Avaya SDK initialization, JWT lifecycle management, and WebSocket message parsing so web developers can focus purely on the customer experience. It offers two modes: a drop-in **All-in-One Widget** and a fully **Headless SDK** for building completely custom chat interfaces.
 
-## Installation
+## Installation & Project Setup
 
-Install the package directly from the repository:
+Since the engine requires environment variables baked in at build time, it is distributed as a compiled tarball (`.tgz`) rather than pulled directly from Git. 
 
-```bash
-npm install git+[https://github.com/njfoad/chat-engine.git#main](https://github.com/njfoad/chat-engine.git#main)
-```
+1. **Create and initialize the React app:**
+   ```bash
+   cd ~/reactProjects
+   npm create vite@latest my-react-app -- --template react-ts
+   cd my-react-app
+   npm install
+   ```
+
+2. **Install the local Chat Engine package:**
+   Obtain the `chat-engine-1.0.0.tgz` file (generated via `npm pack` in the engine repo) and install it directly from your local filesystem:
+   ```bash
+   npm install /path/to/chat-engine-1.0.0.tgz
+   ```
+
+3. **Configure Vite for deployment:**
+   Edit `vite.config.ts` and add the `base` path under plugins so assets load correctly on your server:
+   ```typescript
+   import { defineConfig } from 'vite';
+   import react from '@vitejs/plugin-react';
+
+   export default defineConfig({
+     plugins: [react()],
+     base: '/foad/asrTrace/', // Update to match your deployment directory
+   });
+   ```
+
+4. **Build and Deploy:**
+   ```bash
+   mkdir -p ~/www/asrTrace
+   npm run build
+   cp -r dist/* ~/www/asrTrace/
+   ```
 
 ## Quick Start (Widget Mode)
 
